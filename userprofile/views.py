@@ -32,7 +32,7 @@ class PincodeView(View):
 
 class LocationView(View):
     def get(self, request):
-        return HttpResponse()
+        return HttpResponse() 
 
 from django.shortcuts import render
 import requests
@@ -93,6 +93,9 @@ def insert_data(request):
         'Content-Type': 'application/json'
         }
 
+        response = requests.request("POST", url, headers=headers, data=payload)
+        print(response.text)
+        
         data_dic = json.loads(payload)
         f = data_dic['field']['profile']['first_name']
         return render(request, "insert_data.html",{'first_name':f})            
@@ -100,8 +103,3 @@ def insert_data(request):
         context ={} 
         context['form']= InputForm()
         return render(request, "insert_data.html", context)
-
-        
-
-
-    
