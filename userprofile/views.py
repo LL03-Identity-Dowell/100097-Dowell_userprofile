@@ -5,7 +5,8 @@ from .forms import InputForm
 
     # return render(request, insert_data.html, {'form': form})
 
-
+# def index_page(request):
+#     return render(request,'index.html')
 class FirstnameView(View):
     def get(self, request):
         return HttpResponse()
@@ -50,7 +51,7 @@ from django.views.decorators.csrf import csrf_exempt
 #     def get(self, request):
 #         return Response({"status": "Server is working."}, status=status.HTTP_200_OK)
 
-def insert_data(request):
+def user_profile(request):
     url = "http://100002.pythonanywhere.com/"
 
     if request.method == 'POST':
@@ -87,19 +88,20 @@ def insert_data(request):
                 "order_nos": 21
             },
             "platform": "bangalore"
-        })
+            })
 
-        headers = {
-        'Content-Type': 'application/json'
-        }
+            headers = {
+            'Content-Type': 'application/json'
+            }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text)
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            print("hi")
         
-        data_dic = json.loads(payload)
-        f = data_dic['field']['profile']['first_name']
-        return render(request, "insert_data.html",{'first_name':f})            
+        # data_dic = json.loads(payload)
+        # f = data_dic['field']['profile']['first_name']
+        return render(request, "index.html",)            
     else:
         context ={} 
         context['form']= InputForm()
-        return render(request, "insert_data.html", context)
+        return render(request, "index.html", context)

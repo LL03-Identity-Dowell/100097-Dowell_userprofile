@@ -1,11 +1,12 @@
 from django.urls import path
 from userprofile. views import *
 # from .views import serverReport, insert_data
-app_name = "base"
+app_name = "userprofile"
 
 urlpatterns = [
     # path('server-report/', serverReport.as_view(), name='server_report'),
-    path('insert_data', insert_data, name='insert_data'),
+    path('',user_profile,name='user_profile'),
+    # path('insert_data/', insert_data, name='insert_data'),
     path('first-name/', FirstnameView.as_view(), name='first_name'),
     path('last-name/', LastnameView.as_view(), name='last_name'),
     path('phone-number/', PhoneNumberView.as_view(), name='phone_number'),
