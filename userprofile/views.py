@@ -102,4 +102,4 @@ def insert_data(request):
     else:
         context ={} 
         context['form']= InputForm()
-        return render(request, "insert_data.html", context)
+        return render(request, "insert_data.html", context) 
