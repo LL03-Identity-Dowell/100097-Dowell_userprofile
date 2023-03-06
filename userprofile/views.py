@@ -4,9 +4,15 @@ from django.views import View
 from .forms import InputForm
 
     # return render(request, insert_data.html, {'form': form})
+<<<<<<< HEAD
 # def index_page(request):
 #     return render(request, "index.html")
 
+=======
+
+# def index_page(request):
+#     return render(request,'index.html')
+>>>>>>> 48a8d51797571c0953c53d417164cc90c1a20e74
 class FirstnameView(View):
     def get(self, request):
         return HttpResponse()
@@ -51,6 +57,7 @@ from django.views.decorators.csrf import csrf_exempt
 #     def get(self, request):
 #         return Response({"status": "Server is working."}, status=status.HTTP_200_OK)
 
+<<<<<<< HEAD
 def dowellconnection(cluster,database,collection,document,team_member_ID,function_ID,command,field,update_field):
     url = 'http://100002.pythonanywhere.com/'
     data= json.dumps({
@@ -83,6 +90,8 @@ def get_user_object(username):
          return []
 
 
+=======
+>>>>>>> 48a8d51797571c0953c53d417164cc90c1a20e74
 def user_profile(request):
     url = "http://100002.pythonanywhere.com/"
 
@@ -112,15 +121,17 @@ def user_profile(request):
                 "order_nos": 21
             },
             "platform": "bangalore"
-        })
+            })
 
-        headers = {
-        'Content-Type': 'application/json'
-        }
+            headers = {
+            'Content-Type': 'application/json'
+            }
 
-        response = requests.request("POST", url, headers=headers, data=payload)
-        print(response.text)
+            response = requests.request("POST", url, headers=headers, data=payload)
+            print(response.text)
+            print("hi")
         
+<<<<<<< HEAD
         return HttpResponse('Form submission successful!')
 
     else:
@@ -208,3 +219,12 @@ def organization_view(request):
         form = OrganizationForm()
     # Render the form template with the form object
     return render(request, 'organization.html', {'form': form})
+=======
+        # data_dic = json.loads(payload)
+        # f = data_dic['field']['profile']['first_name']
+        return render(request, "index.html",)            
+    else:
+        context ={} 
+        context['form']= InputForm()
+        return render(request, "index.html", context)
+>>>>>>> 48a8d51797571c0953c53d417164cc90c1a20e74
