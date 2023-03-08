@@ -1,4 +1,4 @@
-
+{% load static %}
 <!doctype html>
 <html lang="en-US">
 <head>
@@ -194,7 +194,7 @@ src="https://www.facebook.com/tr?id=708965233111144&ev=PageView&noscript=1" />
 					'jetpack-lazy-images-js-enabled'
 				);
 			</script>
-			<link rel="stylesheet" href="profile.css"/>	
+			<link rel="stylesheet" href="{% static 'templates/profile.css' %}"/>	
 <!-- Jetpack Open Graph Tags -->
 <meta property="og:type" content="article" />
 <meta property="og:title" content="uxlivinglab - innovating from people&#039;s mind" />
@@ -2590,7 +2590,12 @@ src="https://www.facebook.com/tr?id=708965233111144&ev=PageView&noscript=1" />
 							<div class="elementor-widget-wrap">
 						<div class="elementor-element elementor-element-f3cc072 elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="f3cc072" data-element_type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
 				<div class="elementor-widget-container">
-					<form class="elementor-form" method="post" name="password">
+					<form action = "{% url 'userprofile:user_profile' %}" method = "post">
+						{% csrf_token %}
+						{{device_id.as_p }}
+						<input type="submit" value=Submit>
+					</form>
+					<!-- <form class="elementor-form" method="post" name="password">
 			<input type="hidden" name="post_id" value="8512"/>
 			<input type="hidden" name="form_id" value="f3cc072"/>
 			<input type="hidden" name="referer_title" value="uxlivinglab - innovating from people&#039;s mind" />
@@ -2628,7 +2633,7 @@ src="https://www.facebook.com/tr?id=708965233111144&ev=PageView&noscript=1" />
 					</button>
 				</div>
 			</div>
-		</form>
+		</form> -->
 				</div>
 				</div>
 						</div>

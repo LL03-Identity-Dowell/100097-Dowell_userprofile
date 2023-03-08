@@ -6,7 +6,7 @@
         
         <form action = "{% url 'base:insert_data' %}" method = "post">
             {% csrf_token %}
-            {{form.as_p }}
+            {{devic.as_p }}
             <input type="submit" value=Submit>
         </form>
         {% block content %}
