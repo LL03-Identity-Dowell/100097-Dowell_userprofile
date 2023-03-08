@@ -4,9 +4,15 @@ from django.views import View
 from .forms import InputForm,DeviceIdForm
 
     # return render(request, insert_data.html, {'form': form})
+<<<<<<< HEAD
+# def index_page(request):
+#     return render(request, "index.html")
+
+=======
 
 # def index_page(request):
 #     return render(request,'index.html')
+>>>>>>> 48a8d51797571c0953c53d417164cc90c1a20e74
 class FirstnameView(View):
     def get(self, request):
         return HttpResponse()
@@ -161,6 +167,95 @@ def user_profile(request):
                 print(" ")
                 print("ghfjdksal")
         
+<<<<<<< HEAD
+        return HttpResponse('Form submission successful!')
+
+    else:
+        form = InputForm()
+
+    return render(request, 'user_profile.html', {'form': form})
+
+
+
+def set_password(request):
+    if request.method == 'POST':
+        form = InputForm(request.POST)
+        if form.is_valid():      
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+            
+            if password != confirm_password:
+                return render(request, 'set_password.html', {'form': form, 'error': 'Passwords do not match.'})
+            
+            user_object = get_user_object(username)
+            
+            if not user_object:
+                return render(request, 'set_password.html', {'form': form, 'error': 'User does not exist.'})
+            
+            user_id = user_object[0]['_id']
+            update_fields = {"password": password}
+            response = dowellconnection("login", "login", "user_profile", "user_profile", "1168", "ABCDE", "update", {"_id": user_id}, update_fields)
+            response_obj = json.loads(response)
+            
+            if response_obj['status'] == 'success':
+                return render(request, 'set_password.html', {'form': form, 'success': 'Password set successfully.'})
+            else:
+                return render(request, 'set_password.html', {'form': form, 'error': 'Error setting password.'})
+    else:
+        form = InputForm()
+    
+    return render(request, 'set_password.html', {'form': form})
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
+from django.shortcuts import render
+from django.http import HttpResponse
+from .forms import OrganizationForm
+
+def organization_view(request):
+    # If the request method is POST, it means that the user has submitted the form
+    if request.method == 'POST':
+        # Create an instance of the OrganizationForm with the data received in the request
+        form = OrganizationForm(request.POST, request.FILES)
+        # If the form is valid, get the cleaned data from the form
+        if form.is_valid():
+            Name= form.cleaned_data['Name']
+            address = form.cleaned_data['address']
+            zipcode = form.cleaned_data['zipcode']
+            city = form.cleaned_data['city']
+            country = form.cleaned_data['country']
+            organization_logo = form.cleaned_data['orgainzation logo']
+            upload_logo = form.cleaned_data['upload logo']
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+
+            # Create a dictionary with the form data to be saved to the database
+            organization_data = {
+                'Name': Name,
+                'address': address,
+                'zipcode': zipcode,
+                'city': city,
+                'country': country,
+                'organization logo': organization_logo,
+                'upload logo': upload_logo,
+                'latitude': latitude,
+                'longitude': longitude,
+            }
+
+            # Save the organization data to the database
+            # Your implementation may vary depending on your database setup
+            # use an ORM like Django's built-in ORM
+            save_to_database(organization_data)
+
+            # Return a success message to the user
+            return HttpResponse('Organization added successfully.')
+    else:
+        # If the request method is GET, it means that the user wants to view the form
+        form = OrganizationForm()
+    # Render the form template with the form object
+    return render(request, 'organization.html', {'form': form})
+=======
         # data_dic = json.loads(payload)
         # f = data_dic['field']['profile']['first_name']
         context ={} 
@@ -172,3 +267,4 @@ def user_profile(request):
         context['form']= InputForm()
         context['device_id']=DeviceIdForm()
         return render(request, "index.html", context)
+>>>>>>> 48a8d51797571c0953c53d417164cc90c1a20e74
