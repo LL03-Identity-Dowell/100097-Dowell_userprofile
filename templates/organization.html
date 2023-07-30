@@ -1,18 +1,33 @@
+<!--<html>-->
+<!--  <head>-->
+<!--    <title>My Organization</title>-->
+<!--  </head>-->
+<!--<body>-->
+<!--  <h1>My Organization</h1>-->
+<!--  <form = "{% url 'base:organization' %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {{ form.as_p }}-->
+<!--    <input type="submit" value="Update Organization details">-->
+<!--  </form>-->
+<!--  {% block content %}-->
+<!--    <h1>My Organization : {{my_organization}}</h1>-->
+<!--  {% endblock %}-->
+<!--</body>-->
+<!--</html>-->
+
+
 <html>
   <head>
     <title>My Organization</title>
   </head>
-<body>
-  <h1>My Organization</h1>
-  <form = "{% url 'base:organization' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update Organization details">
-  </form>
-  {% block content %}
-    <h1>My Organization : {{my_organization}}</h1>
-  {% endblock %}
-</body>
+  <body>
+    <h1>My Organization</h1>
+    <form action="{% url 'base:organization' ?session_id=session_id %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ context.Organization.as_p }}
+      <input type="submit" value="Update Your Organization">
+    </form>
+  </body>
 </html>
 
- 
+

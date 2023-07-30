@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    
+
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -119,6 +119,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -133,3 +141,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = True
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+STATIC_URL = '/static/'
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR,'static'),
+    ]
+    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
