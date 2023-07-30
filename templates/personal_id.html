@@ -1,0 +1,9 @@
+<html>
+    <head>Personal_ID</head>
+    <body>
+        <form = "{% url 'base:personal_id' %}" method="POST"></form>
+        {% csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Update Your ">
+    </body>
+</html>

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.views import View
+<<<<<<< HEAD
 from .forms import DeviceIdForm, SetpasswordForm, GeographicalForm, DemographicProfileForm, OrganizationForm, PersonalIDForm, BehaviourForm, UsageProfileForm, InputForm, PsychographicProfileForm, ReferencesProfileForm, VerificationForm
 import requests
 from django.contrib import messages
@@ -18,6 +19,16 @@ import base64
 
 
 
+=======
+from .forms import DemographicProfileForm, GeographicalForm, PsychographicForm, OrganizationForm, PersonalIDForm, BehaviourForm, UsageProfileForm, InputForm
+import base64
+import json
+
+    # return render(request, insert_data.html, {'form': form})
+# def index_page(request):
+#     return render(request, "index.html")
+
+>>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 class FirstnameView(View):
     def get(self, request):
         return HttpResponse()
@@ -44,8 +55,12 @@ class PincodeView(View):
 
 class LocationView(View):
     def get(self, request):
+<<<<<<< HEAD
         return HttpResponse()
 
+=======
+        return HttpResponse()  
+>>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 
 import json
 import base64
@@ -55,16 +70,16 @@ from django.views.decorators.csrf import csrf_exempt
 # from rest_framework.response import Response
 # from rest_framework.views import APIView
 
-@method_decorator(csrf_exempt, name='dispatch')
+# @method_decorator(csrf_exempt, name='dispatch')
 # class serverReport(APIView):
 #     def get(self, request):
 #         return Response({"status": "Server is working."}, status=status.HTTP_200_OK)
 
-def dowellconnection(cluster,platform,database,collection,document,team_member_ID,function_ID,command,field,update_field):
+def dowellconnection(cluster,database,collection,document,team_member_ID,function_ID,command,field,update_field):
     url = 'http://100002.pythonanywhere.com/'
     data= json.dumps({
       "cluster": cluster,
-      "platform": platform,
+    #   "platform": platform,
       "database": database,
       "collection": collection,
       "document": document,
@@ -87,6 +102,7 @@ def get_user_object(username):
     except:
         return []
 
+<<<<<<< HEAD
 
 def update(update_fields, files, url):
     # Use this function to update data for profile, password, and organization form
@@ -1610,3 +1626,671 @@ def user_profile(request):
 #                 return HttpResponse('Form submission failed!')
 #         else:
 #             return render(request, 'usage_profile.html', {'form': form})
+=======
+def update_document(collection, document_id, update_fields):
+    api_url = "https://100093.pythonanywhere.com/api/userinfo/"
+    myobj = { 'session_id': '963qyami9rw70l7fm0kvsv0doiu7c9ej'}
+    response = requests.post(api_url,json = myobj)
+    data = response.json()
+    user_profile = data['userinfo']
+    user_id = user_profile['userID']
+    
+    payload = json.dumps({
+        "cluster": "login",
+        "database": "login",
+        "collection": collection,
+        "document": document_id,
+        "team_member_ID": "1168",
+        "function_ID": "ABCDE",
+        "command": "update",
+        "field": {
+            "_id": user_id
+        },
+        "update_field": update_fields,
+        "platform": "bangalore"
+    })
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=payload)
+
+    response_obj = json.loads(response.text)
+
+    if response_obj['status'] == 'success':
+        return True
+    else:
+        return False
+
+
+
+def update_user(request):
+    if request.method == 'POST':
+        form = InputForm(request.POST)
+        if form.is_valid():      
+            user_id = user_id()
+            api_url = f"https://100093.pythonanywhere.com/api/user/{user_id}/"
+            myobj = { 'session_id': '963qyami9rw70l7fm0kvsv0doiu7c9ej'}
+            response = requests.post(api_url,json = myobj)
+            data = response.json()
+            user_profile = data['user']
+
+            user_profile['firstName'] = form.cleaned_data['first_name']
+            user_profile['lastName'] = form.cleaned_data['last_name']
+            user_profile['email'] = form.cleaned_data['email']
+            
+            payload = json.dumps({
+                "cluster": "login",
+                "database": "login",
+                "collection": "user_profile",
+                "document": "user_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "field": {
+                    "_id": user_id
+                },
+                "update_field": user_profile,
+                "platform": "bangalore"
+            })
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=payload)
+
+            response_obj = json.loads(response.text)
+            
+            if response.status_code == 200:
+                return render(request, 'update_user.html', {'form': form, 'success': 'Profile updated successfully.'})
+            else:
+                return render(request, 'update_user.html', {'form': form, 'error': 'Error updating profile.'})
+    else:
+        user_id = user_id()
+        api_url = f"https://100093.pythonanywhere.com/api/user/{user_id}/"
+
+
+# @login_required(login_url='https://100014.pythonanywhere.com/en/')
+def user_profile(request):
+    # session_id = request.GET['session_id']
+    api_url = "https://100093.pythonanywhere.com/api/userinfo/"
+    myobj = { 'session_id': '963qyami9rw70l7fm0kvsv0doiu7c9ej'}
+    response = requests.post(api_url,json = myobj)
+    data = response.json()
+    user_profile = data['userinfo']
+    url = "http://100002.pythonanywhere.com/"
+    user_id = user_profile['userID']
+
+    if request.method == 'POST':
+
+        if 'edit_inputform' in request.POST:
+            form = InputForm(request.POST)
+            if form.is_valid():
+                first_name=form.cleaned_data['first_name']
+                last_name=form.cleaned_data['last_name']
+                phone_number=form.cleaned_data['phone_number']
+                email_address=form.cleaned_data['email_address']
+                address=form.cleaned_data['address']
+                pincode=form.cleaned_data['pincode']
+                location=form.cleaned_data['location']
+
+                payload = json.dumps({
+                "cluster": "login",
+                "database": "login",
+                "collection": "user_profile",
+                "document": "user_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "field": {
+                    #identify username or id
+                    "_id":user_id
+                },
+                "update_field": {
+                    "order_nos": 21,
+                    "profile": {
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "phone number": phone_number,
+                        "email": email_address,
+                        "address": address,
+                        "pincode": pincode,
+                        "location": location
+                    },
+                },
+                "platform": "bangalore"
+                })
+
+                headers = {
+                'Content-Type': 'application/json'
+                }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+                print(response.text)
+                print("hi")
+        if 'edit_deviceidform' in request.POST:
+            device_id_form = DeviceIdForm(request.POST)
+            if  device_id_form.is_valid():
+                phone_id = device_id_form.cleaned_data['phone_id']
+                brand_model = device_id_form.cleaned_data['brand_model']
+                laptop_model = device_id_form.cleaned_data['laptop_model']
+                tablet_model = device_id_form.cleaned_data['tablet_model']
+                payload = json.dumps({
+                "cluster": "login",
+                "database": "login",
+                "collection": "user_profile",
+                "document": "user_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "field": {
+                     "_id":user_id
+                },
+                "update_field": {
+                    "order_nos": 21
+                },
+                "platform": "bangalore"
+                })
+
+                headers = {
+                'Content-Type': 'application/json'
+                }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+        # context ={}
+        # context['form']= InputForm()
+        # context['device_id']=DeviceIdForm()
+        form = InputForm()
+        return render(request, "index.html",{'form':form,'user_profile':user_profile})
+
+
+        return HttpResponse('Form submission successful!')
+
+    else:
+        form = InputForm()
+        # context ={}
+
+        # context['form']= InputForm()
+        # context['device_id']=DeviceIdForm()
+        return render(request, 'index.html', {'user_profile':user_profile,'form':form})
+
+
+def update_password(user_id, password):
+   
+    payload = json.dumps({
+        "cluster": "login",
+        "database": "login",
+        "collection": "user_profile",
+        "document": "user_profile",
+        "team_member_ID": "1168",
+        "function_ID": "ABCDE",
+        "command": "update",
+        "field": {
+            "_id": user_id
+        },
+        "update_field": {
+            "password": password
+        },
+        "platform": "bangalore"
+    })
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    
+    response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=payload)
+    response_obj = json.loads(response.text)
+    return response_obj['status']
+
+def set_password(request):
+    api_url = "https://100093.pythonanywhere.com/api/userinfo/"
+    myobj = {'session_id': '963qyami9rw70l7fm0kvsv0doiu7c9ej'}
+    response = requests.post(api_url, json=myobj)
+    data = response.json()
+    user_profile = data['userinfo']
+    url = "http://100002.pythonanywhere.com/"
+    user_id = user_profile['userID']
+    if request.method == 'POST':
+        form = InputForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+
+            if password != confirm_password:
+                return render(request, 'set_password.html', {'form': form, 'error': 'Passwords do not match.'})
+
+            update_fields = {"password": password}
+
+            payload = json.dumps({
+                "cluster": "login",
+                "database": "login",
+                "collection": "user_profile",
+                "document": "user_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "field": {
+                    "_id": user_id
+                },
+                "update_field": {
+                    "password": password
+                },
+                "platform": "bangalore"
+            })
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post(url, headers=headers, data=payload)
+
+            response_obj = json.loads(response.text)
+
+            if response.status_code == 200:
+                return render(request, 'set_password.html', {'form': form, 'success': 'Password set successfully.'})
+            else:
+                return render(request, 'set_password.html', {'form': form, 'error': 'Error setting password.'})
+    else:
+        form = InputForm()
+
+    return render(request, 'set_password.html', {'form': form})
+
+
+
+def Organization_View(request):
+    url = 'http://100002.pythonanywhere.com/'
+    # If the request method is POST, it means that the user has submitted the form
+    if request.method == 'POST':
+        # Create an instance of the OrganizationForm with the data received in the request
+        form = OrganizationForm(request.POST, request.FILES)
+        # If the form is valid, get the cleaned data from the form
+        if form.is_valid():
+            Name= form.cleaned_data['Name']
+            address = form.cleaned_data['address']
+            zipcode = form.cleaned_data['zipcode']
+            city = form.cleaned_data['city']
+            country = form.cleaned_data['country']
+            organization_logo = form.cleaned_data['orgainzation logo']
+            upload_logo = form.cleaned_data['upload logo']
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+
+            # Create a dictionary with the form data to be saved to the database
+            organization_data = {
+                'Name': Name,
+                'address': address,
+                'zipcode': zipcode,
+                'city': city,
+                'country': country,
+                'organization logo': organization_logo,
+                'upload logo': upload_logo,
+                'latitude': latitude,
+                'longitude': longitude,
+            }
+
+            user_id = ['_id']
+                        
+            payload= json.dumps({
+            "cluster": "login",
+            #   "platform": platform,
+            "database": "login",
+            "collection": "user_profile",
+            "document": "user_profile",
+            "team_member_ID": "1168",
+            "function_ID": "ABCDE",
+            "command": "update",
+            "field": {
+                "_id": user_id
+                },
+            "update_field":"update_field"
+            })
+            headers = {'content-type': 'application/json'}
+            response = requests.request('POST',url, headers=headers,data=payload)
+            print(response.text)
+
+            # Save the organization data to the database
+            # implementation may vary depending on database setup
+
+            # Return a success message to the user
+            return HttpResponse('Organization added successfully.')
+    else:
+        # If the request method is GET, it means that the user wants to view the form
+        form = OrganizationForm()
+    # Render the form template with the form object
+    return render(request, 'organization.html', {'form': form})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+
+class PersonalIDView(View):
+    def get(self, request):
+        form = PersonalIDForm()
+        return render(request, 'personal_id.html', {'form':form})
+        
+
+    def post(self, request):
+        Voice_ID = request.POST.get('voice_id')
+        Face_ID = request.POST.get('face_id')
+        Biometric_ID = request.POST.get('biometric_id')
+        Video_ID = request.POST.get('video_id')
+        
+        with open(request.FILES['id_card_1'].name, 'rb') as id_card_file:
+            ID_Card_1 = base64.b64encode(id_card_file.read()).decode()
+        
+        with open(request.FILES['id_card_2'].name, 'rb') as id_card_file:
+            ID_Card_2 = base64.b64encode(id_card_file.read()).decode()
+        
+        with open(request.FILES['id_card_3'].name, 'rb') as id_card_file:
+            ID_Card_3 = base64.b64encode(id_card_file.read()).decode()
+        
+        with open(request.FILES['id_card_4'].name, 'rb') as id_card_file:
+            ID_Card_4 = base64.b64encode(id_card_file.read()).decode()
+        
+        with open(request.FILES['id_card_5'].name, 'rb') as id_card_file:
+            ID_Card_5 = base64.b64encode(id_card_file.read()).decode()
+
+        with open(request.FILES['signature'].name, 'rb') as signature_file:
+            Signature = base64.b64encode(signature_file.read()).decode()
+
+        data = {
+            'voice_id': Voice_ID,
+            'face_id': Face_ID,
+            'biometric_id': Biometric_ID,
+            'video_id': Video_ID,
+            'id_card_1': ID_Card_1,
+            'id_card_2': ID_Card_2,
+            'id_card_3': ID_Card_3,
+            'id_card_4': ID_Card_4,
+            'id_card_5': ID_Card_5,
+            'signature': Signature
+        }
+
+        # Encode data as base64 string
+        
+        user_id = ['_id']
+        # Create payload with encoded data
+        payload = json.dumps({
+            "cluster": "login",
+            "database": "login",
+            "collection": "user_profile",
+            "document": "user_profile",
+            "team_member_ID": "1168",
+            "function_ID": "ABCDE",
+            "command": "update",
+            "field": {
+                "_id": user_id
+                },
+            "update_field": {**data},
+            "platform": "bangalore"
+        })
+
+        url = 'http://100002.pythonanywhere.com/'
+        headers = {'Content-Type': 'application/json'}
+        response = requests.request('POST', url, headers=headers, data=payload)
+        print(response.text)
+        return HttpResponse('Form submission successful!')
+    
+
+
+class GeographicalView(View):
+    def get(self, request):
+        # Render the form for users to input their geographical information
+        form = GeographicalForm()
+        return render(request, 'geographical.html', {'form': form})
+
+    def post(self, request):
+        # Handle form submission
+        form = GeographicalForm(request.POST)
+        if form.is_valid():
+            # Gettng the form data
+            country = form.cleaned_data['country']
+            city = form.cleaned_data['city']
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+            region = form.cleaned_data['region']
+            others = form.cleaned_data['others']
+
+            # Creating the payload data
+            user_id = ['_id']
+            payload_data = {
+                "cluster": "login",
+                "database": "login",
+                "collection": "geographical_profile",
+                "document": "geographical_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "upadate",
+                "update_field":{
+                
+                        "country": country,
+                        "city": city,
+                        "latitude": latitude,
+                        "longitude": longitude,
+                        "region": region,
+                        "others": others,
+                    
+                },
+                "field": {"_id": user_id},
+                "platform": "bangalore"
+            }
+
+            # Converting the payload data to JSON in the field is very neccessary 
+            payload = json.dumps(payload_data)
+
+            # Setting the headers
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            # Making the API request
+            url = "http://100002.pythonanywhere.com/"
+            response = requests.post(url, headers=headers, data=payload)
+
+            if response.status_code == 200:
+                # Redirect to a success page
+                return render(request, 'geographical.html')
+            else:
+                # If the API request fails, render the form again with an error message
+                form.add_error(None, 'Failed to submit form. Please try again later.')
+                return render(request, 'geographical.html', {'form': form})
+        else:
+            # If the form is not valid, render the form again with error messages.
+            return render(request, 'geographical.html', {'form': form})
+
+
+class DemographicProfileView(View):
+    def get(self, request):
+        form = DemographicProfileForm()
+        return render(request, 'demographic_profile.html', {'form': form})
+
+    def post(self, request):
+        form = DemographicProfileForm(request.POST)
+
+        if form.is_valid():
+            income_class : form.cleaned_data['INCOME_CLASS']
+            date_of_birth : str(form.cleaned_data['DATE_OF_BIRTH'])
+            gender: form.cleaned_data['GENDER']
+            parental_status: form.cleaned_data['PARENTAL_STATUS']
+            education: form.cleaned_data['EDUCATION']
+            occupation: form.cleaned_data['OCCUPATION']
+            FAMILY_SIZE: form.cleaned_data['FAMILY_SIZE']
+            OTHERS: form.cleaned_data['OTHERS']
+
+            user_id = ['_id']
+            payload = {
+                'cluster': 'login',
+                'database': 'login',
+                'collection': 'demographic_profile',
+                'document': 'demographic_profile',
+                'team_member_ID': '1168',
+                'function_ID': 'ABCDE',
+                'command': 'update',
+                'update_field': {
+                 
+                    'income_class': income_class,
+                    'date_of_birth': date_of_birth,
+                    'gender': gender,
+                    'parental_status': parental_status,
+                    'education': education,
+                    'occupation': occupation,
+                    'FAMILY_SIZE': FAMILY_SIZE,
+                    'OTHERS': OTHERS
+                    },
+                    "field": {"_id": user_id},
+                    "platform": "bangalore"
+                    }
+            headers = {'Content-Type': 'application/json','Accept': 'application/json'}
+            r = requests.post(url = 'http://100002.pythonanywhere.com/', json=payload, headers=headers)
+            if r.status_code == 200:
+                return HttpResponse('Data saved successfully!')
+            else:
+                return render(request, 'demographic_profile.html', {'form': form})
+
+
+class PsychographicView(View):
+    def get(self, request):
+        form = PsychographicForm()
+        return render(request, 'psychographic_profile.html', {'form': form})
+
+    def post(self, request):
+        form = PsychographicForm(request.POST)
+        if form.is_valid():
+            lifestyle = form.cleaned_data['lifestyle']
+            iq_level = form.cleaned_data['iq_level']
+            attitude = form.cleaned_data['attitude']
+            personality = form.cleaned_data['personality']
+            others = form.cleaned_data['others']
+
+            user_id = ['_id']
+            payload = {
+                "cluster": "login",
+                "database": "login",
+                "collection": "psychographic_profile",
+                "document": "psychographic_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "update_field": {
+                    
+                        "lifestyle": lifestyle,
+                        "iq_level": iq_level,
+                        "attitude": attitude,
+                        "personality": personality,
+                        "others": others,
+                    
+                },
+                "field": {"_id": user_id},
+                "platform": "bangalore"
+            }
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=json.dumps(payload))
+
+            if response.status_code == 200:
+                return HttpResponse('Form submission successful!')
+            else:
+                return HttpResponse('Form submission failed!')
+        else:
+            return render(request, 'psychographic_profile.html', {'form': form})
+
+
+class BehaviourProfile(View):
+    def get(self, request):
+        form: BehaviourForm()
+        return render(request, 'behaviourprofile.html', {'form': form})
+
+    def post(self, request):
+        form = BehaviourForm(request.POST)
+        if form.is_valid():
+            benefits = form.cleaned_data['benefits']
+            role = form.cleaned_data['role']
+            brand_loyalty = form.cleaned_data['brand_loyalty']
+            others = form.cleaned_data['others']
+
+            user_id = ['_id']
+            payload = json.dumps({
+                "cluster": "login",
+                "database": "login",
+                "collection": "behaviour_profile",
+                "document": "behaviour_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "update_field": {
+                 
+                        "benefits": benefits,
+                        "role": role,
+                        "brand_loyalty": brand_loyalty,
+                        "others": others
+                    
+                },
+                "field": {"_id": user_id},
+                "platform": "bangalore"
+            })
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=payload)
+
+            if response.status_code == 200:
+                return HttpResponse('Form submission successful!')
+            else:
+                return HttpResponse('Error submitting form')
+        else:
+            return render(request, 'behaviourprofile.html', {'form': form})
+
+
+class UsageProfileView(View):
+    def get(self, request):
+        form = UsageProfileForm()
+        return render(request, 'usage_profile.html', {'form': form})
+
+    def post(self, request):
+        form = UsageProfileForm(request.POST)
+        if form.is_valid():
+            usage_rate = form.cleaned_data['usage_rate']
+            awareness = form.cleaned_data['awareness']
+            purpose = form.cleaned_data['purpose']
+            others = form.cleaned_data['others']
+
+            user_id = ['_id']
+            payload = {
+                "cluster": "login",
+                "database": "login",
+                "collection": "usage_profile",
+                "document": "usage_profile",
+                "team_member_ID": "1168",
+                "function_ID": "ABCDE",
+                "command": "update",
+                "update_field": {
+                     
+                        "usage_rate": usage_rate,
+                        "awareness": awareness,
+                        "purpose": purpose,
+                        "others": others,
+                    
+                },
+                "field": {"_id": user_id},
+                "platform": "bangalore"
+            }
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post("http://100002.pythonanywhere.com/", headers=headers, data=json.dumps(payload))
+
+            if response.status_code == 200:
+                return HttpResponse('Form submission successful!')
+            else:
+                return HttpResponse('Form submission failed!')
+        else:
+            return render(request, 'usage_profile.html', {'form': form})
+>>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604

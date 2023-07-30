@@ -1,0 +1,16 @@
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Pyschographic Profile</title>
+</head>
+<body>
+    <h1>Pyschographic Profile</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="Update Pyschographic Profile">
+    </form>
+</body>
+</html>

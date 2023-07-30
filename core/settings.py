@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'userprofile.apps.UserprofileConfig',
     'rest_framework',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 ]
 
 ROOT_URLCONF = 'core.urls'
