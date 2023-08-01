@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ DeviceId_form.as_p }}
+        <button type="submit" name="button3">Submit</button>
+    </form>
+
+    {% if context.loading %}
+        <p>Loading...</p>
+    {% endif %}
+<!-- 
+    {% if context.user_data %}
+        <p>Phone ID: {{ context.user_data.phone_id }}</p>
+        <p>Brand Model: {{ context.user_data.brand_model }}</p>
+        <p>Laptop Model: {{ context.user_data.laptop_model }}</p>
+        <p>Tablet Model: {{ context.user_data.tablet_model }}</p>
+    {% endif %} -->
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock content %}
