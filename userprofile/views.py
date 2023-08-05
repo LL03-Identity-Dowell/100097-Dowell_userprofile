@@ -357,6 +357,51 @@ def deviceid(request):
     for key in ls:
       l = [d[key] for d in res['data'] if key in d]
       main_data[key]=l[0]
+    if request.method == 'POST':
+        Device_Id_form = DeviceIdForm(request.POST)
+        if  Device_Id_form.is_valid() and 'button3' in request.POST:
+                context['loading'] = True
+                phone_id = Device_Id_form.cleaned_data['phone_id']
+                brand_model = Device_Id_form.cleaned_data['brand_model']
+                laptop_model = Device_Id_form.cleaned_data['laptop_model']
+                tablet_model = Device_Id_form.cleaned_data['tablet_model']
+
+                update_fields = {}
+                if phone_id: update_fields['phone_id'] = phone_id
+                if brand_model: update_fields['brand_model'] = brand_model
+                if laptop_model: update_fields['laptop_model'] = laptop_model
+                if tablet_model: update_fields['tablet_model'] = tablet_model
+
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+                        messages.success(request, f"Updated {key} successfully!")
+                        # print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        messages.success(request, f"Inserted {key} successfully!")
+                        # print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                # for key in update_fields:
+                #     if key in res:
+                #         update_data({key:update_fields[key]},username)
+                #         print(f"updated this key: {key}")
+                #     else:
+                #         insert_data({key:update_fields[key]},username)
+                #         print(f"inserted this key: {key}")
+
+                # res = fetch_data(username)
+                # context['user_data'] = res
+                context['user_data'] = main_data
+                context['user_data'] = main_data
+                messages.success(request, 'Device Id data updated successfully.')
+                # return redirect(request, 'index.html', {'context': context}, using='base.html')
+                # return HttpResponseRedirect(path,'index.html',{'context': context})
+                return redirect(path,{'context': context})
+
     
 
 # @csrf_exempt

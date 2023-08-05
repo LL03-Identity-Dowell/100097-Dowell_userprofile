@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 # creating a form
 class InputForm(forms.Form):
-<<<<<<< HEAD
     edit_inputform = forms.BooleanField(widget=forms.HiddenInput, initial=True,required=False)
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your first name'}),required=False)
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your last name'}),required=False)
@@ -52,48 +51,6 @@ class PersonalIDForm(forms.Form):
     ID_Card_4 = forms.FileField(required=False)
     ID_Card_5 = forms.FileField(required=False)
     Signature = forms.FileField(required=False)
-=======
-    edit_inputform = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    first_name = forms.CharField(max_length = 200)
-    last_name = forms.CharField(max_length = 200)
-    phone_number = forms.CharField(max_length= 200)
-    email_address = forms.EmailField(max_length= 200)
-    address = forms.CharField(max_length= 200)
-    pincode = forms.CharField(max_length= 200)
-    location = forms.CharField(max_length= 200)
-
-
-class InputForm(forms.Form):
-    username = forms.CharField(max_length=50)
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
-
-class OrganizationForm(forms.Form):
-    Your_Organization_Name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your organization name'}))
-    Organization_Address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter organization address'}))
-    PINCODE = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Enter your PIN/ZIP code'}))
-    city_of_your_Organization = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Organization city'}))
-    country_of_your_organization = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Organization Country'}))
-    Organization_logo =forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Organization logo'}))
-    Upload_new_logo = forms.ImageField()
-    Latitude_of_Organization = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Latitude of Organization'}))
-    Longitude_of_Organization = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'placeholder': 'Longitude of Organization'}))
-
-    
-class PersonalIDForm(forms.Form):
-    Voice_ID = forms.FileField()
-    Face_ID = forms.FileField()
-    Biometric_ID = forms.FileField()
-    Video_ID = forms.FileField()
-    ID_Card_1 = forms.FileField()
-    ID_Card_2 = forms.FileField()
-    ID_Card_3 = forms.FileField()
-    ID_Card_4 = forms.FileField()
-    ID_Card_5 = forms.FileField()
-    Signature = forms.FileField()
-
-
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 
 class GeographicalForm(forms.Form):
     COUNTRY_CHOICES = [
@@ -108,7 +65,6 @@ class GeographicalForm(forms.Form):
         ('West', 'West'),
         ('Center', 'Center'),
     ]
-<<<<<<< HEAD
 
     country = forms.ChoiceField(choices=COUNTRY_CHOICES, label='Country',required=False)
     city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your city'}),required=False)
@@ -117,15 +73,6 @@ class GeographicalForm(forms.Form):
     longitude = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your longitude'}),required=False)
     others_Geographical = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}),required=False)
 
-=======
-    
-    country = forms.ChoiceField(choices=COUNTRY_CHOICES, label='Country')
-    city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your city'}))
-    region = forms.ChoiceField(choices=REGION_CHOICES, label='North')
-    latitude = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your latitude'}))
-    longitude = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your longitude'}))
-    others = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}))
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 
 class DemographicProfileForm(forms.Form):
     INCOME_CHOICES = (
@@ -149,7 +96,6 @@ class DemographicProfileForm(forms.Form):
     )
 
 
-<<<<<<< HEAD
     income_class = forms.ChoiceField(choices=INCOME_CHOICES)
     date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Enter your birth date'}),required=False)
     gender = forms.ChoiceField(choices=GENDER_CHOICES)
@@ -207,52 +153,11 @@ class PsychographicProfileForm(forms.Form):
     Your_Personality_CHOICES=[
         ('Architect', 'Architect'),
         ('Logicain', 'Logician'),
-=======
-    YOUR_INCOME_CLASS_IN_THE_SOCIETY = forms.ChoiceField(choices=INCOME_CHOICES)
-    DATE_OF_BIRTH = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Enter your birth date'}))
-    GENDER = forms.ChoiceField(choices=GENDER_CHOICES)
-    PARENTAL_STATUS = forms.ChoiceField(choices=PARENTAL_CHOICES)
-    YOUR_EDUCATION = forms.ChoiceField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Education'}))
-    YOUR_OCCUPATION = forms.ChoiceField(widget=forms.TextInput(attrs={'placeholder': 'Enter your occupation'}))
-    FAMILY_SIZE = forms.IntegerField()
-    OTHERS = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}))
-
-class PsychographicForm(forms.Form):
-    MODERN_CHOICES= (
-        ('Mordern', 'Mordern'),
-        ('Traditional', 'Traditional'),
-        ('Trendsetter', 'Trendsetter'),
-    )
-
-    IQ_LEVEL_CHOICES= (
-        ('Above 140- "Near" genius or genius', 'Above 140- "Near" genius or genius'),
-        ('120-140 - very superior intelligence', '120-140 - very superior intelligence'),
-        ('110-120 - very superior intelligence', '110-120 - very superior intelligence'),
-        ('90-110 - normal, or average or intelligence', '90-110 - normal, or average or intelligence'),
-        ('Below 90 - Below average', 'Below 90 - Below average')
-    )
-
-    ATITTUDE_CHOICES=(
-        ('Innovators', 'innovators'),
-        ('Early Adopters', 'Early Adopters'),
-        ('Early Majoity', 'Early Majoity'),
-        ('Late Majority', 'Late Majority'),
-        ('Laggards', 'Laggards')
-    )
-
-    PERSONALITY_CHOICES=[
-        ('Architect', 'Architect'),
-        ('Logician', 'Logician'),
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
         ('Commander', 'Commander'),
         ('Advocate', 'Advocate'),
         ('Mediator', 'Mediator'),
         ('Protagonist', 'Protagonist'),
-<<<<<<< HEAD
         ('Campainger', 'Campaigner'),
-=======
-        ('Campaigner', 'Campaigner'),
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
         ('Logistician', 'Logistician'),
         ('Defender', 'Defender'),
         ('Executive', 'Executive'),
@@ -260,7 +165,6 @@ class PsychographicForm(forms.Form):
         ('Virtuoso', 'Virtuoso'),
         ('Adventurer', 'Adventurer'),
         ('Enterpernuer', 'Enterpernuer'),
-<<<<<<< HEAD
         ('Entrtainer', 'Entertainer'),
     ]
     Your_Life_Style= forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter Life Style'}),required=False)
@@ -293,16 +197,6 @@ class VerificationForm(forms.Form):
     Personal_reference_verification = forms.ChoiceField(choices=VERIFICATION_CHOICES, widget=forms.RadioSelect,required=False)
     Personal_verification_by_witness_verification = forms.ChoiceField(choices=VERIFICATION_CHOICES, widget=forms.RadioSelect,required=False)
 
-=======
-        ('Entertainer', 'Entertainer'),
-    ]
-
-    Your_Life_Style = forms.ChoiceField(choices=MODERN_CHOICES),
-    Your_IQ_Level = forms.ChoiceField(choices= IQ_LEVEL_CHOICES),
-    Your_Atittude = forms.ChoiceField(choices=ATITTUDE_CHOICES),
-    Your_PERSONALITY = forms.ChoiceField(choices=PERSONALITY_CHOICES),
-    Others = forms.ChoiceField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}))
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 
 class BehaviourForm(forms.Form):
     BENEFITS_CHOICES = [
@@ -330,12 +224,8 @@ class BehaviourForm(forms.Form):
     benefits = forms.ChoiceField(choices=BENEFITS_CHOICES)
     role = forms.ChoiceField(choices=ROLE_CHOICES)
     brand_loyalty = forms.ChoiceField(choices=LOYALTY_CHOICES)
-<<<<<<< HEAD
     others = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}),required=False)
 
-=======
-    others = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}))
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604
 
 class UsageProfileForm(forms.Form):
     USAGE_RATE_CHOICES = (
@@ -360,16 +250,4 @@ class UsageProfileForm(forms.Form):
     usage_rate = forms.ChoiceField(choices=USAGE_RATE_CHOICES)
     awareness = forms.ChoiceField(choices=AWARENESS_CHOICES)
     purpose = forms.ChoiceField(choices=PURPOSE_CHOICES)
-<<<<<<< HEAD
     others = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}),required=False)
-=======
-    others = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Other details'}))
-
-# class IdVerificationForm(forms.Form):
-#     phone_number = forms.CharField(max_length=20)
-#     email_address = forms.EmailField()
-#     phone_otp = forms.CharField(max_length=6, required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter OTP'}))
-#     email_otp = forms.CharField(max_length=6, required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter OTP'}))
-
-
->>>>>>> 1a1c35f3ced8f1eba7f2e4211e6c030071f7e604

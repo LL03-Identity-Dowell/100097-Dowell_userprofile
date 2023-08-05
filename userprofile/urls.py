@@ -12,7 +12,7 @@ urlpatterns = [
     re_path(r'^user/(?:username=(?P<username>[a-z0-9]))?$',views.userdata, name='userdata'),
     # re_path(r'^/(?P<session_id>[a-z0-9]+)/?$', user_profile, name='user_profile'),
 
-    path('deviceid/', deviceid_data, name='deviceid'),
+    # path('deviceid/', deviceid_data, name='deviceid'),
     # path('first-name/', FirstnameView.as_view(), name='first_name'),
     # path('last-name/', LastnameView.as_view(), name='last_name'),
     # path('phone-number/', PhoneNumberView.as_view(), name='phone_number'),
