@@ -88,9 +88,9 @@ def get_user_object(username):
         return []
 
 
-def update(update_fields, files, url):
+def update(update_fields, url):
     # Use this function to update data for profile, password, and organization form
-    response = requests.post(url, json=update_fields, files=files)
+    response = requests.post(url, json=update_fields)
     return response
 
 
@@ -287,6 +287,118 @@ def fetch_data(username):
 #     print("Logged in as: ", request.session["user_name"])
 #     return JsonResponse({"status":"it is working"})
 
+def structure_data(res_data):
+    # 1. Initialize the main dictionary
+    main_data = {
+        'verification': {},
+        'organization': {},
+        'geographical': {},
+        'user_profile': {},
+        'password': {},
+        'device': {},
+        'demographic': {},
+        'psychographic': {},
+        'behavior': {},
+        'usage': {},
+        'verification' : {},
+        'references' : {},
+        # ... add other forms here
+    }
+
+    # 2. For each form, create a dictionary
+
+    # verificationform
+    verification_fields = [
+        'Phone_verification_using_OTP', 'Email_verification_using_OTP', 'Voice_Id_verification',
+        'Face_Id_verification', 'Biometric_Id_verification', 'Voice_Id_verification',
+        'Id_card_1_verification', 'Id_card_2_verification', 'Id_card_3_verification',
+        'Id_card_4_verification', 'Id_card_5_verification', 'Signature_verification',
+        'Socialmedia_profile_verification', 'Personal_reference_verification',
+        'Personal_verification_by_witness_verification'
+    ]
+    for field in verification_fields:
+        main_data['verification'][field] = res_data.get(field, None)
+
+    # organizationform
+    organization_fields = [
+        'Your_Organization_Name', 'Organization_Address', 'PINCODE',
+        'city_of_your_Organization', 'country_of_your_organization',
+        'Latitude_of_Organization', 'Longitude_of_Organization',
+        'Organization_logo', 'Upload_new_logo'
+    ]
+    for field in organization_fields:
+        main_data['organization'][field] = res_data.get(field, None)
+
+    # geographicalform
+    geographical_fields = ['country', 'city', 'latitude', 'longitude', 'region', 'others_Geographical']
+    for field in geographical_fields:
+        main_data['geographical'][field] = res_data.get(field, None)
+
+
+    user_fields = [
+            'first_name', 'last_name', 'phone_number', 'email_address',
+            'address', 'pincode', 'city', 'country', 'native_language', 'vision'
+        ]
+    for field in user_fields:
+            main_data['user_profile'][field] = res_data.get(field, None)
+
+
+    device_fields = ['phone_id', 'brand_model', 'laptop_model', 'tablet_model']
+    for field in device_fields:
+            main_data['device'][field] = res_data.get(field, None)
+
+    personal_id_fields = [
+        'voice_id', 'face_id', 'biometric_id', 'video_id',
+        'id_card_1', 'id_card_2', 'id_card_3', 'id_card_4',
+        'id_card_5', 'signature'
+    ]
+    for field in personal_id_fields:
+        main_data['verification'][field] = res_data.get(field, None)
+
+    # referenceform fields
+    references_fields = [
+        'Linkedin', 'facebook', 'Instagram', 'Twitter',
+        'Discord', 'Tiktok', 'Snapchat', 'Pinterest', 'Youtube',
+        'Whatsapp', 'Tumbir', 'Xing', 'Reddit', 'Academia',
+        'Personal_Reference_1', 'Personal_Reference_2',
+        'Personal_Reference_3', 'Personal_Reference_4',
+        'Personal_Reference_5'
+    ]
+    for field in references_fields:
+        main_data['references'][field] = res_data.get(field, None)
+
+    # demographic
+    demographic_fields = [
+        'income_class', 'date_of_birth', 'gender', 'parental_status',
+        'education', 'occupation', 'family_size', 'others_demographic'
+    ]
+    for field in demographic_fields:
+        main_data['demographic'][field] = res_data.get(field, None)
+
+    # psychographic
+    psychographic_fields = [
+        'Life_Style', 'IQ_Level', 'Your_Attitude',
+        'Your_Personality', 'Others_psychographic'
+    ]
+    for field in psychographic_fields:
+        main_data['psychographic'][field] = res_data.get(field, None)
+
+    # behavior
+    behavior_fields = ['benefits', 'role', 'brand_loyalty', 'others_behaviour']
+    for field in behavior_fields:
+        main_data['behavior'][field] = res_data.get(field, None)
+
+    # usage
+    usage_fields = ['usage_rate', 'awareness', 'purpose', 'others_usage']
+    for field in usage_fields:
+        main_data['usage'][field] = res_data.get(field, None)
+
+
+    # 3. Return the main_data
+    return main_data
+
+
+
 
 
 def userdata(request):
@@ -321,6 +433,7 @@ def userdata(request):
         response = requests.request("POST", url, headers=headers, data=payload)
 
         res = response.json()
+        # print('res:',res)
         ls = [key for d in res['data'] for key in d  ]
         ls = set(ls)
         main_data = {}
@@ -331,6 +444,7 @@ def userdata(request):
 
         # data = pd.read_csv('users.csv')  # read CSV
         # data = data.to_dict()  # convert dataframe to dictionary
+        main_data = structure_data(main_data)
         return JsonResponse(main_data, safe=False) # return data and 200 OK code
 
 def submit_form(request):
@@ -341,10 +455,11 @@ def submit_form(request):
 
         return render(request, 'index.html')
 
-def deviceid(request):
-    session_id = request.GET.get('session_id')
+def helper_function(session_id):
+    api_url = "https://100014.pythonanywhere.com/api/userinfo/"
     myobj = {'session_id': session_id}
-    # response = requests.post(api_url, data=myobj)
+    response = requests.post(api_url, data=myobj)
+    # {"msg":"No user found"}
     data = response.json()
     user_profile = data['userinfo']
     user_id = user_profile['userID']
@@ -357,14 +472,135 @@ def deviceid(request):
     for key in ls:
       l = [d[key] for d in res['data'] if key in d]
       main_data[key]=l[0]
+
+    context = {}
+    context['user_data'] = main_data
+    # context['user_data'] = res
+    context['user_profile'] = user_profile
+    context['form'] = InputForm()
+    context['Device_Id'] = DeviceIdForm()
+    context['set_password'] = SetpasswordForm()
+    context['success'] = 'Password set successfully.'
+    context['error_settingpassword'] = 'Error setting password.'
+    context['error_passwordmismatch'] = 'Passwords do not match.'
+    context['Organization'] = OrganizationForm()
+    context['Geographical'] = GeographicalForm()
+    context['PersonalID'] = PersonalIDForm()
+    context['Behaviour'] = BehaviourForm()
+    context['Usage'] = UsageProfileForm()
+    context['Demographic'] = DemographicProfileForm()
+    context['Psychographic']= PsychographicProfileForm()
+    context['references']= ReferencesProfileForm()
+    context['verification']= VerificationForm
+    context['session_id'] = session_id
+    context['processing_form'] = False
+
+    return res,username,main_data,context
+
+def userform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+    url = "https://100014.pythonanywhere.com/api/profile_update/"
     if request.method == 'POST':
-        Device_Id_form = DeviceIdForm(request.POST)
-        if  Device_Id_form.is_valid() and 'button3' in request.POST:
+        user_form = InputForm(request.POST)
+        if user_form.is_valid() :
+                request.session['processing_form'] = True
                 context['loading'] = True
-                phone_id = Device_Id_form.cleaned_data['phone_id']
-                brand_model = Device_Id_form.cleaned_data['brand_model']
-                laptop_model = Device_Id_form.cleaned_data['laptop_model']
-                tablet_model = Device_Id_form.cleaned_data['tablet_model']
+                # print(user_form['edit_inputform'])
+                first_name=user_form.cleaned_data['first_name']
+                last_name=user_form.cleaned_data['last_name']
+                phone_number=user_form.cleaned_data['phone_number']
+                email_address=user_form.cleaned_data['email_address']
+                address=user_form.cleaned_data['address']
+                pincode=user_form.cleaned_data['pincode']
+                city=user_form.cleaned_data['city']
+                country=user_form.cleaned_data['country']
+                native_language=user_form.cleaned_data['native_language']
+                vision=user_form.cleaned_data['vision']
+                user_profile_data = {}
+                user_profile_data["username"] = username
+                user_profile_data["language_preferences"] = []
+                if (len(first_name)!=0): user_profile_data["first_name"]=first_name
+                if (len(last_name)!=0): user_profile_data["last_name"]=last_name
+                if (len(phone_number)!=0): user_profile_data["phone"]=phone_number
+                if (len(email_address)!=0): user_profile_data["email"]=email_address
+                if (len(address)!=0): user_profile_data["address"]=address
+                if (len(pincode)!=0): user_profile_data["zip_code"]=pincode
+                if (len(city)!=0): user_profile_data["city"]=city
+                if (len(country)!=0): user_profile_data["country"]=country
+                if (len(native_language)!=0): user_profile_data["native_language"]=native_language
+                if (len(vision)!=0): user_profile_data["vision"]=vision
+                userprofileurl = "https://100014.pythonanywhere.com/api/profile_update/"
+                # url = "https://100014.pythonanywhere.com/api/profile_update/"
+                # response = update(userprofileurl,uurl)
+                response = update(user_profile_data,userprofileurl, url)
+                messages.success(request, 'User Info data updated successfully.')
+                # return redirect(request, 'index.html', {'context': context}, using='base.html')
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'User_Input.html', {'context': context})
+
+def setpassword(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        set_password_form = SetpasswordForm(request.POST)
+        if set_password_form.is_valid() and 'button2' in request.POST:
+                context['loading'] = True
+                username = set_password_form.cleaned_data['username']
+                old_password = set_password_form.cleaned_data['old_password']
+                new_password = set_password_form.cleaned_data['new_password']
+
+                # if old_password != new_password:
+                #     context['error_passwordmismatch'] = 'Passwords do not match.'
+                #     return render(request, 'index.html', {'context': context})
+
+                update_fields = {
+                "username":username,
+                "old_password":old_password,
+                "new_password":new_password
+                }
+
+                url = 'https://100014.pythonanywhere.com/api/password_change/'
+                # response = requests.post(url, json=update_fields,)
+                response = requests.post(url, json=update_fields)
+                print(response.text)
+                if response.status_code == 200 or response.status_code == 201:
+                    messages.success(request, 'Password updated successfully!')
+                    context['redirect_url'] = url
+                else:
+                    messages.error(request, "Password does not match")
+                    return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'set_password.html', {'context': context})
+
+def deviceid(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        form = DeviceIdForm(request.POST)
+        if form.is_valid():
+                context['loading'] = True
+                phone_id = form.cleaned_data['phone_id']
+                brand_model =form.cleaned_data['brand_model']
+                laptop_model = form.cleaned_data['laptop_model']
+                tablet_model = form.cleaned_data['tablet_model']
 
                 update_fields = {}
                 if phone_id: update_fields['phone_id'] = phone_id
@@ -382,7 +618,437 @@ def deviceid(request):
                     else:
                         insert_data({key:update_fields[key]},username)
                         messages.success(request, f"Inserted {key} successfully!")
-                        # print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                context['user_data'] = main_data
+                messages.success(request, 'Device Id data updated successfully.')
+                # return redirect(request, 'index.html', {'context': context}, using='base.html')
+                # return HttpResponseRedirect(path,'index.html',{'context': context})
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'deviceid.html', {'context': context})
+
+def personalid(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        PersonalID_form = PersonalIDForm(request.POST, request.FILES)
+        print(PersonalID_form.is_valid(),'hi')
+        if PersonalID_form.is_valid():
+                context['loading'] = True
+                update_fields = {}
+                if request.FILES.get('Voice_ID'):
+                    Voice_ID = base64.b64encode(request.FILES.get('Voice_ID', b'').read()).decode()
+                    update_fields['voice_id'] = Voice_ID
+                if request.FILES.get('Face_ID'):
+                    Face_ID = base64.b64encode(request.FILES.get('Face_ID', b'').read()).decode()
+                    update_fields['face_id'] = Face_ID
+                if request.FILES.get('Biometric_ID'):
+                    Biometric_ID = base64.b64encode(request.FILES.get('Biometric_ID', b'').read()).decode()
+                    update_fields['biometric_id'] = Biometric_ID
+                if request.FILES.get('Video_ID'):
+                    Video_ID = base64.b64encode(request.FILES.get('Video_ID', b'').read()).decode()
+                    update_fields['video_id'] = Video_ID
+
+                # f = request.FILES['Voice_ID']
+
+                # converted_string = base64.b64encode(request.FILES['Voice_ID'])
+                # print(converted_string)
+
+
+                if request.FILES.get('ID_Card_1'):
+                    ID_Card_1 = base64.b64encode(request.FILES.get('ID_Card_1', b'').read()).decode()
+                    update_fields['id_card_1'] = ID_Card_1
+                if request.FILES.get('ID_Card_2'):
+                    ID_Card_2 = base64.b64encode(request.FILES.get('ID_Card_2', b'').read()).decode()
+                    update_fields['id_card_2'] = ID_Card_2
+                if request.FILES.get('ID_Card_3'):
+                    ID_Card_3 = base64.b64encode(request.FILES.get('ID_Card_3', b'').read()).decode()
+                    update_fields['id_card_3'] = ID_Card_3
+                if request.FILES.get('ID_Card_4'):
+                    ID_Card_4 = base64.b64encode(request.FILES.get('ID_Card_4', b'').read()).decode()
+                    update_fields['id_card_4'] = ID_Card_4
+                if request.FILES.get('ID_Card_5'):
+                    ID_Card_5 = base64.b64encode(request.FILES.get('ID_Card_5', b'').read()).decode()
+                    update_fields['id_card_5'] = ID_Card_5
+                if request.FILES.get('Signature'):
+                    Signature = base64.b64encode(request.FILES.get('Signature', b'').read()).decode()
+                    update_fields['signature'] = Signature
+
+                # Update PersonalID fields
+                # update_fields = {
+                #     'voice_id': Voice_ID,
+                #     'face_id': Face_ID,
+                #     'biometric_id': Biometric_ID,
+                #     'video_id': Video_ID,
+                #     'id_card_1': ID_Card_1,
+                #     'id_card_2': ID_Card_2,
+                #     'id_card_3': ID_Card_3,
+                #     'id_card_4': ID_Card_4,
+                #     'id_card_5': ID_Card_5,
+                #     'signature': Signature
+                # }
+                # print('update_fields',update_fields)
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                context['user_data'] = main_data
+                messages.success(request, 'Personal Id data updated successfully.')
+                # return redirect(request, 'index.html', {'context': context}, )
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'personalid.html', {'context': context})
+
+def referenceform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        references_form = ReferencesProfileForm(request.POST, request.FILES)
+        if references_form.is_valid():
+                context['loading'] = True
+                update_fields = {}
+
+                if request.FILES.get('Linkedin'):
+                    Linkedin_profile = base64.b64encode(request.FILES.get('Linkedin', b'').read()).decode()
+                    update_fields['Linkedin'] = Linkedin_profile
+                if request.FILES.get('facebook'):
+                    facebook_profile = base64.b64encode(request.FILES.get('facebook', b'').read()).decode()
+                    update_fields['facebook_profile'] = facebook_profile
+                if request.FILES.get('Instagram'):
+                    Instagram_profile = base64.b64encode(request.FILES.get('Instagram', b'').read()).decode()
+                    update_fields['Instagram_profile'] =Instagram_profile
+                if request.FILES.get('Twitter'):
+                    Twitter_profile = base64.b64encode(request.FILES.get('Twitter', b'').read()).decode()
+                    update_fields['Twitter_profile'] = Twitter_profile
+                if request.FILES.get('Discord'):
+                    Discord_profile = base64.b64encode(request.FILES.get('Discord', b'').read()).decode()
+                    update_fields['Discord_profile'] = Discord_profile
+                if request.FILES.get('Tiktok'):
+                    Tiktok_profile = base64.b64encode(request.FILES.get('Tiktok', b'').read()).decode()
+                    update_fields['Tiktok_profile'] = Tiktok_profile
+                if request.FILES.get('Snapchat'):
+                    Snapchat_profile = base64.b64encode(request.FILES.get('Snapchat', b'').read()).decode()
+                    update_fields['Snapchat_profile'] = Snapchat_profile
+                if request.FILES.get('Pinterest'):
+                    Pinterest_profile = base64.b64encode(request.FILES.get('Pinterest', b'').read()).decode()
+                    update_fields['Pinterest_profile'] = Pinterest_profile
+                if request.FILES.get('Youtube'):
+                    Youtube_profile = base64.b64encode(request.FILES.get('Youtube', b'').read()).decode()
+                    update_fields['Youtube_profile'] = Youtube_profile
+                if request.FILES.get('Whatsapp'):
+                    Whatsapp_profile = base64.b64encode(request.FILES.get('Whatsapp', b'').read()).decode()
+                    update_fields['Whatsapp_profile'] = Whatsapp_profile
+                if request.FILES.get('Tumbir'):
+                    Tumbir_profile = base64.b64encode(request.FILES.get('Tumbir', b'').read()).decode()
+                    update_fields['Tumbir_profile'] = Tumbir_profile
+                if request.FILES.get('Xing'):
+                    Xing_profile = base64.b64encode(request.FILES.get('Xing', b'').read()).decode()
+                    update_fields['Xing_profile'] = Xing_profile
+                if request.FILES.get('Reddit'):
+                    Reddit_profile = base64.b64encode(request.FILES.get('Reddit', b'').read()).decode()
+                    update_fields['Reddit_profile'] = Reddit_profile
+                if request.FILES.get('Academia'):
+                    Academia_profile = base64.b64encode(request.FILES.get('Academia', b'').read()).decode()
+                    update_fields['Academia_profile'] = Academia_profile
+
+
+                if request.POST.get('Personal_Reference_1'):
+                    Personal_Reference_1 =  request.POST.get('Personal_Reference_1', '')
+                    update_fields['Personal_Reference_1'] = Personal_Reference_1
+                if request.POST.get('Personal_Reference_2'):
+                    Personal_Reference_2 =  request.POST.get('Personal_Reference_2', '')
+                    update_fields['Personal_Reference_2'] = Personal_Reference_1
+                if request.POST.get('Personal_Reference_3'):
+                    Personal_Reference_3 =  request.POST.get('Personal_Reference_3', '')
+                    update_fields['Personal_Reference_3'] = Personal_Reference_3
+                if request.POST.get('Personal_Reference_4'):
+                    Personal_Reference_4 =  request.POST.get('Personal_Reference_4', '')
+                    update_fields['Personal_Reference_4'] = Personal_Reference_1
+                if request.POST.get('Personal_Reference_5'):
+                    Personal_Reference_5 =  request.POST.get('Personal_Reference_5', '')
+                    update_fields['Personal_Reference_5'] = Personal_Reference_5
+
+
+                # update_fields = {
+                #     'Linkedin_profile': Linkedin_profile,
+                #     'facebook_profile': facebook_profile,
+                #     'Instagram_profile': Instagram_profile,
+                #     'Twitter_profile': Twitter_profile,
+                #     'Discord_profile': Discord_profile,
+                #     'Tiktok_profile': Tiktok_profile,
+                #     'Snapchat_profile': Snapchat_profile,
+                #     'Pinterest_profile': Pinterest_profile,
+                #     'Youtube_profile': Youtube_profile,
+                #     'Whatsapp_profile': Whatsapp_profile,
+                #     'Tumbir_profile': Tumbir_profile,
+                #     'Xing_profile': Xing_profile,
+                #     'Reddit_profile': Reddit_profile,
+                #     'Academia_profile': Academia_profile,
+
+
+            #         'Personal_Reference_1': Personal_Reference_1,
+            #         'Personal_Reference_2': Personal_Reference_2,
+            #         'Personal_Reference_3': Personal_Reference_3,
+            #         'Personal_Reference_4': Personal_Reference_4,
+            #         'Personal_Reference_5': Personal_Reference_5
+            #     }
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                context['user_data'] = main_data
+                messages.success(request, 'Reference data updated successfully.')
+                # return redirect(request, 'index.html', {'context': context})
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'references.html', {'context': context})
+
+def verificationform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        verification_form = VerificationForm(request.POST)
+        if verification_form.is_valid() :
+                context['loading'] = True
+                Phone_verification_using_OTP_status = verification_form.cleaned_data['Phone_verification_using_OTP']
+                Email_verification_using_OTP_status = verification_form.cleaned_data['Email_verification_using_OTP']
+                Voice_Id_verification_status = verification_form.cleaned_data['Voice_Id_verification']
+                Face_Id_verification_status = verification_form.cleaned_data['Face_Id_verification']
+                Biometric_Id_verification_status = verification_form.cleaned_data['Biometric_Id_verification']
+                Voice_Id_verification_status = verification_form.cleaned_data['Voice_Id_verification']
+                Id_card_1_verification_status = verification_form.cleaned_data['Id_card_1_verification']
+                Id_card_2_verification_status = verification_form.cleaned_data['Id_card_2_verification']
+                Id_card_3_verification_status = verification_form.cleaned_data['Id_card_3_verification']
+                Id_card_4_verification_status = verification_form.cleaned_data['Id_card_4_verification']
+                Id_card_5_verification_status = verification_form.cleaned_data['Id_card_5_verification']
+                Signature_verification_status = verification_form.cleaned_data['Signature_verification']
+                Socialmedia_profile_verification_status = verification_form.cleaned_data['Socialmedia_profile_verification']
+                Personal_reference_verification_status = verification_form.cleaned_data['Personal_reference_verification']
+                Personal_verification_by_witness_verification_status = verification_form.cleaned_data['Personal_verification_by_witness_verification']
+
+
+                update_fields = {
+                    'Phone_verification_using_OTP': Phone_verification_using_OTP_status,
+                    'Email_verification_using_OTP': Email_verification_using_OTP_status,
+                    'Voice_Id_verification': Voice_Id_verification_status,
+                    'Face_Id_verification': Face_Id_verification_status,
+                    'Biometric_Id_verification': Biometric_Id_verification_status,
+                    'Voice_Id_verification': Voice_Id_verification_status,
+                    'Id_card_1_verification': Id_card_1_verification_status,
+                    'Id_card_2_verification': Id_card_2_verification_status,
+                    'Id_card_3_verification': Id_card_3_verification_status,
+                    'Id_card_4_verification': Id_card_4_verification_status,
+                    'Id_card_5_verification': Id_card_5_verification_status,
+                    'Signature_verification': Signature_verification_status,
+                    'Socialmedia_profile_verification': Socialmedia_profile_verification_status,
+                    'Personal_reference_verification': Personal_reference_verification_status,
+                    'Personal_verification_by_witness_verification': Personal_verification_by_witness_verification_status
+                }
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+                # for key in update_fields:
+                #     if key in res:
+                #         update_data({key:update_fields[key]},username)
+                #         print(f"updated this key: {key}")
+                #     else:
+                #         insert_data({key:update_fields[key]},username)
+                #         print(f"inserted this key: {key}")
+
+                # res = fetch_data(username)
+                context['user_data'] = main_data
+                messages.success(request, 'Verification data updated successfully.')
+                # return render(request, 'index.html', {'context': context})
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Verification.html', {'context': context})
+
+def organizationform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        Organization_form = OrganizationForm(request.POST, request.FILES)
+        if Organization_form.is_valid():
+                context['loading'] = True
+                Your_Organization_Name = request.POST.get('Your_Organization_Name')
+                Organization_Address = request.POST.get('Organization_Address')
+                PINCODE = request.POST.get('PINCODE')
+                city_of_your_Organization = request.POST.get('city_of_your_Organization')
+                country_of_your_organization = request.POST.get('country_of_your_organization')
+                Latitude_of_Organization = request.POST.get('Latitude_of_Organization')
+                Longitude_of_Organization = request.POST.get('Longitude_of_Organization')
+                Organization_logo = request.FILES.get('Organization_logo')
+                Upload_new_logo = request.FILES.get('Upload_new_logo')
+
+                organization_data = {
+                    'Your_Organization_Name': Your_Organization_Name,
+                    'Organization_Address': Organization_Address,
+                    'PINCODE': PINCODE,
+                    'city_of_your_Organization': city_of_your_Organization,
+                    'country_of_your_organization': country_of_your_organization,
+                    'Latitude_of_Organization': Latitude_of_Organization,
+                    'Longitude_of_Organization': Longitude_of_Organization,
+                }
+
+                files = {}
+                if Organization_logo:
+                    files['Organization_logo'] = Organization_logo
+                if Upload_new_logo:
+                    files['Upload_new_logo'] = Upload_new_logo
+
+                # session_id = request.GET.get('session_id')
+                url = 'https://100014.pythonanywhere.com/api/profile_update/'
+                response = update(organization_data, files, url)
+                messages.success(request, 'Organization data updated successfully.')
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Organization.html', {'context': context})
+
+def geographicalform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+            Geographical_form = GeographicalForm(request.POST)
+            if Geographical_form.is_valid():
+                context['loading'] = True
+                country = Geographical_form.cleaned_data['country']
+                city = Geographical_form.cleaned_data['city']
+                latitude = Geographical_form.cleaned_data['latitude']
+                longitude = Geographical_form.cleaned_data['longitude']
+                region = Geographical_form.cleaned_data['region']
+                others_Geographical = Geographical_form.cleaned_data['others_Geographical']
+
+                update_fields = {}
+                if country: update_fields['country'] = country
+                if city: update_fields['city'] = city
+                if latitude: update_fields['latitude'] = latitude
+                if longitude: update_fields['longitude'] = longitude
+                if region: update_fields['region'] = region
+                if others_Geographical: update_fields['others_Geographical'] = others_Geographical
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                # Update or insert data
+                # res = fetch_data(username)
+                # for key in update_fields:
+                #     if key in res:
+                #         update_data({key:update_fields[key]}, username)
+                #         print(f"Updated this key: {key}")
+                #     else:
+                #         insert_data({key:update_fields[key]}, username)
+                #         print(f"Inserted this key: {key}")
+
+                # res = fetch_data(username)
+                context['user_data'] = main_data
+                messages.success(request, 'Geographical data updated successfully.')
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Geographic.html', {'context': context})
+
+def demographicform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+            Demographic_form = DemographicProfileForm(request.POST)
+            if Demographic_form.is_valid():
+                context['loading'] = True
+                income_class = Demographic_form.cleaned_data['income_class']
+                date_of_birth = Demographic_form.cleaned_data['date_of_birth']
+                gender = Demographic_form.cleaned_data['gender']
+                parental_status = Demographic_form.cleaned_data['PARENTAL_STATUS']
+                education = Demographic_form.cleaned_data['YOUR_EDUCATION']
+                occupation = Demographic_form.cleaned_data['YOUR_OCCUPATION']
+                family_size = Demographic_form.cleaned_data['FAMILY_SIZE']
+                others_demographic = Demographic_form.cleaned_data['OTHERS']
+
+                update_fields = {}
+                if income_class: update_fields['income_class'] = income_class
+                if date_of_birth: update_fields[' date_of_birth'] = date_of_birth
+                if gender: update_fields['gender'] = gender
+                if parental_status: update_fields ['parental_status'] = parental_status
+                if education: update_fields ['education'] = education
+                if occupation: update_fields ['occupation'] = occupation
+                if family_size: update_fields ['family_size'] = family_size
+                if others_demographic: update_fields ['others_demographic'] = others_demographic
+                print(update_fields)
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
                     main_data['key'] = update_fields[key]
 
                 # for key in update_fields:
@@ -394,15 +1060,158 @@ def deviceid(request):
                 #         print(f"inserted this key: {key}")
 
                 # res = fetch_data(username)
-                # context['user_data'] = res
                 context['user_data'] = main_data
+                messages.success(request, 'Demographic data updated successfully.')
+                # response = update(update_fields, url)
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Demographic.html', {'context': context})
+
+def psychographicform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        Psychographic_form = PsychographicProfileForm(request.POST)
+        if Psychographic_form.is_valid():
+                context['loading'] = True
+                Life_Style = Psychographic_form.cleaned_data['Your_Life_Style']
+                IQ_Level = Psychographic_form.cleaned_data['Your_IQ_level']
+                Your_Attitude = Psychographic_form.cleaned_data['Your_Attitude']
+                Your_Personality = Psychographic_form.cleaned_data['Your_Personality']
+                Others = Psychographic_form.cleaned_data['Others']
+
+                update_fields = {}
+                if Life_Style: update_fields['Life_Style'] = Life_Style
+                if IQ_Level: update_fields['IQ_Level'] = IQ_Level
+                if Your_Attitude: update_fields['Your_Attitude'] = Your_Attitude
+                if Your_Personality : update_fields['Your_Personality'] = Your_Personality
+                if Others: update_fields['Others_psychographic'] = Others
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+
+                # res = fetch_data(user_id)
+                # for key in update_fields:
+                #     if key in res:
+                #         update_data({key:update_fields[key]}, user_id)
+                #         print(f"Updated this key: {key}")
+                #     else:
+                #         insert_data({key:update_fields[key]}, user_id)
+                #         print(f"Inserted this key: {key}")
+
+                # res = fetch_data(user_id)
                 context['user_data'] = main_data
-                messages.success(request, 'Device Id data updated successfully.')
-                # return redirect(request, 'index.html', {'context': context}, using='base.html')
-                # return HttpResponseRedirect(path,'index.html',{'context': context})
+                messages.success(request, 'Psychograhic data updated successfully.')
                 return redirect(path,{'context': context})
 
-    
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Psychographic.html', {'context': context})
+
+def behaviourform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        Behaviour_form = BehaviourForm(request.POST)
+        if Behaviour_form.is_valid():
+                context['loading'] = True
+                benefits = Behaviour_form.cleaned_data['benefits']
+                role = Behaviour_form.cleaned_data['role']
+                brand_loyalty = Behaviour_form.cleaned_data['brand_loyalty']
+                others_behaviour = Behaviour_form.cleaned_data['others']
+
+                update_fields = {}
+                if benefits: update_fields['benefits'] = benefits
+                if role: update_fields['role'] = role
+                if brand_loyalty: update_fields['brand_loyalty'] = brand_loyalty
+                if others_behaviour: update_fields['others_behaviour'] = others_behaviour
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+                # for key in update_fields:
+                #     if key in res:
+                #         update_data({key:update_fields[key]},username)
+                #         print(f"updated this key: {key}")
+                #     else:
+                #         insert_data({key:update_fields[key]},username)
+                #         print(f"inserted this key: {key}")
+
+                # res = fetch_data(username)
+                context['user_data'] = main_data
+                messages.success(request, 'Behavioural data updated successfully.')
+                return redirect(path,{'context': context})
+
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Behaviour.html', {'context': context})
+
+def usageform(request):
+    session_id = request.GET.get('session_id')
+
+    path = f"https://100097.pythonanywhere.com/?session_id={session_id}"
+
+    res,username,main_data,context = helper_function(session_id)
+
+
+    if request.method == 'POST':
+        Usage_form = UsageProfileForm(request.POST)
+        if Usage_form.is_valid():
+                context['loading'] = True
+                usage_rate = Usage_form.cleaned_data['usage_rate']
+                awareness = Usage_form.cleaned_data['awareness']
+                purpose = Usage_form.cleaned_data['purpose']
+                others_usage = Usage_form.cleaned_data['others']
+
+                update_fields = {}
+                if usage_rate: update_fields['usage_rate'] = usage_rate
+                if awareness: update_fields['role'] = awareness
+                if purpose: update_fields['purpose'] = purpose
+                if others_usage: update_fields['others_usage'] = others_usage
+
+
+                for key in update_fields:
+                    test_res = [d[key] for d in res['data'] if key in d]
+                    if len(test_res):
+                        update_data({key:update_fields[key]},username)
+                        print(f"updated this key: {key}")
+                    else:
+                        insert_data({key:update_fields[key]},username)
+                        print(f"inserted this key: {key}")
+                    main_data['key'] = update_fields[key]
+                context['user_data'] = main_data
+                messages.success(request, 'Usage data updated successfully.')
+                return redirect(path,{'context': context})
+    else:
+        # form = DeviceIdForm()
+        return render(request, 'Usage.html', {'context': context})
+
 
 # @csrf_exempt
 def user_profile(request):
@@ -410,9 +1219,9 @@ def user_profile(request):
     url = "https://100014.pythonanywhere.com/api/profile_update/"
     session_id = request.GET.get('session_id')
     api_url = "https://100093.pythonanywhere.com/api/userinfo/"
-
+    profile_url = "https://100014.pythonanywhere.com/api/userinfo/"
     myobj = {'session_id': session_id}
-    response = requests.post(api_url, data=myobj)
+    response = requests.post(profile_url, data=myobj)
     data = response.json()
     user_profile = data['userinfo']
     user_id = user_profile['userID']
@@ -1132,7 +1941,7 @@ def user_profile(request):
 
     else:
 
-        return render(request, 'index.html', {'context':context})
+        return render(request, 'background.html', {'context':context})
 
 
 
