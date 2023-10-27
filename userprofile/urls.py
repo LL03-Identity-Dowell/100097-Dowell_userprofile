@@ -21,8 +21,20 @@ urlpatterns = [
 #     re_path(r'^behaviourform/(?:session_id=(?P<session_id>[a-z0-9]))?$', views.behaviourform, name='behaviourform'),
 #     re_path(r'^usageform/(?:session_id=(?P<session_id>[a-z0-9]))?$', views.usageform, name='usageform'),
       
+      path('create_profile', views.Profile_create, name='Profile_create'),
       path('', views.index, name='index'),
-
+      path('profile', views.Profile, name='profile'),
+      path('Userprofile_form', views.Userprofile_form, name='Userprofile_form'),
+      path('Setpassword', views.Setpassword, name='Setpassword'),
+      path('Deviceid_form', views.Deviceid_form, name='Deviceid_form'),
+      path('Reference_form', views.Reference_form, name='Reference_form'),
+      path('Idverification_form', views.Idverification_form, name='Idverification_form'),
+      path('Organization_form', views.Organization_form, name='Organization_form'),
+      path('Geographic_form', views.Geographic_form, name='Geographic_form'),
+      path('Demographic_form', views.Demographic_form, name='Demographic_form'),
+      path('Psychographic_form', views.Psychographic_form, name='Psychographic_form'),
+      path('Behaviour_form', views.Behaviour_form, name='Behaviour_form'),
+      path('usage_form', views.Usage_form, name='usage_form'),
 ]
 
 
