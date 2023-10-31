@@ -16,9 +16,9 @@ import GeographicProfile from './GeographicProfile'
 import UsageProfile from './UsageProfile'
 
 
-function CurrentVersionsTab() {
+function CurrentVersionsTab(userData) {
   const [activeTab, setActiveTab] = useState('tab1');
-
+const profiledata = userData.profileData
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -80,8 +80,8 @@ function CurrentVersionsTab() {
     
 
       <div className="mt-3">
-        {activeTab === 'tab1' && <div><MyProfileForm/></div>}
-        {activeTab === 'tab2' && <div><SetPassword/></div>}
+        {activeTab === 'tab1' && <div><MyProfileForm userData={userData.userData} formData={profiledata}/></div>}
+        {activeTab === 'tab2' && <div><SetPassword userData={userData.userData}/></div>}
         {activeTab === 'tab3' && <div><DeviceID/></div>}
         {activeTab === 'tab4' && <div><PersonalIds/></div>}
         {activeTab === 'tab5' && <div><PersonalReferences/></div>}

@@ -13,32 +13,30 @@ const UsageProfile = () => {
             <option value="light">Light</option>
           </Form.Select>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="city">
-          <Form.Label className='labelsStyle'>City your residing for last 5 years</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder="Enter your City" />
-        </Form.Group> 
-        <Form.Group className="mb-3" controlId="latitude">
-          <Form.Label className='labelsStyle'>Latitude of your house</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder="Latitude of the geo coordinates of your house" />
-        </Form.Group> 
-        <Form.Group className="mb-3" controlId="longititude">
-          <Form.Label className='labelsStyle'>Longitude of your house</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder="Longitude of the geo coordinates of your house" />
+        <Form.Group className="mb-3" controlId="awareness">
+          <Form.Label className='labelsStyle'>Awareness level while using the product or service</Form.Label>
+          <Form.Select aria-label="awareness" className='inputStyle'>
+            <option value="unaware">Unaware</option>
+            <option value="aware">Aware</option>
+            <option value="intrested">Intrested</option>
+            <option value="enthsiastic">Enthusiastic</option>
+          </Form.Select>
         </Form.Group>
-        <Form.Group className="mb-3" controlId="region">
-          <Form.Label className='labelsStyle'>Region inside location</Form.Label>
-          <Form.Select aria-label="region" className='inputStyle'>
-            <option value="north">North</option>
-            <option value="south">South</option>
-            <option value="east">East</option>
-            <option value="west">West</option>
+        <Form.Group className="mb-3" controlId="purpose">
+          <Form.Label className='labelsStyle'>Purpose while using the product or service</Form.Label>
+          <Form.Select aria-label="purpose" className='inputStyle'>
+            <option value="home">Home</option>
+            <option value="work">Work</option>
+            <option value="leisure">Leisure</option>
+            <option value="personal">Personal</option>
+            <option value="gift">Gift</option>
           </Form.Select>
         </Form.Group> 
         <Form.Group className="mb-3" controlId="others">
           <Form.Label className='labelsStyle'>Others</Form.Label>
           <Form.Control className='inputStyle' type="text" placeholder="other details" />
         </Form.Group> 
-        <Button variant="dark" className='w-100'>Update Geographic Profile</Button>
+        <Button variant="dark" className='w-100'>Update Usage Profile</Button>
       </Form>
     </div>
   )

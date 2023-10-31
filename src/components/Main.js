@@ -3,7 +3,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SideBar from './SideBar';
 import SideContent from './SideContent';
-function ResponsiveAutoExample() {
+function ResponsiveAutoExample(data) {
+  const userData = data.data
+  const profileData = data.profileData
   return (
     <Container fluid>
       <Row>
@@ -14,7 +16,7 @@ function ResponsiveAutoExample() {
 
         {/* Column 2 */}
         <Col xs={{span:12, order:1}} lg={{order:2,span:8}} md={{ span: 6, order: 1 }}>
-          <SideContent/>
+          <SideContent userData={userData} profileData={profileData}/>
         </Col>
       </Row>
     </Container>

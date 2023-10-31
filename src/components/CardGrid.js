@@ -4,41 +4,29 @@ import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 const CardGrid = () => {
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-    };
-  
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-    };
   return (
-    <Container fluid>
-      <Row>
-        <Col sm>
-          <Card className="bg-dark text-white border border-0">
-            <Card.Img src="/images/org-logo-3.png" alt="Card image" />
-            <Card.ImgOverlay>
-              <Card.Title></Card.Title>
-              <Card.Text></Card.Text>
-              <Card.Text>Last updated 3 mins ago</Card.Text>
-            </Card.ImgOverlay>
-          </Card>
-        </Col>
-        <Col sm></Col>
-        <Col sm>
-            <div
-                className="image-container"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                >
-                <img src="/images/org-logo-3.png" alt="Image" className="image" />
-                {isHovered && <div className="hover-text"><HoverForm/></div>}
-            </div>
-        </Col>
-      </Row>
-    </Container>
+    <div className="card-container">
+    <Card className="custom-card border-0">
+      <Card.Img src="/images/org-logo-3.png" alt="Image 1" height={300}  width={300}/>
+      <div className="overlay">
+        <Card.Text><HoverForm/></Card.Text>
+      </div>
+    </Card>
+
+    <Card className="custom-card">
+      <Card.Img src="/images/org-logo-3.png" alt="Image 2" />
+      <div className="overlay">
+        <Card.Text><HoverForm/></Card.Text>
+      </div>
+    </Card>
+
+    <Card className="custom-card">
+      <Card.Img src="/images/org-logo-3.png" alt="Image 3" />
+      <div className="overlay">
+        <Card.Text><HoverForm/></Card.Text>
+      </div>
+    </Card>
+  </div>
   );
 };
 
@@ -47,7 +35,7 @@ export default CardGrid;
 
 function HoverForm(){
   return(
-    <div>
+    <div className="p-4">
       <p>&#60;Organisation name Owner&gt;</p>
       <Form>
           <Form.Check type="checkbox" id="myprofile" label="Section 01 - My Profile"/>
@@ -67,3 +55,5 @@ function HoverForm(){
     </div>
   )
 }
+
+

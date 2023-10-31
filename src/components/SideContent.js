@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import CardGrid from "./CardGrid";
 import CurrentVersionsTab from './CurrentVersionsTab'
-const SideContent = () => {
+import AccordionList from "./AccordionList";
+
+const SideContent = (userData) => {
+  console.log("side",userData)
+  const profileData = userData.profileData
   const [isOpen, setIsOpen] = useState(false);
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -26,21 +29,9 @@ const SideContent = () => {
   return (
     <div>
       <p className="sideContentHead text-center p-4">
-        My Profile – Selected Version [V9998]
+       {userData.userData.userinfo.first_name}  {userData.userData.userinfo.last_name} My Profile – Selected Version [V9998]
       </p>
-      <Accordion defaultActiveKey="0">
-        {accordionList.map((item, index) => {
-          return (
-            <Accordion.Item eventKey={index} key={index}>
-              <Accordion.Header onClick={toggleAccordion}>
-                {isOpen ? "-" : "+"}
-                {item}
-              </Accordion.Header>
-              <Accordion.Body></Accordion.Body>
-            </Accordion.Item>
-          );
-        })}
-      </Accordion>
+     <AccordionList profileData={profileData}/>
 
       <hr className="hr" />
       {/* profile tagline  */}
@@ -98,7 +89,7 @@ const SideContent = () => {
       <p className="myProfile text-white fw-bold text-center">
         Edit Current Version [9999] of My Profile
       </p>
-      <CurrentVersionsTab/>
+      <CurrentVersionsTab userData={userData} profileData={profileData}/>
     </div>
   );
 };
