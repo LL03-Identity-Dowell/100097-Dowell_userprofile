@@ -29,7 +29,7 @@ const SideContent = (userData) => {
   return (
     <div>
       <p className="sideContentHead text-center p-4">
-       {userData.userData.userinfo.first_name}  {userData.userData.userinfo.last_name} My Profile – Selected Version [V9998]
+        My Profile – Selected Version [1.0]
       </p>
      <AccordionList profileData={profileData}/>
 

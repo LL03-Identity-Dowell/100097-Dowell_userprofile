@@ -52,7 +52,7 @@ const MyProfileView = (viewData) => {
         <div className="ms-2 me-auto">
         <Row>
             <Col sm={3} className="fw-bold">Password</Col>
-            <Col sm={9}>{object.Password}</Col>
+            <Col sm={9} className='password'>{object.Password}</Col>
         </Row>
         </div>
       </ListGroup.Item>

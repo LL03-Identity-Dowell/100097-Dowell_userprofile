@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-import { Toast, ToastContainer } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const SetPassword = (userData) => {
@@ -34,14 +34,14 @@ const SetPassword = (userData) => {
       console.log(JSON.stringify(requestOptions))
       if (response.ok) {
         setUpdating(false);
-
-        alert(responseData.info);
+        toast.success("success");
       } else {
         setUpdating(false);
-        alert(responseData.info);
+        toast.error("An unknown error occurred");
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      toast.error("An unknown error occurred");
     }
   };
 
@@ -54,6 +54,7 @@ const SetPassword = (userData) => {
   return (
    
         <div>
+        <ToastContainer position="top-right"/>
       <Container fluid className='mb-5'>
         <Row>
             <Col sm={6}>

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
+import { ToastContainer, toast } from 'react-toastify';
+
 const MyProfileForm = (userData) => {
   const formdata = userData.userData.profileData;
     const [updating, setUpdating] = useState(false);
@@ -21,7 +23,7 @@ const MyProfileForm = (userData) => {
       location:'',
       city:'',
       country:'',
-      native_language:'',
+      native_langauage:'',
       nationality:'',
       language_preferences:'',
       vision:''
@@ -41,27 +43,13 @@ const MyProfileForm = (userData) => {
       image: formData.image,
       address: formData.address,
       zip_code:formData.zip_code,
-      location:formData.location,
+      location:formData.city + formData.country,
       city:formData.city,
       country: formData.country,
-      native_language: formData.native_language,
+      native_language: formData.native_langauage,
       nationality:formData.nationality,
       language_preferences:formData.language_preferences,
       vision:formData.vision
-      // first_name:"TestingAPI",
-      // last_name:"API",
-      // email:"someone000@gmail.com",
-      // phone:"00000000",
-      // image:"https://cdn.pixabay.com/photo/2023/10/15/01/23/abstract-8315974_640.jpg",
-      // address:"Mumbai, India",
-      // zip_code:"400001",
-      // location:"Mumbai, India",
-      // city:"Mumbai",
-      // country:"India",
-      // native_language:"Hindi",
-      // nationality:"Indian",
-      // language_preferences:"['English']",
-      // vision:"Great things can be achived!!"
       };
       setUpdating(true);  
       const requestOptions = {
@@ -81,14 +69,13 @@ const MyProfileForm = (userData) => {
         console.log(JSON.stringify(requestOptions))
         if (response.ok) {
           setUpdating(false);
-  
-          alert('Form submitted successfully');
+          toast.success("success");
         } else {
           setUpdating(false);
-          alert('Form submission failed');
+          toast.error("An unknown error occurred");
         }
       } catch (error) {
-        console.error('Error submitting form:', error);
+        toast.error("An unknown error occurred");
         setUpdating(false);
       }
     };
@@ -97,6 +84,8 @@ const MyProfileForm = (userData) => {
   
   return (
     <div>
+        <ToastContainer position="top-right"/>
+
       <Container fluid>
         {apiResponse?
             <Form>
@@ -150,14 +139,14 @@ const MyProfileForm = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="nativeLanguage">
                     <Form.Label className='labelsStyle'>Your Native Language</Form.Label>
-                    <Form.Select aria-label="native_language" className='inputStyle' onChange={handleInputChange}>
+                    <Form.Select aria-label="native_language" name="native_langauage" className='inputStyle' onChange={handleInputChange}>
                         <option value="English">English</option>
                         <option value="chinese">Chinese</option>
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="nationality">
                     <Form.Label className='labelsStyle'>Your Nationality</Form.Label>
-                    <Form.Select aria-label="nationality" className='inputStyle' onChange={handleInputChange}>
+                    <Form.Select aria-label="nationality" name="nationality" className='inputStyle' onChange={handleInputChange}>
                         <option value="english">English</option>
                         <option value="chinese">Chinese</option>
                     </Form.Select>
@@ -168,7 +157,7 @@ const MyProfileForm = (userData) => {
                 </Form.Group>
                 <Form.Group controlId="formFile" className="mb-3">
                     <Form.Label>Upload new photo</Form.Label>
-                    <Form.Control name="photo" onChange={handleInputChange} className='inputStyle' type="file" />
+                    <Form.Control name="image" onChange={handleInputChange} className='inputStyle' type="file" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="yourVision">
                     <Form.Label className='labelsStyle'>Your Vision</Form.Label>

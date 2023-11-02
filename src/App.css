@@ -192,3 +192,6 @@
   justify-content: center;
   min-height: 100vh;
 }
+  .password {
+    word-wrap: break-word;
+  }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Loader from './components/Loader';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Home from './components/Home'
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const searchParams = new URLSearchParams(window.location.search);

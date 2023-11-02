@@ -82,13 +82,13 @@ const profiledata = userData.profileData
       <div className="mt-3">
         {activeTab === 'tab1' && <div><MyProfileForm userData={userData.userData} formData={profiledata}/></div>}
         {activeTab === 'tab2' && <div><SetPassword userData={userData.userData}/></div>}
-        {activeTab === 'tab3' && <div><DeviceID/></div>}
+        {activeTab === 'tab3' && <div><DeviceID userData={userData.userData}/></div>}
         {activeTab === 'tab4' && <div><PersonalIds/></div>}
         {activeTab === 'tab5' && <div><PersonalReferences/></div>}
         {activeTab === 'tab6' && <div><IdVerification/></div>}
         {activeTab === 'tab7' && <div><MyOrganization/></div>}
-        {activeTab === 'tab8' && <div><GeographicProfile/></div>}
-        {activeTab === 'tab9' && <div><DemographicProfile/></div>}
+        {activeTab === 'tab8' && <div><GeographicProfile userData={userData.userData}/></div>}
+        {activeTab === 'tab9' && <div><DemographicProfile userData={userData.userData}/></div>}
         {activeTab === 'tab10' && <div><PsychographicProfile/></div>}
         {activeTab === 'tab11' && <div><BehaviouralProfile/></div>}
         {activeTab === 'tab12' && <div><UsageProfile/></div>}
