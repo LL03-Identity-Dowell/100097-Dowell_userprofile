@@ -1,14 +1,13 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Form, Button} from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 
 
 const BehaviouralProfile = (userData) => {
     const [formInputs, setFormInputs] = useState({
-        lifestyle:"",
-        iqlevel:"",
-        attitude:"",
-        personality:"",
+        benefits:"",
+        buying:"",
+        brand:"",
         others:""
       });
       const [loading, setLoading] = useState(false);
@@ -23,16 +22,15 @@ const BehaviouralProfile = (userData) => {
         setLoading(true);
       
         const data = {
-          Username:userName,
-          lifestyle:formInputs.lifestyle,
-          iqlevel:formInputs.iqlevel,
-          attitude:formInputs.attitude,
-          personality:formInputs.personality,
-          others:formInputs.others
+            Username:userName,
+            benefits:formInputs.benefits,
+            buying:formInputs.buying,
+            brand:formInputs.brand,
+            others:formInputs.others
         };
       
         try {
-          const response = await fetch("https://100097.pythonanywhere.com/Psychographic_form", {
+          const response = await fetch("https://100097.pythonanywhere.com/Behaviour_form", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -65,7 +63,7 @@ const BehaviouralProfile = (userData) => {
 
                 <Form.Group className="mb-3" controlId="benefits">
                     <Form.Label className='labelsStyle'>Benefits you are looking while buying any product or service</Form.Label>
-                    <Form.Select aria-label="benefits" className='inputStyle'>
+                    <Form.Select aria-label="benefits" className='inputStyle' onChange={handleOnChange}>
                         <option value="Convenience">Convenience</option>
                         <option value="longLasting">Long Lasting</option>
                         <option value="economy">Economy</option>
@@ -75,7 +73,7 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="buying">
                     <Form.Label className='labelsStyle'>Your role while buying any product or service</Form.Label>
-                    <Form.Select aria-label="buying" className='inputStyle'>
+                    <Form.Select aria-label="buying" className='inputStyle' onChange={handleOnChange}>
                         <option value="initiator">Initiator</option>
                         <option value="influencer">Influencer</option>
                         <option value="decider">Decider</option>
@@ -87,7 +85,7 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="brand">
                     <Form.Label className='labelsStyle'>Brand loyalty level you will consider while buying any product or service</Form.Label>
-                    <Form.Select aria-label="brand" className='inputStyle'>
+                    <Form.Select aria-label="brand" className='inputStyle' onChange={handleOnChange}>
                         <option value="Convenience">1 (Low)</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -97,9 +95,9 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="others">
                     <Form.Label className='labelsStyle'>Others</Form.Label>
-                    <Form.Control className='inputStyle' type="text" placeholder="other details" />
+                    <Form.Control className='inputStyle' type="text" placeholder="other details" onChange={handleOnChange}/>
                 </Form.Group>
-                <Button variant="dark" className='w-100'>Update Behavioural Profile</Button>
+                <Button variant="dark" className='w-100' onClick={handleSubmit}>{loading ? "Updating..." : "Update Behavioural Profile"}</Button>
 
                 </Form>
                    </div>
