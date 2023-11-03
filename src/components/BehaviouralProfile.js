@@ -1,9 +1,65 @@
 import React from 'react'
 import {Form, Button} from 'react-bootstrap'
-const BehaviouralProfile = () => {
+import { ToastContainer, toast } from 'react-toastify';
+
+
+const BehaviouralProfile = (userData) => {
+    const [formInputs, setFormInputs] = useState({
+        lifestyle:"",
+        iqlevel:"",
+        attitude:"",
+        personality:"",
+        others:""
+      });
+      const [loading, setLoading] = useState(false);
+    
+      const userName = userData.userData.userData.userinfo.username;
+      const handleOnChange = (e) => {
+        setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+      
+        const data = {
+          Username:userName,
+          lifestyle:formInputs.lifestyle,
+          iqlevel:formInputs.iqlevel,
+          attitude:formInputs.attitude,
+          personality:formInputs.personality,
+          others:formInputs.others
+        };
+      
+        try {
+          const response = await fetch("https://100097.pythonanywhere.com/Psychographic_form", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+      
+          if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData);
+      
+            toast.success("success");
+          } else {
+            throw new Error(`Failed to submit device IDs: ${response.status}`);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("An unknown error occurred");
+        } finally {
+          setLoading(false);
+        }
+      };
   return (
     <div>
-            <p className="myProfile text-white fw-bold text-center">11. Behavioural Profile</p>
+        <ToastContainer position="top-right"/>
+
+     <p className="myProfile text-white fw-bold text-center">11. Behavioural Profile</p>
 
       <Form>
 
