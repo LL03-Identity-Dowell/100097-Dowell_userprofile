@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const XingProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const XingProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+            <Form>
+        <Form.Group className="mb-3" controlId="xingProfile">
+          <Form.Label className='labelsStyle'>Xing Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter Xing profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Xing Profile</Button>
-          </div>
+         </Form> 
     </div>
   )
 }

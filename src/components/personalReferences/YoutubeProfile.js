@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const YoutubeProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const YoutubeProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+           <Form>
+        <Form.Group className="mb-3" controlId="youtubeProfile">
+          <Form.Label className='labelsStyle'>Youtube Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter youtube profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Youtube Profile</Button>
-          </div>
+          </Form>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const DiscordProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const DiscordProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
-            <Button variant="dark" className='' size="lg">Update Your Discord Profile</Button>
-          </div>
+   <Form>
+        <Form.Group className="mb-3" controlId="discordProfile">
+          <Form.Label className='labelsStyle'>Discord Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter discord profile url'/>
+        </Form.Group> 
+                    <Button variant="dark" className='' size="lg">Update Your Discord Profile</Button>
+          </Form>
     </div>
   )
 }

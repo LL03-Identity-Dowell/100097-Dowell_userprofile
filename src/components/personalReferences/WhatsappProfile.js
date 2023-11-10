@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const WhatsappProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const WhatsappProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+          <Form>
+        <Form.Group className="mb-3" controlId="whatsappProfile">
+          <Form.Label className='labelsStyle'>Whatsapp Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter Whatsapp profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Whatsapp Profile</Button>
-          </div>
+        </Form>  
     </div>
   )
 }

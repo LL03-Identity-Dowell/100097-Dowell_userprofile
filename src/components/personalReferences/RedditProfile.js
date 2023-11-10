@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button , Form} from 'react-bootstrap'
 const RedditProfile = () => {
   return (
     <div>
@@ -10,9 +10,14 @@ const RedditProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+          
+          <Form>
+        <Form.Group className="mb-3" controlId="redditProfile">
+          <Form.Label className='labelsStyle'>Reddit Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter reddit profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Reddit Profile</Button>
-          </div>
+        </Form>
     </div>
   )
 }

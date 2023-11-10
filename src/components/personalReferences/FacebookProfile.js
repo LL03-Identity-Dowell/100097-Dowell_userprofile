@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const FacebookProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const FacebookProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+         <Form>
+        <Form.Group className="mb-3" controlId="facebookProfile">
+          <Form.Label className='labelsStyle'>Facebook Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter facebook profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Facebook Profile</Button>
-          </div>
+       </Form>
     </div>
   )
 }

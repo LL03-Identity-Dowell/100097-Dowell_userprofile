@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button , Form} from 'react-bootstrap'
 const AcademiaProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const AcademiaProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+             <Form>
+        <Form.Group className="mb-3" controlId="academiaProfile">
+          <Form.Label className='labelsStyle'>Academia Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter Academia profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Academia Profile</Button>
-          </div>
+         </Form>
     </div>
   )
 }

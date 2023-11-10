@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const TumblrProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const TumblrProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
-            <Button variant="dark" className='' size="lg">Update Your Twitter Profile</Button>
-          </div>
+            <Form>
+        <Form.Group className="mb-3" controlId="tumblrProfile">
+          <Form.Label className='labelsStyle'>Tumblr Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter tumblr profile url'/>
+        </Form.Group> 
+            <Button variant="dark" className='' size="lg">Update Your Tumblr Profile</Button>
+        </Form>
     </div>
   )
 }

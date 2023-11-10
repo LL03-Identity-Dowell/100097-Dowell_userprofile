@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const LinkedInProfile = () => {
   return (
     <div>
@@ -10,9 +10,14 @@ const LinkedInProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+    
+          <Form>
+        <Form.Group className="mb-3" controlId="linkedInProfile">
+          <Form.Label className='labelsStyle'>Linked In Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter linked in profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your Linkedin Profile</Button>
-          </div>
+        </Form>
     </div>
   )
 }

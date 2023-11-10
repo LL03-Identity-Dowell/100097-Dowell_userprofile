@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 const TikTokProfile = () => {
   return (
     <div>
@@ -10,9 +10,13 @@ const TikTokProfile = () => {
             height="500px"
             allowFullScreen
           ></iframe>
-          <div className='text-center'>
+         <Form>
+        <Form.Group className="mb-3" controlId="tiktokProfile">
+          <Form.Label className='labelsStyle'>TikTok Profile</Form.Label>
+          <Form.Control className='inputStyle' type="text" placeholder='Enter tiktok profile url'/>
+        </Form.Group> 
             <Button variant="dark" className='' size="lg">Update Your TikTok Profile</Button>
-          </div>
+          </Form>
     </div>
   )
 }
