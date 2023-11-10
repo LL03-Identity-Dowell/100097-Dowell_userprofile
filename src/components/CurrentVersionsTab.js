@@ -91,7 +91,7 @@ const profiledata = userData.profileData
         {activeTab === 'tab9' && <div><DemographicProfile userData={userData.userData}/></div>}
         {activeTab === 'tab10' && <div><PsychographicProfile userData={userData.userData}/></div>}
         {activeTab === 'tab11' && <div><BehaviouralProfile userData={userData.userData}/></div>}
-        {activeTab === 'tab12' && <div><UsageProfile/></div>}
+        {activeTab === 'tab12' && <div><UsageProfile userData={userData.userData}/></div>}
       </div>
   
     </div>
