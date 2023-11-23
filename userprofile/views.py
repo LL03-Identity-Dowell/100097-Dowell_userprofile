@@ -330,7 +330,7 @@ def Behaviour_form(request):
     return Response(respj)
 
 @api_view(["POST"])
-def Usage_form(request):
+def GetProfile(request):
     user=request.data["Username"]
     favoriteProduct=request.data["favoriteProduct"]
     awareness=request.data["awareness"]
@@ -347,4 +347,13 @@ def Usage_form(request):
     resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
     respj=json.loads(resp)
     
+    return Response(respj)
+
+@api_view(["POST"])
+def Usage_form(request):
+    user=request.data["Username"]
+    userId=request.data["userID"]
+    pdate = {"userID":userId}
+    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+    respj=json.loads(resp)
     return Response(respj)

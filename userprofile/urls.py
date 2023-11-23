@@ -35,6 +35,7 @@ urlpatterns = [
       path('Psychographic_form', views.Psychographic_form, name='Psychographic_form'),
       path('Behaviour_form', views.Behaviour_form, name='Behaviour_form'),
       path('usage_form', views.Usage_form, name='usage_form'),
+      path('getprofile', views.GetProfile, name='getprofile'),
 ]
 
 
