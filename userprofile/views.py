@@ -330,7 +330,7 @@ def Behaviour_form(request):
     return Response(respj)
 
 @api_view(["POST"])
-def GetProfile(request):
+def Usage_form(request):
     user=request.data["Username"]
     favoriteProduct=request.data["favoriteProduct"]
     awareness=request.data["awareness"]
@@ -350,7 +350,7 @@ def GetProfile(request):
     return Response(respj)
 
 @api_view(["POST"])
-def Usage_form(request):
+def GetProfile(request):
     user=request.data["Username"]
     userId=request.data["userID"]
     pdate = {"userID":userId}
