@@ -366,7 +366,7 @@ def GetProfile(request):
     }
     
     try: 
-        pdate = {"userId":userId}
+        pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
     except:
@@ -378,7 +378,7 @@ def GetProfile(request):
         profile["userID"]=userId
         field1=profile
         res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
-        pdate = {"userId":userId}
+        pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
         return Response(respj["data"])
