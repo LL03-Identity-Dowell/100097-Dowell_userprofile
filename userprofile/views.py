@@ -353,7 +353,7 @@ def Usage_form(request):
 def GetProfile(request):
     user=request.data["Username"]
     userId=request.data["userID"]
-    pdate = {"userID":userId}
+    pdate = {}
     resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
     respj=json.loads(resp)
     return Response(respj)
