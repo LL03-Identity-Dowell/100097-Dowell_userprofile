@@ -370,6 +370,10 @@ def GetProfile(request):
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
     except:
+        pass
+    if len(respj['data'])>0:
+        return Response(respj["data"])
+    else:
         profile["username"]=user
         profile["userID"]=userId
         field1=profile
@@ -377,4 +381,4 @@ def GetProfile(request):
         pdate = {"userId":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
-    return Response(respj["data"])
+        return Response(respj["data"])
