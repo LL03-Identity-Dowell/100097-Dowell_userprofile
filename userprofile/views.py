@@ -353,7 +353,28 @@ def Usage_form(request):
 def GetProfile(request):
     user=request.data["Username"]
     userId=request.data["userID"]
-    pdate = {}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
-    respj=json.loads(resp)
-    return Response(respj)
+    profile={
+        "username":"",
+        "userID":"",
+        "reference":{},
+        "demographic":{},
+        "psychographic":{},
+        "deviceIDs":{},
+        "behavioural":{},
+        "geographic":{},
+        "usage":{},    
+    }
+    
+    try: 
+        pdate = {"userId":userId}
+        resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+        respj=json.loads(resp)
+    except:
+        profile["username"]=user
+        profile["userID"]=userId
+        field1=profile
+        res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
+        pdate = {"userId":userId}
+        resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+        respj=json.loads(resp)
+    return Response(respj["data"])
