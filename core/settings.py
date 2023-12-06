@@ -146,6 +146,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-  # Tell Django where to look for React's static files (css, js)
-  os.path.join(BASE_DIR, "build/static"),
+    os.path.join(BASE_DIR, "build/static"),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
