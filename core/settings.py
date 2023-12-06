@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            os.path.join(BASE_DIR, 'build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -145,11 +145,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = '/static/'
 
-if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR,'static'),
-    ]
-    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
-
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+STATICFILES_DIRS = [
+  # Tell Django where to look for React's static files (css, js)
+  os.path.join(BASE_DIR, "build/static"),
+]
