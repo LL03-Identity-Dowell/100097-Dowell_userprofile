@@ -369,6 +369,7 @@ def GetProfile(request):
         pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
+        
     except:
         pass
     if len(respj['data'])>0:
@@ -382,3 +383,42 @@ def GetProfile(request):
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
         return Response(respj["data"])
+@api_view(["POST","GET"])
+def personalIds(request):
+    user=request.data["Username"]
+    userId=request.data["userID"]
+    ids={
+        "username":user,
+        "userID":userId,
+        "voiceID":"",
+        "faceID":"",
+        "biometricID":"",
+        "videoID":"",
+        "IDcard1":"",
+        "IDcard2":"",
+        "IDcard3":"",
+        "IDcard4":"",
+        "IDcard5":"",
+        "signature":""    
+    }
+    usrid = {"userID":userId}
+    respusr=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",usrid,"nil")
+    usrresp=json.loads(respusr)
+    if len(usrresp['data'])>0:
+        return Response(usrresp["data"])
+    else:
+        fieldids=ids
+        res=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldids,"nil")
+        pdate = {"userID":userId}
+        resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
+        respj=json.loads(resp)
+        return Response(respj["data"])
+@api_view(["POST","GET"])
+def idsPost(request):
+    user=request.data["Username"]
+    userId=request.data["userID"]
+    data=request.data["data"]
+    pdate = {"userID":userId}
+    resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
+    respj=json.loads(resp)
+    return Response("message:ok")

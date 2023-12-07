@@ -36,6 +36,8 @@ urlpatterns = [
       path('Behaviour_form', views.Behaviour_form, name='Behaviour_form'),
       path('usage_form', views.Usage_form, name='usage_form'),
       path('getprofile', views.GetProfile, name='getprofile'),
+      path('getids', views.personalIds, name='getids'),
+      path('postids', views.idsPost, name='postids'),
 ]
 
 
