@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
+            os.path.join(BASE_DIR, 'build')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -143,13 +143,17 @@ CORS_ALLOWED_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
-if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR,'static'),
-    ]
-    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+# if DEBUG:
+#     STATICFILES_DIRS = [
+#         os.path.join(BASE_DIR,'static'),
+#     ]
+#     STATIC_ROOT = os.path.join(BASE_DIR,'asset')
 
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+STATIC_URL = 'images/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'build/images'),
+)
