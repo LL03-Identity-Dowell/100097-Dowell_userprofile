@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'build')
+            os.path.join(BASE_DIR, 'frontend')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -154,6 +154,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     STATIC_ROOT = os.path.join(BASE_DIR,'asset')
 STATIC_URL = 'images/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'build/images'),
+    os.path.join(BASE_DIR, 'frontend/images'),
     #os.path.join(os.path.join(BASE_DIR, 'build'), 'static', 'images'),
 )
