@@ -417,8 +417,9 @@ def personalIds(request):
 def idsPost(request):
     user=request.data["Username"]
     userId=request.data["userID"]
-    data=request.data["data"]
     pdate = {"userID":userId}
     resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
     respj=json.loads(resp)
-    return Response("message:ok")
+    return Response(respj["data"][0])
+def PersonalRef(request):
+    pass

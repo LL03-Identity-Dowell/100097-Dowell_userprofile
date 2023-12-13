@@ -38,6 +38,7 @@ urlpatterns = [
       path('getprofile', views.GetProfile, name='getprofile'),
       path('getids', views.personalIds, name='getids'),
       path('postids', views.idsPost, name='postids'),
+      path("personalref",views.PersonalRef,name="personalref"),
 ]
 
 
