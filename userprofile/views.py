@@ -423,3 +423,25 @@ def idsPost(request):
     return Response(respj["data"][0])
 def PersonalRef(request):
     pass
+@api_view(["POST"])
+def FaceID(request):
+    user=request.data["Username"]
+    userId=request.data["userID"]
+    ids={
+        "username":user,
+        "userID":userId,
+        
+        "faceID":"",    
+    }
+    usrid = {"userID":userId}
+    respusr=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",usrid,"nil")
+    usrresp=json.loads(respusr)
+    if len(usrresp['data'])>0:
+        return Response(usrresp["data"])
+    else:
+        fieldids=ids
+        res=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldids,"nil")
+        pdate = {"userID":userId}
+        resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
+        respj=json.loads(resp)
+        return Response(respj["data"])

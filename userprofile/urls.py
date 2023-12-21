@@ -39,7 +39,5 @@ urlpatterns = [
       path('getids', views.personalIds, name='getids'),
       path('postids', views.idsPost, name='postids'),
       path("personalref",views.PersonalRef,name="personalref"),
+      path("faceid",views.FaceID,name="faceid"),
 ]
-
-
-

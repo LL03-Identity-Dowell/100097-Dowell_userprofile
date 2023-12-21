@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+print(f" Raju {BASE_DIR}")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -138,22 +138,23 @@ MESSAGE_TAGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = True
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-# STATIC_URL = '/static/'
+STATIC_URL = '/images/'
 
-# if DEBUG:
-#     STATICFILES_DIRS = [
-#         os.path.join(BASE_DIR,'static'),
-#     ]
-#     STATIC_ROOT = os.path.join(BASE_DIR,'asset')
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR,'frontend/images'),
+    ]
+    STATIC_ROOT = os.path.join(BASE_DIR,'frontend/images')
 
-# else:
-#     STATIC_ROOT = os.path.join(BASE_DIR,'asset')
-STATIC_URL = 'images/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'frontend/images'),
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR,'frontend/images')
+#STATIC_URL = '/static/'
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'frontend/static'),
     #os.path.join(os.path.join(BASE_DIR, 'build'), 'static', 'images'),
-)
+#)
