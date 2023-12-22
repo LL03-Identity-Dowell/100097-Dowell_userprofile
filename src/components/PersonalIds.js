@@ -13,9 +13,8 @@ import IdCard4 from './Personal IDs/IdCard4';
 import IdCard5 from './Personal IDs/IdCard5';
 
 
-const PersonalIds
- = () => {
-    
+const PersonalIds = (props) => {
+    const userInfo = props.userData
   const [activeTab, setActiveTab] = useState('tab1');
 
   const handleTabClick = (tab) => {
@@ -67,7 +66,7 @@ const PersonalIds
                 <Col lg={9}>
                     <div>
                         {activeTab === 'voiceid' && <div><VoiceId/></div>}
-                        {activeTab === 'faceid' && <div><FaceId/></div>}
+                        {activeTab === 'faceid' && <div><FaceId userInfo={userInfo}/></div>}
                         {activeTab === 'biometricid' && <div><BiometricId/></div>}
                         {activeTab === 'videoid' && <div><VideoId/></div>}
                         {activeTab === 'idCard1' && <div><IdCard1/></div>}

@@ -5,9 +5,10 @@ import CurrentVersionsTab from './CurrentVersionsTab'
 import AccordionList from "./AccordionList";
 
 const SideContent = (userData) => {
-  console.log("side",userData)
   const profileData = userData.profileData
+  const formsData = userData.formsData
   const [isOpen, setIsOpen] = useState(false);
+  
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
@@ -31,7 +32,7 @@ const SideContent = (userData) => {
       <p className="sideContentHead text-center p-4">
         My Profile – Selected Version [1.0]
       </p>
-     <AccordionList profileData={profileData}/>
+     <AccordionList profileData={profileData} formsData={formsData}/>
 
       <hr className="hr" />
       {/* profile tagline  */}
@@ -89,7 +90,7 @@ const SideContent = (userData) => {
       <p className="myProfile text-white fw-bold text-center">
         Edit Current Version [9999] of My Profile
       </p>
-      <CurrentVersionsTab userData={userData} profileData={profileData}/>
+      <CurrentVersionsTab userData={userData} profileData={profileData} formsData={formsData}/>
     </div>
   );
 };

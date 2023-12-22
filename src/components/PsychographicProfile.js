@@ -5,12 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 const PsychographicProfile = (userData) => {
+  const psychoData = userData._psychographic
   const [formInputs, setFormInputs] = useState({
-    lifestyle:"",
-    iqlevel:"",
-    attitude:"",
-    personality:"",
-    others:""
+    lifestyle: psychoData.Life_Style || "",
+    iqlevel: psychoData.IQ_Level || "",
+    attitude: psychoData.Your_Attitude || "",
+    personality: psychoData.Your_Personality || "",
+    others: psychoData.Others_psychographic || ""
   });
   const [loading, setLoading] = useState(false);
 
@@ -64,7 +65,7 @@ const PsychographicProfile = (userData) => {
       <Form>
         <Form.Group className="mb-3" controlId="lifestyle">
           <Form.Label className='labelsStyle'>Your Life Style</Form.Label>
-          <Form.Select aria-label="lifestyle" className='inputStyle' onChange={handleOnChange}>
+          <Form.Select aria-label="lifestyle" className='inputStyle' onChange={handleOnChange} value={formInputs.lifestyle}>
             <option value="modern">Modern</option>
             <option value="traditional">Traditional</option>
             <option value="trendsetter">Trendsetter</option>
@@ -72,7 +73,7 @@ const PsychographicProfile = (userData) => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="iqlevel">
           <Form.Label className='labelsStyle'>Your IQ Level</Form.Label>
-          <Form.Select aria-label="iqlevel" className='inputStyle' onChange={handleOnChange}>
+          <Form.Select aria-label="iqlevel" className='inputStyle' onChange={handleOnChange} value={formInputs.iqlevel}>
               <option>Above 140 - <sup>""</sup>Near<sup>""</sup> genius or genius</option>
               <option value="verSuperior">120 - 140 Very superior intelligence</option>
               <option value="Superior">110 - 110 Superior intelligence</option>
@@ -82,7 +83,7 @@ const PsychographicProfile = (userData) => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="attitude">
           <Form.Label className='labelsStyle'>Your Attitude</Form.Label>
-          <Form.Select aria-label="attitude" className='inputStyle' onChange={handleOnChange}>
+          <Form.Select aria-label="attitude" className='inputStyle' onChange={handleOnChange} value={formInputs.attitude}>
               <option value="innovators">Innovators</option>
               <option value="earlyAdopters">Early Adopters</option>
               <option value="earlyMajority">Early Majority</option>
@@ -92,7 +93,7 @@ const PsychographicProfile = (userData) => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="personality">
           <Form.Label className='labelsStyle'>Your Personality (test using https://www.16personalities.com/)</Form.Label>
-          <Form.Select aria-label="personality" className='inputStyle' onChange={handleOnChange}>
+          <Form.Select aria-label="personality" className='inputStyle' onChange={handleOnChange} value={formInputs.personality}>
               <option value="architect">Architect</option>
               <option value="logician">Logician</option>
               <option value="commander">Commander</option>
@@ -113,7 +114,7 @@ const PsychographicProfile = (userData) => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="others">
           <Form.Label className='labelsStyle'>Others</Form.Label>
-          <Form.Control className='inputStyle' placeholder='Other details' onChange={handleOnChange}/>
+          <Form.Control className='inputStyle' placeholder='Other details' onChange={handleOnChange} value={formInputs.others}/>
         </Form.Group>
         <Button variant="dark" className='w-100' onClick={handleSubmit}>{loading ? "Updating..." : "Update Psychographic Profile"}</Button>
 

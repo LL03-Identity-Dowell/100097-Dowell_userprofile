@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form} from 'react-bootstrap'
+import {Form, Button} from 'react-bootstrap'
 const IdVerification = () => {
   return (
     <div>
@@ -518,6 +518,7 @@ const IdVerification = () => {
               className='radioText'
             />
         </div>
+        <Button variant="dark" className='w-100'>Update</Button>
     </Form>
     </div>
   )

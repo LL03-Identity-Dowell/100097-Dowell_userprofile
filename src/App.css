@@ -156,6 +156,13 @@
   border-radius: 3px !important;
   padding: 16px !important;
 }
+.countryInput{
+  /* border: 1px solid #69727d !important;
+  background-color: #f5f5f5 !important; */
+  border-radius: 3px !important;
+  padding: 16px !important;
+  padding-left: 0px !important;
+}
 .personalBtn{
   background-color: #f1f1f1 !important;
   color: black !important;

@@ -22,7 +22,7 @@ import XingProfile from './personalReferences/XingProfile'
 import YoutubeProfile from './personalReferences/YoutubeProfile'
 
 const PersonalReferences
- = () => {
+ = (userData) => {
     
   const [activeTab, setActiveTab] = useState('tab1');
 
@@ -101,25 +101,25 @@ const PersonalReferences
                 </Col>
                 <Col lg={9}>
                     <div>
-                        {activeTab === 'linkedin' && <div><LinkedInProfile/></div>}
-                        {activeTab === 'facebook' && <div><FacebookProfile/></div>}
-                        {activeTab === 'instagram' && <div><InstagramProfile/></div>}
-                        {activeTab === 'twitter' && <div><TwitterProfile/></div>}
-                        {activeTab === 'discord' && <div><DiscordProfile/></div>}
-                        {activeTab === 'tiktok' && <div><TikTokProfile/></div>}
-                        {activeTab === 'snapchat' && <div><SnapchatProfile/></div>}
-                        {activeTab === 'pinterest' && <div><PinterestProfile/></div>}
-                        {activeTab === 'youtube' && <div><YoutubeProfile/></div>}
-                        {activeTab === 'whatsapp' && <div><WhatsappProfile/></div>}
-                        {activeTab === 'tumblr' && <div><TumblrProfile/></div>}
-                        {activeTab === 'xing' && <div><XingProfile/></div>}
-                        {activeTab === 'reddit' && <div><RedditProfile/></div>}
-                        {activeTab === 'academia' && <div><AcademiaProfile/></div>}
-                        {activeTab === 'personal1' && <div><PersonalReferences1/></div>}
-                        {activeTab === 'personal2' && <div><PersonalReferences2/></div>}
-                        {activeTab === 'personal3' && <div><PersonalReferences3/></div>}
-                        {activeTab === 'personal4' && <div><PersonalReferences4/></div>}
-                        {activeTab === 'personal5' && <div><PersonalReferences5/></div>}
+                        {activeTab === 'linkedin' && <div><LinkedInProfile userData={userData}/></div>}
+                        {activeTab === 'facebook' && <div><FacebookProfile userData={userData}/></div>}
+                        {activeTab === 'instagram' && <div><InstagramProfile userData={userData}/></div>}
+                        {activeTab === 'twitter' && <div><TwitterProfile userData={userData}/></div>}
+                        {activeTab === 'discord' && <div><DiscordProfile userData={userData}/></div>}
+                        {activeTab === 'tiktok' && <div><TikTokProfile userData={userData}/></div>}
+                        {activeTab === 'snapchat' && <div><SnapchatProfile userData={userData}/></div>}
+                        {activeTab === 'pinterest' && <div><PinterestProfile userData={userData}/></div>}
+                        {activeTab === 'youtube' && <div><YoutubeProfile userData={userData}/></div>}
+                        {activeTab === 'whatsapp' && <div><WhatsappProfile userData={userData}/></div>}
+                        {activeTab === 'tumblr' && <div><TumblrProfile userData={userData}/></div>}
+                        {activeTab === 'xing' && <div><XingProfile userData={userData}/></div>}
+                        {activeTab === 'reddit' && <div><RedditProfile userData={userData}/></div>}
+                        {activeTab === 'academia' && <div><AcademiaProfile userData={userData}/></div>}
+                        {activeTab === 'personal1' && <div><PersonalReferences1 userData={userData}/></div>}
+                        {activeTab === 'personal2' && <div><PersonalReferences2 userData={userData}/></div>}
+                        {activeTab === 'personal3' && <div><PersonalReferences3 userData={userData}/></div>}
+                        {activeTab === 'personal4' && <div><PersonalReferences4 userData={userData}/></div>}
+                        {activeTab === 'personal5' && <div><PersonalReferences5 userData={userData}/></div>}
 
                     </div>
                 </Col>

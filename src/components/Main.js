@@ -6,6 +6,7 @@ import SideContent from './SideContent';
 function ResponsiveAutoExample(data) {
   const userData = data.data
   const profileData = data.profileData
+  const formsData = data.formsData;
   return (
     <Container fluid>
       <Row>
@@ -16,7 +17,7 @@ function ResponsiveAutoExample(data) {
 
         {/* Column 2 */}
         <Col xs={{span:12, order:1}} lg={{order:2,span:8}} md={{ span: 6, order: 1 }}>
-          <SideContent userData={userData} profileData={profileData}/>
+          <SideContent userData={userData} profileData={profileData} formsData={formsData}/>
         </Col>
       </Row>
     </Container>

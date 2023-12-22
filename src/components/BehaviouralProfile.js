@@ -4,11 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 const BehaviouralProfile = (userData) => {
+    const behavioural_profile = userData._behavioural
     const [formInputs, setFormInputs] = useState({
-        benefits:"",
-        buying:"",
-        brand:"",
-        others:""
+        benefits: behavioural_profile.benefits || "",
+        buying:behavioural_profile.role || "",
+        brand:behavioural_profile.brand_loyalty || "",
+        others: behavioural_profile.others_behaviour || ""
       });
       const [loading, setLoading] = useState(false);
     
@@ -63,7 +64,7 @@ const BehaviouralProfile = (userData) => {
 
                 <Form.Group className="mb-3" controlId="benefits">
                     <Form.Label className='labelsStyle'>Benefits you are looking while buying any product or service</Form.Label>
-                    <Form.Select aria-label="benefits" className='inputStyle' onChange={handleOnChange}>
+                    <Form.Select aria-label="benefits" className='inputStyle' onChange={handleOnChange} value={formInputs.benefits}>
                         <option value="Convenience">Convenience</option>
                         <option value="longLasting">Long Lasting</option>
                         <option value="economy">Economy</option>
@@ -73,7 +74,7 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="buying">
                     <Form.Label className='labelsStyle'>Your role while buying any product or service</Form.Label>
-                    <Form.Select aria-label="buying" className='inputStyle' onChange={handleOnChange}>
+                    <Form.Select aria-label="buying" className='inputStyle' onChange={handleOnChange} value={formInputs.buying}>
                         <option value="initiator">Initiator</option>
                         <option value="influencer">Influencer</option>
                         <option value="decider">Decider</option>
@@ -85,7 +86,7 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="brand">
                     <Form.Label className='labelsStyle'>Brand loyalty level you will consider while buying any product or service</Form.Label>
-                    <Form.Select aria-label="brand" className='inputStyle' onChange={handleOnChange}>
+                    <Form.Select aria-label="brand" className='inputStyle' onChange={handleOnChange} value={formInputs.brand}>
                         <option value="Convenience">1 (Low)</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -95,7 +96,7 @@ const BehaviouralProfile = (userData) => {
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="others">
                     <Form.Label className='labelsStyle'>Others</Form.Label>
-                    <Form.Control className='inputStyle' type="text" placeholder="other details" onChange={handleOnChange}/>
+                    <Form.Control className='inputStyle' type="text" placeholder="other details" onChange={handleOnChange} value={formInputs.others}/>
                 </Form.Group>
                 <Button variant="dark" className='w-100' onClick={handleSubmit}>{loading ? "Updating..." : "Update Behavioural Profile"}</Button>
 

@@ -3,13 +3,14 @@ import {Form, Button } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 
 const GeographicProfile = (userData) => {
+  const geographic_data = userData._geographic;
   const [formInputs, setFormInputs] = useState({
-    residing:"",
-    city:"",
-    latitude:"",
-    longitude:"",
-    region:"",
-    others:""
+    residing: geographic_data.country || "",
+    city: geographic_data.city || "",
+    latitude: geographic_data.latitude || "",
+    longitude: geographic_data.longitude || "",
+    region: geographic_data.region || "",
+    others: geographic_data.others || ""
   });
   const [loading, setLoading] = useState(false);
 
@@ -65,26 +66,26 @@ const GeographicProfile = (userData) => {
       <Form>
         <Form.Group className="mb-3" controlId="residing">
           <Form.Label className='labelsStyle'>Country your residing for last 5 years</Form.Label>
-          <Form.Select aria-label="residing" className='inputStyle' onChange={handleOnChange}>
+          <Form.Select aria-label="residing" className='inputStyle' onChange={handleOnChange} value={formInputs.residing}>
             <option value="country1">Country 1</option>
             <option value="country2">Country 2</option>
           </Form.Select>
         </Form.Group>
         <Form.Group className="mb-3" controlId="city">
           <Form.Label className='labelsStyle'>City your residing for last 5 years</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Enter your City" />
+          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Enter your City" value={formInputs.city}/>
         </Form.Group> 
         <Form.Group className="mb-3" controlId="latitude">
           <Form.Label className='labelsStyle'>Latitude of your house</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Latitude of the geo coordinates of your house" />
+          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Latitude of the geo coordinates of your house" value={formInputs.latitude}/>
         </Form.Group> 
         <Form.Group className="mb-3" controlId="longititude">
           <Form.Label className='labelsStyle'>Longitude of your house</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Longitude of the geo coordinates of your house" />
+          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="Longitude of the geo coordinates of your house" value={formInputs.longitude}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="region">
           <Form.Label className='labelsStyle'>Region inside location</Form.Label>
-          <Form.Select aria-label="region" onChange={handleOnChange} className='inputStyle'>
+          <Form.Select aria-label="region" onChange={handleOnChange} className='inputStyle' value={formInputs.region}>
             <option value="north">North</option>
             <option value="south">South</option>
             <option value="east">East</option>
@@ -93,7 +94,7 @@ const GeographicProfile = (userData) => {
         </Form.Group> 
         <Form.Group className="mb-3" controlId="others">
           <Form.Label className='labelsStyle'>Others</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="other details" />
+          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder="other details" value={formInputs.others}/>
         </Form.Group> 
         <Button variant="dark" onClick={handleSubmit} className='w-100'>{loading ? "Updating..." : "Update Geographic Profile"}</Button>
       </Form>

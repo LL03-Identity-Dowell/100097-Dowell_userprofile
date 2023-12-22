@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Col, Row, Button } from "react-bootstrap";
 import { ToastContainer, toast } from 'react-toastify';
 
 const DeviceID = (userData) => {
+  const device_info = userData._deviceIDs
+  const [devideIdData, setDevideIdData] = useState({})
+  useEffect(() => {
+    setDevideIdData(device_info || {});
+      }, [device_info]);
+
   const [formInputs, setFormInputs] = useState({
-    phoneId: "",
-    phoneBrand: "",
-    laptopBrand: "",
-    tabletBrand: "",
+    phoneId: device_info.phone_id || "",
+    phoneBrand: device_info.brand_model || "",
+    laptopBrand: device_info.laptop_model ||  "",
+    tabletBrand: device_info.tablet_model || "",
   });
   const [loading, setLoading] = useState(false);
-
+  console.log(userData)
   const userName = userData.userData.userData.userinfo.username;
-console.log("Device is", userName)
   const handleOnChange = (e) => {
     setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
   };
@@ -101,6 +106,7 @@ console.log("Device is", userName)
                   type="text"
                   placeholder="Phone ID"
                   onChange={handleOnChange}
+                  value={formInputs.phoneId}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="phoneBrand">
@@ -112,6 +118,7 @@ console.log("Device is", userName)
                   type="text"
                   placeholder="Phone Brand & Model"
                   onChange={handleOnChange}
+                  value={formInputs.phoneBrand}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="laptopBrand">
@@ -123,6 +130,7 @@ console.log("Device is", userName)
                   type="text"
                   placeholder="Laptop Brand & Model"
                   onChange={handleOnChange}
+                  value={formInputs.laptopBrand}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="tabletBrand">
@@ -134,6 +142,7 @@ console.log("Device is", userName)
                   type="text"
                   placeholder="Tablet Brand & Model"
                   onChange={handleOnChange}
+                  value={formInputs.tabletBrand}
                 />
               </Form.Group>
               <Button variant="dark" className="w-100" type="submit">
