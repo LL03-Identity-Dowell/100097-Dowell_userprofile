@@ -139,52 +139,26 @@ def Deviceid_form(request):
 @api_view(["POST"])
 def Reference_form(request):
     user=request.data["Username"]
-    linkedin_profile=request.data["linkedin_profile"]
-    facebook_profile=request.data["facebook_profile"]
-    instagram_profile=request.data["instagram_profile"]
-    twitter_profile=request.data["twitter_profile"] #here id is laptopbrand needed to be changed to tabletbrand
-    discord_profile = request.data["discord_profile"]
-    tiktok_profile = request.data["tiktok_profile"]
-    snapchat_profile = request.data["snapchat_profile"]
-    pinterest_profile = request.data["pinterest_profile"]
-    youtube_profile = request.data["youtube_profile"]
-    whatsapp_profile = request.data["whatsapp_profile"]
-    tumblr_profile = request.data["tumblr_profile"]
-    xing_profile = request.data["xing_profile"]
-    reddit_profile = request.data["reddit_profile"]
-    academia_profile = request.data["academia_profile"]
-    personal_reference_1 = request.data["personal_reference_1"]
-    personal_reference_2 = request.data["personal_reference_2"]
-    personal_reference_3 = request.data["personal_reference_3"]
-    personal_reference_4 = request.data["personal_reference_4"]
-    personal_reference_5 = request.data["personal_reference_5"]
-    
-    update_fileds={
-        "Linkedin":linkedin_profile,
-        "facebook_profile":facebook_profile,
-        "Instagram_profile":instagram_profile,
-        "Twitter_profile":twitter_profile,
-        "Discord_profile":discord_profile,
-        "Tiktok_profile":tiktok_profile,
-        "Snapchat_profile":snapchat_profile,
-        "Pinterest_profile":pinterest_profile,
-        "Youtube_profile":youtube_profile,
-        "Whatsapp_profile":whatsapp_profile,
-        "Tumbir_profile":tumblr_profile,
-        "Xing_profile":xing_profile,
-        "Reddit_profile":reddit_profile,
-        "Academia_profile":academia_profile,
-        "Personal_Reference_1":personal_reference_1,
-        "Personal_Reference_2":personal_reference_2,
-        "Personal_Reference_3":personal_reference_3,
-        "Personal_Reference_4":personal_reference_4,
-        "Personal_Reference_5":personal_reference_5,
-    }
+    data=request.data
     field={'username': user}
-    update = {"reference":update_fileds}
+    #update = {"reference":update_fileds}
+    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",field,"update")
+    respj=json.loads(resp)
+    #return Response(respj)
+    res=respj["data"][0]["reference"]
+    for key in data:
+        if key in res:
+            res[key]=data[key]
+        else:
+            if key=="Username":
+                pass
+            else:
+                res[key]=data[key]
+
+    field={'username': user}
+    update = {"reference":res}
     resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
     respj=json.loads(resp)
-    
     return Response(respj)
 
 @api_view(["POST"])

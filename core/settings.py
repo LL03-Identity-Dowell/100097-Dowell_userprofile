@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend')
+            os.path.join(BASE_DIR, 'react')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-print(f" Raju {BASE_DIR}")
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -147,12 +147,15 @@ STATIC_URL = '/images/'
 
 if DEBUG:
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR,'frontend/images'),
+        os.path.join(BASE_DIR,'react/images'),
     ]
-    STATIC_ROOT = os.path.join(BASE_DIR,'frontend/images')
-
+   
+    #STATIC_ROOT="E:\assign\gitprojects\newuserprofile\100097-Dowell_userprofile\react\images"
+    STATIC_ROOT = os.path.join(BASE_DIR,'react/images')
+    
+    
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR,'frontend/images')
+    STATIC_ROOT = os.path.join(BASE_DIR,'react/images')
 #STATIC_URL = '/static/'
 #STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, 'frontend/static'),
