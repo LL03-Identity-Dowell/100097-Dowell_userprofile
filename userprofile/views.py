@@ -419,3 +419,6 @@ def FaceID(request):
         resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
         return Response(respj["data"])
+@api_view(["POST"])    
+def MyWorkspace(request):
+    pass
