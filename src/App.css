@@ -202,3 +202,17 @@
   .password {
     word-wrap: break-word;
   }
+  .overlay{
+      transform: scale(1.1); /* Adjust scale value as needed */
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .expanded {
+      transform: scale(1.1); /* Adjust scale value as needed */
+      transition: transform 0.3s ease-in-out;
+    }
+.form_card{
+  background-color: #69727d;
+  color: white;
+  padding: 10px
+}    

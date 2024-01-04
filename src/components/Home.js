@@ -8,7 +8,7 @@ const Home = (data) => {
   const all_forms_data = data.getResponse
   return (
     <div>
-       <NavigationMenu/>
+      <NavigationMenu/>
       <Main data={userData} profileData={profile} formsData={all_forms_data}/>
     </div>
   )

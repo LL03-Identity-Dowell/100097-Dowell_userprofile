@@ -10,6 +10,8 @@ function NavigationMenu() {
     const [showLogin, setShowLogin] = useState(false);
     const [showLanguage, setShowLanguage] = useState(false);
 
+    const session_id = sessionStorage.getItem("session_id")
+    console.log(session_id)
 const showShop = (e)=>{
     setShow(!show);
 }
@@ -37,7 +39,7 @@ const hideLanguageHandle = e => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
-            <Nav.Link className='menuLinks' href="#home">Home</Nav.Link>
+            <Nav.Link className='menuLinks' href={`https://100093.pythonanywhere.com/?session_id=${session_id}`}>Home</Nav.Link>
             <Nav.Link className='menuLinks' href="#link">About Us</Nav.Link>
             <Nav.Link className='menuLinks' href="#link">FAQ</Nav.Link>
             <NavDropdown 

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const DiscordProfile = (userData) => {
   const userName = userData.userData.userData.userData.userinfo.username;
+  const profileLink= userData.discordLink
  
   const [formInputs, setFormInputs] = useState({
     discordProfile: "",
@@ -18,11 +19,15 @@ const DiscordProfile = (userData) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+   // Validate the input field
+   if (!formInputs.discordProfile) {
+    toast.error("Discord profile URL is required");
+    setLoading(false);
+    return; 
+  }
     const data = {
       Username:userName,
-     
-      discord_profile: formInputs.discordProfile,
+      Discord: formInputs.discordProfile,
      
     };
   console.log(data)
@@ -55,13 +60,8 @@ const DiscordProfile = (userData) => {
     <div>
               <ToastContainer position="top-right"/>
 
-        <iframe
-            title="Embedded Webpage"
-            src="https://twitter.com/DoWellResearch" 
-            width="100%"
-            height="500px"
-            allowFullScreen
-          ></iframe>
+        <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Discord Profile</Button>    
+
    <Form>
         <Form.Group className="mb-3" controlId="discordProfile">
           <Form.Label className='labelsStyle'>Discord Profile</Form.Label>

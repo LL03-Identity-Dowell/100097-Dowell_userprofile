@@ -69,7 +69,7 @@ const _id = all_forms._id;
                 onClick={() => handleTabClick('tab6')}>06. ID Verification
             </Button>
             <Button className='tabBtn'
-                onClick={() => handleTabClick('tab7')}>07. My Organisation
+                onClick={() => handleTabClick('tab7')}>07. My Workspace
             </Button>
             <Button className='tabBtn'
                 onClick={() => handleTabClick('tab8')}>08. Geographic Profile
@@ -102,7 +102,7 @@ const _id = all_forms._id;
         {activeTab === 'tab2' && <div><SetPassword userData={userData.userData}/></div>}
         {activeTab === 'tab3' && <div><DeviceID userData={userData.userData} _deviceIDs={_deviceIDs}/></div>}
         {activeTab === 'tab4' && <div><PersonalIds userData={userData.userData}/></div>}
-        {activeTab === 'tab5' && <div><PersonalReferences userData={userData.userData} /></div>}
+        {activeTab === 'tab5' && <div><PersonalReferences userData={userData.userData} _reference={_reference}/></div>}
         {activeTab === 'tab6' && <div><IdVerification/></div>}
         {activeTab === 'tab7' && <div><MyOrganization/></div>}
         {activeTab === 'tab8' && <div><GeographicProfile userData={userData.userData} _geographic={_geographic}/></div>}

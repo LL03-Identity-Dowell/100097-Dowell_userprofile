@@ -1,24 +1,25 @@
-import React, { useState, useRef } from 'react';
-import { Button, Image, Form } from 'react-bootstrap';
-import Webcam from 'react-webcam';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState, useRef } from "react";
+import { Button, Image, Form } from "react-bootstrap";
+import Webcam from "react-webcam";
+import { ToastContainer, toast } from "react-toastify";
 
 const FaceId = (props) => {
   const videoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: 'user',
+    facingMode: "user",
   };
-
-  const [selectedOption, setSelectedOption] = useState('file'); // 'file' or 'camera'
-  const [uploadedFileName, setUploadedFileName] = useState(''); // Define setUploadedFileName
+  const [capturedImageSrc, setCapturedImageSrc] = useState(null); // Add state for captured image
+  const [updating, setUpdating] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("file"); // 'file' or 'camera'
+  const [uploadedFileName, setUploadedFileName] = useState(""); // Define setUploadedFileName
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
-  const username = props.userInfo.profileData.Username
+  const username = props.userInfo.profileData.Username;
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    setUploadedFileName(''); // Reset the uploaded file name when changing options
+    setUploadedFileName(""); // Reset the uploaded file name when changing options
   };
 
   const handleFileChange = () => {
@@ -27,69 +28,82 @@ const FaceId = (props) => {
       setUploadedFileName(fileInput.files[0].name);
     }
   };
-  const capturePhoto = async () => {
-    if (selectedOption === 'camera') {
+  const handlecameraInput = async () => {
+    if (selectedOption === "camera") {
       const imageSrc = webcamRef.current.getScreenshot();
-
-      // Check if imageSrc is not null before proceeding
       if (imageSrc) {
-        await uploadImage(imageSrc);
+        setCapturedImageSrc(imageSrc); // Set the captured image source
+        console.log("Captured image", imageSrc);
       }
     } else {
-      const fileInput = fileInputRef.current;
-      if (fileInput && fileInput.files && fileInput.files.length > 0) {
-        const imageFile = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          const imageSrc = reader.result;
-          uploadImage(imageSrc);
-        };
-
-        reader.readAsDataURL(imageFile);
+      toast.info("First open the camera and then capture image");
+    }
+  };
+  const capturePhoto = async () => {
+    if (fileInputRef.current.files.length > 0 || capturedImageSrc) {
+      setUpdating(true);
+      if (selectedOption === "camera") {
+        const imageSrc = capturedImageSrc;
+        console.log("submit image", imageSrc);
+        if (imageSrc) {
+          await uploadImage(imageSrc);
+        }
+      } 
+      else {
+        const fileInput = fileInputRef.current;
+        if (fileInput && fileInput.files && fileInput.files.length > 0) {
+          const imageFile = fileInput.files[0];
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const imageSrc = reader.result;
+            uploadImage(imageSrc);
+          };
+          reader.readAsDataURL(imageFile);
+        }
       }
+    } 
+    else {
+      toast.error("Please select an image from your device or capture from camera");
     }
   };
 
   const uploadImage = async (imageSrc) => {
-  
-
     // Create a FormData object to send the image file
     const formData = new FormData();
-    formData.append('username', username);
-    formData.append('image', dataURLtoFile(imageSrc, 'screenshot.jpg'));
-    console.log('Upload Payload:', {
+    formData.append("username", username);
+    formData.append("image", dataURLtoFile(imageSrc, "screenshot.jpg"));
+    console.log("Upload Payload:", {
       username,
-      image: formData.get('image'),
+      image: formData.get("image"),
     });
     try {
       // Make a POST request to the API endpoint
-      const response = await fetch('https://100014.pythonanywhere.com/api/face_id/', {
-        method: 'POST',
-        body: formData,
-      });
-      console.log(response)
+      const response = await fetch(
+        "https://100014.pythonanywhere.com/api/face_id/",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+     
       // Handle the response as needed
       if (response.ok) {
-        console.log('Face ID updated successfully');
+        setUpdating(false);
         toast.success("success");
-
       } else {
-        console.error('Failed to update Face ID');
-      toast.error("An unknown error occurred");
-
+        setUpdating(false);
+        const errorData = await response.json(); // Parse the error response
+        toast.info(errorData.info, response.status);
       }
     } catch (error) {
-      console.error('Error:', error);
       toast.error("An unknown error occurred");
-
+      setUpdating(false);
     }
-
   };
 
   // Function to convert data URL to a File object
   const dataURLtoFile = (dataURL, filename) => {
-    const arr = dataURL.split(',');
+    const arr = dataURL.split(",");
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;
@@ -102,55 +116,92 @@ const FaceId = (props) => {
 
   return (
     <div>
-        <ToastContainer position="top-right"/>
+      <ToastContainer position="top-right" />
 
       <div className="text-center">
-        <Image className="img-fluid mb-4" src="/images/samanta.webp" alt="samanta" width={300} height={300} />
+        <Image
+          className="img-fluid mb-4"
+          src="/images/samanta.webp"
+          alt="samanta"
+          width={300}
+          height={300}
+        />
       </div>
       <Form>
         <Form.Group className="mb-3" controlId="faceIdFile">
-          <Form.Label className='labelsStyle'>Face Id</Form.Label>
+          <Form.Label className="labelsStyle">Face Id</Form.Label>
           <Form.Control
-            className='inputStyle'
+            className="inputStyle"
             type="file"
             onChange={() => {
-              handleOptionChange('file');
+              handleOptionChange("file");
               handleFileChange();
             }}
             ref={fileInputRef}
-            disabled={selectedOption === 'camera'}
+            disabled={selectedOption === "camera"}
           />
-                    <small>{uploadedFileName}</small>
-
+          <small>{uploadedFileName}</small>
         </Form.Group>
-
-        <Button variant="dark" className="lg:w-50"  onClick={() => handleOptionChange('file')}>
-          Upload from File
-        </Button>
 
         <Button
           variant="dark"
           className="lg:w-50"
-          onClick={() => handleOptionChange('camera')}
-          disabled={selectedOption === 'camera'}
+          onClick={() => handleOptionChange("file")}
         >
-          Capture from Camera
+          Upload from File
         </Button>
-
-        <Button variant="dark" className="lg:w-50" onClick={capturePhoto}>
-          Capture photo
-        </Button>
-
-        {selectedOption === 'camera' && (
-          <Webcam
-            audio={false}
-            height={500}
-            screenshotFormat="image/jpeg"
-            width={500}
-            videoConstraints={videoConstraints}
-            ref={webcamRef}
-          />
+        <div className="my-4">
+          <hr className="border-gray-300" />
+          <p className="text-center">OR</p>
+          <div className="divider-horizontal bg-gray-300"></div>
+        </div>
+        {selectedOption === "camera" && (
+          <div>
+            <Webcam
+              audio={false}
+              height={500}
+              screenshotFormat="image/jpeg"
+              width={500}
+              videoConstraints={videoConstraints}
+              ref={webcamRef}
+            />
+            {capturedImageSrc && (
+              <Image
+                src={capturedImageSrc}
+                alt="Captured Image"
+                className="img-fluid mt-3" // Adjust styling as needed
+              />
+            )}
+          </div>
         )}
+
+        <Button
+          variant="dark"
+          className="lg:w-50"
+          onClick={() => handleOptionChange("camera")}
+          disabled={selectedOption === "camera"}
+        >
+          Open Camera
+        </Button>
+        <Button
+          variant="dark"
+          className="lg:w-50"
+          onClick={() => handlecameraInput("camera")}
+          //  disabled={selectedOption === 'camera'}
+        >
+          {capturedImageSrc?"Retake":"Click"}
+        </Button>
+        <div className="my-4">
+          <hr className="border-gray-300" />
+          <div className="divider-horizontal bg-gray-300"></div>
+        </div>
+        <Button
+          variant="dark"
+          className="lg:w-50 text-center"
+          onClick={capturePhoto}
+        >
+          {updating ? "Updating" : "Submit Face ID"}
+        </Button>
       </Form>
     </div>
   );

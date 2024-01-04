@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Container, Row, Col, Form, Button, FormSelect } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, FormSelect, FormGroup } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 
 const MyProfileForm = (userData) => {
@@ -17,9 +17,9 @@ const MyProfileForm = (userData) => {
       username:username,
       first_name : formdata.Firstname || "",
       last_name: formdata.Lastname || "",
-      email:formdata.Email,
+      email:formdata.Email || "",
       phone: formdata.Phone || "",
-      phoneCode : formdata.PhoneCode,
+      ph_code : formdata.phonecode || "",
       image: '',
       address: formdata.address || "",
       zip_code: formdata.zip_code || "",
@@ -31,6 +31,7 @@ const MyProfileForm = (userData) => {
       language_preferences: formdata.language_preferences || "",
       vision: formdata.vision || "",
       otp:'',
+      phone_otp:""
     });
   
     const handleInputChange = (e) => {
@@ -45,7 +46,6 @@ const MyProfileForm = (userData) => {
         last_name: formData.last_name,
         email:formData.email,
         phone: formData.phone,
-        image: formData.image,
         address: formData.address,
         zip_code:formData.zip_code,
         location: formData.country,
@@ -55,7 +55,10 @@ const MyProfileForm = (userData) => {
         nationality:formData.nationality,
         language_preferences:formData.language_preferences,
         vision:formData.vision,
-        email_otp:formData.otp,
+        image: formData.image,
+        email_otp:parseInt(formData.otp),
+        phonecode: formData.ph_code,
+        phone_sms: parseInt(formData.phone_otp)
       };
       setUpdating(true);  
       const requestOptions = {
@@ -69,9 +72,8 @@ const MyProfileForm = (userData) => {
   
       try {
         const response = await fetch('https://100014.pythonanywhere.com/api/profile_update/', requestOptions);
-      const responseData = await response.json();
+        const responseData = await response.json();
         console.log(responseData)
-        console.log(formData)
         setUpdateApiResponse(responseData)
         console.log(JSON.stringify(requestOptions))
         if (response.ok) {
@@ -80,10 +82,12 @@ const MyProfileForm = (userData) => {
         } else {
           setUpdating(false);
           toast.error("An unknown error occurred");
+          
         }
       } catch (error) {
-        toast.error("An unknown error occurred");
+        toast.error("Failure");
         setUpdating(false);
+        console.log(error)
       }
     };
   
@@ -134,7 +138,7 @@ const MyProfileForm = (userData) => {
 
         const url = 'https://100014.pythonanywhere.com/api/mobilesms/';
         const payload = {
-          phonecode: formData.phoneCode,
+          phonecode: formData.phone_Code,
           Phone:formData.phone
       };
       console.log(payload)
@@ -173,14 +177,12 @@ const MyProfileForm = (userData) => {
         try {
           const response = await fetch('https://restcountries.com/v3.1/all');
           const data = await response.json();
-          console.log(data)
-          // Extract relevant information (name, alpha2Code, phone)
           const countryData = data.map((country) => ({
             name: country.name.common,
             alpha2Code: country.cca2,
-            phoneCode: country.ccn3,
+            phoneCode_country: country.ccn3,
           }));
-  
+          
           setCountries(countryData);
         } catch (error) {
           console.error('Error fetching countries:', error);
@@ -211,11 +213,12 @@ const MyProfileForm = (userData) => {
                     <Form.Label className='labelsStyle'>Your phone number</Form.Label>
                     <Row>
                         <Col sm={2} md={2}>
-                        <FormSelect className='countryInput' name="PhoneCode" onChange={handleInputChange}>              
+                          <FormSelect className='countryInput' value={formData.ph_code} name="ph_code" onChange={handleInputChange}>              
                           {countries.map((country) => (
-                            <option key={country.alpha2Code} value={country.phoneCode}>+{country.phoneCode}</option>
+                            <option key={country.alpha2Code} value={country.phoneCode_country}>{country.phoneCode_country}</option>
                           ))}
                         </FormSelect>
+                      
                         </Col>
                         <Col sm={10} md={10}>
                     <Form.Control className='inputStyle' name="phone" value={formData.phone} type="number" onChange={handleInputChange} placeholder="Enter your phone number" />

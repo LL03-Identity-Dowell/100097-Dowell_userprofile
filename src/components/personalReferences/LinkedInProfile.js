@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import Iframe from 'react-iframe'
 
 const LinkedInProfile = (userData) => {
-
+  const linkedinLink_value= userData.linkedinLink
+  console.log(linkedinLink_value)
   const userName = userData.userData.userData.userData.userinfo.username;
  
   const [formInputs, setFormInputs] = useState({
@@ -19,29 +22,17 @@ const LinkedInProfile = (userData) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+      // Validate the input field
+      if (!formInputs.linkedInProfile) {
+        toast.error("LinkedIn profile URL is required");
+        setLoading(false);
+        return; 
+      }
     const data = {
       Username:userName,
-      linkedin_profile: formInputs.linkedInProfile,
-      facebook_profile:"",
-      instagram_profile:"",
-      twitter_profile: "",
-      discord_profile: "",
-      tiktok_profile: "",
-      snapchat_profile: "",
-      pinterest_profile: "",
-      youtube_profile: "",
-      whatsapp_profile: "",
-      tumblr_profile: "",
-      xing_profile: "",
-      reddit_profile: "",
-      academia_profile: "",
-      personal_reference_1: "",
-      personal_reference_2: "",
-      personal_reference_3:"",
-      personal_reference_4: "",
-      personal_reference_5: "",
+      Linkedin:formInputs.linkedInProfile
     };
+    
   console.log(data)
     try {
       const response = await fetch("https://100097.pythonanywhere.com/Reference_form", {
@@ -71,15 +62,13 @@ const LinkedInProfile = (userData) => {
   return (
     <div>
               <ToastContainer position="top-right"/>
-
-        <iframe
-            title="Embedded Webpage"
-            src="https://www.linkedin.com/in/thomas-dowell/" 
-            width="100%"
-            height="500px"
-            allowFullScreen
-          ></iframe>
-    
+        
+      
+        <Iframe url="https://www.linkedin.com/"
+          width="100%"
+          height="100%"
+        />
+        <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(linkedinLink_value, '_blank');}}>My LinkedIn Profile</Button>    
           <Form>
         <Form.Group className="mb-3" controlId="linkedInProfile">
           <Form.Label className='labelsStyle'>Linked In Profile</Form.Label>
