@@ -421,4 +421,28 @@ def FaceID(request):
         return Response(respj["data"])
 @api_view(["POST"])    
 def MyWorkspace(request):
-    pass
+    user=request.data["Username"]
+    userId=request.data["userID"]
+    workspace=request.data["workspace_name"] #change the id from country to income
+    org_addr=request.data["org_address"]
+    pin=request.data["PIN"]
+    city=request.data["city"]
+    country=request.data["country"]
+    org_logo=request.data["org_logo"]
+    latitude=request.data["latitude"]
+    longitude=request.data["longitude"]
+    update_fileds={
+        "workspace_name":workspace,
+        "org_address":org_addr,
+        "PIN":pin,
+        "city":city,
+        "country":country,
+        "org_logo":org_logo,
+        "latitude":latitude,
+        "longitude":longitude,
+    }
+    field={'username': user}
+    update = {"myworkspace":update_fileds}
+    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
+    respj=json.loads(resp)
+    return Response(respj)
