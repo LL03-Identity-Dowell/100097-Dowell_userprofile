@@ -387,16 +387,13 @@ def personalIds(request):
         resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
         return Response(respj["data"])
-@api_view(["POST","GET"])
-def idsPost(request):
+
+def PersonalRef(request):
     user=request.data["Username"]
     userId=request.data["userID"]
-    pdate = {"userID":userId}
-    resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
-    respj=json.loads(resp)
-    return Response(respj["data"][0])
-def PersonalRef(request):
-    pass
+    usrid = {"userID":userId}
+    respusr=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",usrid,"nil")
+    usrresp=json.loads(respusr)
 @api_view(["POST"])
 def FaceID(request):
     user=request.data["Username"]
@@ -442,7 +439,22 @@ def MyWorkspace(request):
         "longitude":longitude,
     }
     field={'username': user}
-    update = {"myworkspace":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    return Response(respj)
+    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",field,"update")
+    rresp=json.loads(resp)
+    if len(rresp['data'])>0:
+        update = {"myworkspace":update_fileds}
+        resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
+        respj=json.loads(resp)
+        return Response(respj)
+    else:
+         my_fileds={
+        "workspace_name":"",
+        "org_address":"",
+        "PIN":"",
+        "city":"",
+        "country":"",
+        "org_logo":"",
+        "latitude":"",
+        "longitude":"",
+    }
+        
