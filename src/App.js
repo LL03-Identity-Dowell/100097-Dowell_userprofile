@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomeComponent from './components/Home';
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -17,11 +18,13 @@ const App = () => {
     const sessionID = searchParams.get("session_id");
     const apiUrl = "https://100014.pythonanywhere.com/api/userinfo/";
     const storedSessionId = sessionStorage.getItem('session_id');
-    if (storedSessionId) {
+    console.log(storedSessionId)
+    if(storedSessionId) {
+      console.log("not found in console")
       // Fetch user info using the stored session ID
       fetchUserInfo(apiUrl,storedSessionId);
     }
-    else if (sessionID) {
+    else if(sessionID) {
       console.log("found")
       fetchUserInfo(apiUrl,sessionID);
       sessionStorage.setItem('session_id', sessionID); // Store session ID
@@ -29,8 +32,8 @@ const App = () => {
      
     } else {
       console.log("not Found")
-      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
-      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
+      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
+      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
       
     if (typeof window !== "undefined") {
       window.location.href = redirectUrl;
@@ -51,6 +54,7 @@ const App = () => {
 
       const data = await response.json();
       setUserData(data);
+      console.log(data)
       let user_name = data.userinfo.username;
       const user_id = data.userinfo.userID;
       handleSubmitProfile(user_name);
@@ -130,6 +134,7 @@ const App = () => {
 
   return getResponse && profileView && userData ? (
     <div>
+        <ToastContainer position="top-right"/>
   
       <Home userInfo={userData} profileView={profileView} getResponse={getResponse}/>
     </div>

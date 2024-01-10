@@ -67,6 +67,8 @@ const hideLanguageHandle = e => {
               <NavDropdown.Item href="#action/3.2">Extension</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Google Playstore</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Apple Store</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
+
             </NavDropdown>
       
           </Nav>

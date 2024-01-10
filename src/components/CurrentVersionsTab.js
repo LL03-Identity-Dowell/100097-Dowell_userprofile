@@ -24,9 +24,7 @@ const forms_data = userData.formsData
 if(userData){
     const all_forms = forms_data[0]; // Assuming there's only one object in the array
 
-const _id = all_forms._id;
     var _username = all_forms.username;
-    var _userID = all_forms.userID;
     var _reference = all_forms.reference;
     var _demographic = all_forms.demographic;
     var _psychographic = all_forms.psychographic;
@@ -34,6 +32,9 @@ const _id = all_forms._id;
     var _behavioural = all_forms.behavioural;
     var _geographic = all_forms.geographic;
     var _usage = all_forms.usage;
+    var _myworkspace = all_forms.myworkspace;
+    var _userId = all_forms.userID
+    var _username = all_forms.username
     }
 // Now you can use these variables as needed in your code
 
@@ -104,7 +105,7 @@ const _id = all_forms._id;
         {activeTab === 'tab4' && <div><PersonalIds userData={userData.userData}/></div>}
         {activeTab === 'tab5' && <div><PersonalReferences userData={userData.userData} _reference={_reference}/></div>}
         {activeTab === 'tab6' && <div><IdVerification/></div>}
-        {activeTab === 'tab7' && <div><MyOrganization/></div>}
+        {activeTab === 'tab7' && <div><MyOrganization _myworkspace={_myworkspace} _userId={_userId} _username={_username}/></div>}
         {activeTab === 'tab8' && <div><GeographicProfile userData={userData.userData} _geographic={_geographic}/></div>}
         {activeTab === 'tab9' && <div><DemographicProfile userData={userData.userData} _demographic={_demographic}/></div>}
         {activeTab === 'tab10' && <div><PsychographicProfile userData={userData.userData} _psychographic={_psychographic}/></div>}

@@ -7,7 +7,7 @@ import UsageView from './AccordionComponents/UsageView'
 import GeographicView from './AccordionComponents/GeographicView'
 import PsychographicProfileView from './AccordionComponents/PsychographicProfileView'
 import DemographicView from './AccordionComponents/DemographicView'
-
+import Workspace from './AccordionComponents/Workspace'
 const AccordionList = (profileData) => {
  const profiledata = profileData.profileData
 
@@ -28,7 +28,7 @@ const all_forms = profileData.formsData[0]
     var _behavioural = all_forms.behavioural;
     var _geographic = all_forms.geographic;
     var _usage = all_forms.usage;
-    
+    var _workspace = all_forms.myworkspace
 
   return (
     <div>
@@ -71,9 +71,9 @@ const all_forms = profileData.formsData[0]
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="6">
-        <Accordion.Header>My Organisation</Accordion.Header>
+        <Accordion.Header>My Workspace</Accordion.Header>
         <Accordion.Body>
-         
+          <Workspace data={_workspace}/>
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="7">

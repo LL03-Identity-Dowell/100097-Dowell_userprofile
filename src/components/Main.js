@@ -11,12 +11,12 @@ function ResponsiveAutoExample(data) {
     <Container fluid>
       <Row>
         {/* Column 1 (Blue on Mobile) */}
-        <Col xs={{span:12, order:2}} lg={{order:1, span:4}} md={{ span: 6, order: 2 }}>
+        <Col xs={{span:12, order:2}} lg={{order:1, span:3}} md={{ span: 6, order: 2 }}>
           <SideBar/>
         </Col>
 
         {/* Column 2 */}
-        <Col xs={{span:12, order:1}} lg={{order:2,span:8}} md={{ span: 6, order: 1 }}>
+        <Col xs={{span:12, order:1}} lg={{order:2,span:9}} md={{ span: 6, order: 1 }}>
           <SideContent userData={userData} profileData={profileData} formsData={formsData}/>
         </Col>
       </Row>
