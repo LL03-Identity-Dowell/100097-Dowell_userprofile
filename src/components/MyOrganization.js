@@ -12,15 +12,15 @@ const MyOrganization = (userData) => {
         }, [myworkspace_info]);
     const [loading, setLoading] = useState(false);
     const [formInputs, setFormInputs] = useState({
-      pin: myworkspace_info.PIN || "",
-      city: myworkspace_info.city || "",
-      country: myworkspace_info.country ||  "",
-      latitude: myworkspace_info.latitude || "",
-      longitude: myworkspace_info.longitude || "",
-      organisation_address: myworkspace_info.org_address || "",
-      organisation_logo : myworkspace_info.org_logo || "",
+      pin: myworkspace_info? myworkspace_info.PIN : "",
+      city: myworkspace_info?myworkspace_info.city : "",
+      country:myworkspace_info? myworkspace_info.country :  "",
+      latitude:myworkspace_info? myworkspace_info.latitude : "",
+      longitude: myworkspace_info?myworkspace_info.longitude : "",
+      organisation_address: myworkspace_info? myworkspace_info.org_address : "",
+      organisation_logo : myworkspace_info? myworkspace_info.org_logo : "",
       // organisation_logo :"",
-      workspace_Name : myworkspace_info.workspace_name || ""
+      workspace_Name : myworkspace_info? myworkspace_info.workspace_name : ""
     });
     const userName = userData.username;
     const handleOnChange = (e) => {

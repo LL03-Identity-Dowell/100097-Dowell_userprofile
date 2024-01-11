@@ -57,7 +57,14 @@ const AcademiaProfile =  (userData)=> {
   return (
     <div>
         <ToastContainer position="top-right"/>
-
+        <iframe
+          width="100%"
+          height="450"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src={profileLink}>
+        </iframe>
         <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Academia Profile</Button>    
        
              <Form>

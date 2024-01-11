@@ -56,6 +56,14 @@ const PersonalReferences3 = (userData) => {
   return (
     <div>
         <ToastContainer position="top-right"/>
+        <iframe
+          width="100%"
+          height="450"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src={profileLink}>
+        </iframe>
         <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>Personal Reference 3</Button>    
 
         <h3>Your Personal reference 3 (Name, email, phone, relationship, address) (the person will become member while accepting)</h3>

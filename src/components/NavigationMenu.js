@@ -5,6 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Image from 'react-bootstrap/Image';
 import { useState } from 'react';
 
+
 function NavigationMenu() {
     const [show, setShow] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
@@ -29,6 +30,15 @@ const showLanguageHandle = (e)=>{
 }
 const hideLanguageHandle = e => {
     setShowLanguage(false);
+}
+function handleSignOut() {
+  // Remove session ID from session storage
+  sessionStorage.removeItem('session_id');
+
+  // Redirect to the sign-out URL
+  // navigate('https://100014.pythonanywhere.com/sign-out');
+  window.location.href = ('https://100014.pythonanywhere.com/sign-out');
+
 }
   return (
     <Navbar expand="lg" className="bg-white navBar">
@@ -67,7 +77,7 @@ const hideLanguageHandle = e => {
               <NavDropdown.Item href="#action/3.2">Extension</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Google Playstore</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Apple Store</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleSignOut}>Logout</NavDropdown.Item>
 
             </NavDropdown>
       

@@ -58,13 +58,22 @@ const LinkedInProfile = (userData) => {
       setLoading(false);
     }
   };
-  
+  console.log("linkedinLink_value")
   return (
     <div>
-              <ToastContainer position="top-right"/>
-        
-      
-        <Iframe url="https://www.linkedin.com/"
+        <ToastContainer position="top-right"/>
+        <iframe
+          width="100%"
+          height="450"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src={linkedinLink_value}
+          sandbox="allow-scripts allow-same-origin"
+          >
+            
+        </iframe>
+        <Iframe src={linkedinLink_value}
           width="100%"
           height="100%"
         />
