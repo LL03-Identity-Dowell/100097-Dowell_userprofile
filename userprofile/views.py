@@ -346,6 +346,36 @@ def GetProfile(request):
         
     except:
         pass
+    try:
+        idfield={'username': user}
+        idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"update")
+        idrespj=json.loads(idresp)
+
+    except:
+        pass
+    if len(idrespj['data'])>0:
+        respj["data"][0]["personalids"]=idrespj["data"][0]
+    else:
+        ids={
+            "username":user,
+            "userID":userId,
+            "voiceID":"",
+            "faceID":"",
+            "biometricID":"",
+            "videoID":"",
+            "IDcard1":"",
+            "IDcard2":"",
+            "IDcard3":"",
+            "IDcard4":"",
+            "IDcard5":"",
+            "signature":""
+        }
+        fieldid=ids
+        resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
+        iddate = {"userID":userId}
+        respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
+        respjid=json.loads(respid1)
+        respj["data"][0]["personalids"]=respjid["data"][0]
     if len(respj['data'])>0:
         return Response(respj["data"])
     else:
@@ -360,10 +390,10 @@ def GetProfile(request):
 @api_view(["POST","GET"])
 def personalIds(request):
     user=request.data["Username"]
-    userId=request.data["userID"]
+    data=request.data
     ids={
         "username":user,
-        "userID":userId,
+        "userID":"",
         "voiceID":"",
         "faceID":"",
         "biometricID":"",
@@ -373,20 +403,21 @@ def personalIds(request):
         "IDcard3":"",
         "IDcard4":"",
         "IDcard5":"",
-        "signature":""    
+        "signature":""
     }
-    usrid = {"userID":userId}
-    respusr=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",usrid,"nil")
-    usrresp=json.loads(respusr)
-    if len(usrresp['data'])>0:
-        return Response(usrresp["data"])
-    else:
-        fieldids=ids
-        res=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldids,"nil")
-        pdate = {"userID":userId}
-        resp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",pdate,"nil")
-        respj=json.loads(resp)
-        return Response(respj["data"])
+    for key in data:
+        if key in ids:
+            ids[key]=data[key]
+            fieldname=data["key"]
+            value=key
+            pass
+        else:
+            return Response({"message":"pl use valid key"})
+    field={'username': user}
+    update = {fieldname:value}
+    respid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","update",field,update)
+    respjid=json.loads(respid)
+    return Response(respjid["data"][0])
 
 def PersonalRef(request):
     user=request.data["Username"]
