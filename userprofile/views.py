@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.core.files.storage import default_storage
 # import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -393,7 +393,6 @@ def personalIds(request):
     data=request.data
     ids={
         "username":user,
-        "userID":"",
         "voiceID":"",
         "faceID":"",
         "biometricID":"",
@@ -405,19 +404,38 @@ def personalIds(request):
         "IDcard5":"",
         "signature":""
     }
-    for key in data:
-        if key in ids:
-            ids[key]=data[key]
-            fieldname=data["key"]
-            value=key
-            pass
+    value="test"
+    for key, value1 in data.items():
+        if key in ids.keys():
+            #ids[key]=data[key]
+            fieldname=key
+            value=value1
+            print(value1)
         else:
-            return Response({"message":"pl use valid key"})
+            pass
+    if value=="test":
+        return Response({"message":"pl use valid key gy"})
+    else:
+        pass
+    file=request.FILES.get(fieldname)
+    try:
+        if file.name:
+            pass
+    except:
+        return Response({"message":"Accept only images"})
+    file_ext = file.name[-4:]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
+    if not file_ext in ls:
+        return Response({"message":f"pl provide image in jpg or png format {file_ext}"})
+    else:
+        pass
+    file_name = default_storage.save(file.name, file)
+    path=f"https:100097.pythonanywhere.com/media/{file_name}"
     field={'username': user}
-    update = {fieldname:value}
+    update = {fieldname:path}
     respid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","update",field,update)
     respjid=json.loads(respid)
-    return Response(respjid["data"][0])
+    return Response(respjid)
 
 def PersonalRef(request):
     user=request.data["Username"]
@@ -459,13 +477,26 @@ def MyWorkspace(request):
     org_logo=request.data["org_logo"]
     latitude=request.data["latitude"]
     longitude=request.data["longitude"]
+    try:
+        if org_logo.name:
+            pass
+    except:
+        return Response({"message":"It allows only images"})
+    file_ext = org_logo.name[-4:]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
+    if not file_ext in ls:
+        return Response({"message":f"pl provide image in jpg or png format {file_ext}"})
+    else:
+        pass
+    file_name = default_storage.save(org_logo.name, org_logo)
+    path=f"https:100097.pythonanywhere.com/media/{file_name}"
     update_fileds={
         "workspace_name":workspace,
         "org_address":org_addr,
         "PIN":pin,
         "city":city,
         "country":country,
-        "org_logo":org_logo,
+        "org_logo":path,
         "latitude":latitude,
         "longitude":longitude,
     }
