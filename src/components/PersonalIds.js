@@ -69,12 +69,12 @@ const PersonalIds = (props) => {
                         {activeTab === 'faceid' && <div><FaceId userInfo={userInfo}/></div>}
                         {activeTab === 'biometricid' && <div><BiometricId/></div>}
                         {activeTab === 'videoid' && <div><VideoId/></div>}
-                        {activeTab === 'idCard1' && <div><IdCard1/></div>}
-                        {activeTab === 'idCard2' && <div><IdCard2/></div>}
-                        {activeTab === 'idCard3' && <div><IdCard3/></div>}
-                        {activeTab === 'idCard4' && <div><IdCard4/></div>}
-                        {activeTab === 'idCard5' && <div><IdCard5/></div>}
-                        {activeTab === 'signature' && <div><SignatureId/></div>}
+                        {activeTab === 'idCard1' && <div><IdCard1 userInfo={userInfo}/></div>}
+                        {activeTab === 'idCard2' && <div><IdCard2 userInfo={userInfo}/></div>}
+                        {activeTab === 'idCard3' && <div><IdCard3 userInfo={userInfo}/></div>}
+                        {activeTab === 'idCard4' && <div><IdCard4 userInfo={userInfo}/></div>}
+                        {activeTab === 'idCard5' && <div><IdCard5 userInfo={userInfo}/></div>}
+                        {activeTab === 'signature' && <div><SignatureId userInfo={userInfo}/></div>}
 
                     </div>
                 </Col>
