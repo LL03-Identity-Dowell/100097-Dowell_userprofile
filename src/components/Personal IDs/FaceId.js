@@ -76,6 +76,7 @@ const FaceId = (props) => {
       username,
       image: formData.get("image"),
     });
+    console.log(formData)
     try {
       // Make a POST request to the API endpoint
       const response = await fetch(

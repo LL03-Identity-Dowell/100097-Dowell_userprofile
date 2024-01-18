@@ -7,9 +7,7 @@ const MyOrganization = (userData) => {
     const myworkspace_info = userData._myworkspace;
     const user_id = userData._userId;
     const [myworkspace, setmyworkspace] = useState({})
-    useEffect(() => {
-      setmyworkspace(myworkspace_info || {});
-        }, [myworkspace_info]);
+
     const [loading, setLoading] = useState(false);
     const [formInputs, setFormInputs] = useState({
       pin: myworkspace_info? myworkspace_info.PIN : "",
@@ -18,38 +16,41 @@ const MyOrganization = (userData) => {
       latitude:myworkspace_info? myworkspace_info.latitude : "",
       longitude: myworkspace_info?myworkspace_info.longitude : "",
       organisation_address: myworkspace_info? myworkspace_info.org_address : "",
-      organisation_logo : myworkspace_info? myworkspace_info.org_logo : "",
+      organisation_logo : null,
       workspace_Name : myworkspace_info? myworkspace_info.workspace_name : ""
     });
     const userName = userData.username;
     const handleOnChange = (e) => {
       setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
     };
-  
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      setFormInputs({ ...formInputs, organisation_logo: file });
+    };
     const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
+
+      const myFormData = new FormData();
     
-      const data = {
-        Username:userData._username,
-        userID:user_id,
-        workspace_name:formInputs.workspace_Name,
-        org_address:formInputs.organisation_address,
-        PIN:formInputs.pin,
-        city:formInputs.city,
-        country:formInputs.country,
-        org_logo:formInputs.organisation_logo,
-        latitude:formInputs.latitude,
-        longitude:formInputs.longitude
-    }
-    console.log(data)
+      myFormData.append('Username', userData._username);
+      myFormData.append('userID', user_id);
+      myFormData.append('workspace_name', formInputs.workspace_Name);
+      myFormData.append('org_address', formInputs.organisation_address);
+      myFormData.append('PIN', formInputs.pin);
+      myFormData.append('city', formInputs.city);
+      myFormData.append('country', formInputs.country);
+      myFormData.append('org_logo', formInputs.organisation_logo);
+      myFormData.append('latitude', formInputs.latitude);
+      myFormData.append('longitude', formInputs.longitude);
+     
+
+    
+    console.log([...myFormData])
       try {
         const response = await fetch("https://100097.pythonanywhere.com/myworkspace", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+          body: myFormData,
         });
     
         if (response.ok) {
@@ -107,7 +108,7 @@ const MyOrganization = (userData) => {
                 </Form.Group>
                 <Form.Group controlId="organisation_logo" className="mb-3">
                     <Form.Label className='labelsStyle'>Upload new logo</Form.Label>
-                    <Form.Control onChange={handleOnChange} className='inputStyle' type="file" />
+                    <Form.Control name="image" onChange={handleFileChange} className='inputStyle' type="file" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="latitude">
                     <Form.Label className='labelsStyle'>Latitude of Workspace</Form.Label>

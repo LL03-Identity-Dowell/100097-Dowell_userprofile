@@ -1,17 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { Container, Row, Col, Form, Button, FormSelect, FormGroup } from 'react-bootstrap'
+import { json } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const MyProfileForm = (userData) => {
-  const formdata = userData.userData.profileData;
+    const formdata = userData.userData.profileData;
     const [updating, setUpdating] = useState(false);
     const [apiResponse, setApiResponse] = useState({});
-    const [updateApiResponse, setUpdateApiResponse] = useState({});
     const [responseMsg, setResponseMsg] = useState('');
 
-    useEffect(() => {
-      setApiResponse(formdata || {});
-        }, [formdata]);
     const username=userData.userData.userData.userinfo.username
     const [formData, setFormData] = useState({
       username:username,
@@ -20,7 +17,7 @@ const MyProfileForm = (userData) => {
       email:formdata.Email || "",
       phone: formdata.Phone || "",
       ph_code : formdata.phonecode || "",
-      image: '',
+      image: null,
       address: formdata.address || "",
       zip_code: formdata.zip_code || "",
       location: formdata.user_location || "",
@@ -38,62 +35,56 @@ const MyProfileForm = (userData) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
     };
-     
-    const handleSubmitProfile = async () => {
-      const requestData = {
-        username:username,
-        first_name : formData.first_name,
-        last_name: formData.last_name,
-        email:formData.email,
-        phone: formData.phone,
-        address: formData.address,
-        zip_code:formData.zip_code,
-        location: formData.country,
-        city:formData.city,
-        country: formData.country,
-        native_language: formData.native_langauage,
-        nationality:formData.nationality,
-        language_preferences:formData.language_preferences,
-        vision:formData.vision,
-        image: formData.image,
-        email_otp:parseInt(formData.otp),
-        phonecode: formData.ph_code,
-        phone_sms: parseInt(formData.phone_otp)
-      };
-      setUpdating(true);  
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      };
-      console.log(requestData)
-  
+
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      setFormData({ ...formData, image: file });
+    };
+
+    const handleSubmitProfile = async (e) => {
+      e.preventDefault();
+      const myFormData = new FormData();
+    
+      myFormData.append('username', formData.username);
+      myFormData.append('first_name', formData.first_name);
+      myFormData.append('last_name', formData.last_name);
+      myFormData.append('email', formData.email);
+      myFormData.append('phone', formData.phone);
+      myFormData.append('address', formData.address);
+      myFormData.append('zip_code', formData.zip_code);
+      myFormData.append('location', formData.country);
+      myFormData.append('city', formData.city);
+      myFormData.append('country', formData.country);
+      myFormData.append('native_language', formData.native_langauage);
+      myFormData.append('nationality', formData.nationality);
+      myFormData.append('language_preferences', formData.language_preferences);
+      myFormData.append('vision', formData.vision);
+      myFormData.append('image', formData.image);
+      myFormData.append('email_otp', formData.otp? parseInt(formData.otp) : 0);
+      myFormData.append('phonecode', formData.ph_code);
+      myFormData.append('phone_sms', formData.phone_otp? parseInt(formData.phone_otp) : 0);
+      setUpdating(true);
       try {
-        const response = await fetch('https://100014.pythonanywhere.com/api/profile_update/', requestOptions);
-        const responseData = await response.json();
-        console.log(responseData)
-        setUpdateApiResponse(responseData)
-        console.log(JSON.stringify(requestOptions))
+        const response = await fetch('https://100014.pythonanywhere.com/api/profile_update/', {
+          method: 'POST',  
+          body: myFormData,
+        });
+       const responseData = await response.json()
         if (response.ok) {
           setUpdating(false);
           toast.success("success");
+          console.log(responseData)
         } else {
           setUpdating(false);
-          toast.error("An unknown error occurred");
-          
-        }
+          toast.error(responseData.info); 
+        }      
       } catch (error) {
         toast.error("Failure");
         setUpdating(false);
-        console.log(error)
       }
     };
-  
 
     const [isSendingOtp, setIsSendingOtp] = useState(false);
-
     const handleEmailOTP = async () => {
       try {
         setIsSendingOtp(true);
@@ -197,7 +188,7 @@ const MyProfileForm = (userData) => {
 
       <Container fluid>
         {apiResponse?
-            <Form>
+            <Form onSubmit={handleSubmitProfile}>
         <Row>
             <Col sm={6}>
             <p className="myProfile text-white fw-bold text-center">01. My Profile</p>
@@ -289,14 +280,14 @@ const MyProfileForm = (userData) => {
                 </Form.Group>
                 <Form.Group controlId="formFile" className="mb-3">
                     <Form.Label>Upload new photo</Form.Label>
-                    <Form.Control name="image" onChange={handleInputChange} className='inputStyle' type="file" />
+                    <Form.Control name="image" onChange={handleFileChange} className='inputStyle' type="file" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="yourVision">
                     <Form.Label className='labelsStyle'>Your Vision</Form.Label>
                     <Form.Control name="vision" onChange={handleInputChange} value={formData.vision} className='inputStyle' as="textarea" rows={3}/>
                 </Form.Group>
                 
-                <Button onClick={handleSubmitProfile} variant="dark" className='w-100'>{updating? "Updating" : "Update"}</Button>
+                <Button type='submit' variant="dark" className='w-100'>{updating? "Updating" : "Update"}</Button>
 
             </Col>
         </Row>
