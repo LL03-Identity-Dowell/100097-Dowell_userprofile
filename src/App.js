@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./components/Loader";
-import { Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -32,8 +32,8 @@ const App = () => {
      
     } else {
       console.log("not Found")
-      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
-      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
+      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
+      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
       
     if (typeof window !== "undefined") {
       window.location.href = redirectUrl;
@@ -57,16 +57,17 @@ const App = () => {
       console.log(data)
       let user_name = data.userinfo.username;
       const user_id = data.userinfo.userID;
+      console.log(user_name, user_id)
       handleSubmitProfile(user_name);
       handleGetProfile(user_name, user_id)
-      // if (
-        // data.message === "You are logged out, Please login and try again!!"
-      // ) {
-        // navigate("https://100014.pythonanywhere.com/en/?redirect_url=");
-      // } else {
-        // navigate("src/components/Home.js");
+      if (
+        data.message === "You are logged out, Please login and try again!!"
+      ) {
+        navigate("https://100014.pythonanywhere.com/en/?redirect_url=http://127.0.0.1:3000");
+      } else {
+        navigate("src/components/Home.js");
+        }
         navigate("/");
-      // }
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
@@ -77,6 +78,7 @@ const App = () => {
       Username: username,
       userID : id
     };
+    console.log(formData)
     const requestOptions = {
       method: "POST",
       headers: {

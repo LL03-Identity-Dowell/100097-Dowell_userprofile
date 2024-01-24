@@ -9,14 +9,13 @@ const IdCard1 = (props) => {
 		const file = event.target.files[0];
 		// Check if a file is selected
 		if (file) {
-			// Check if the selected file is an image
 			if (file.type.startsWith("image/")) {
 				setSelectedFile(file);
 			} else {
 				toast.info(
 					"Please select a valid image file (JPEG, PNG, GIF, or SVG)."
 				);
-				event.target.value = null; // Clear the input field
+				event.target.value = null; 
 			}
 		}
 	};
@@ -24,9 +23,7 @@ const IdCard1 = (props) => {
 	console.log(selectedFile);
 	const handleSubmit = async () => {
 		setUpdating(true);
-		// Use `selectedFile` for further processing (e.g., send it to the API)
 		if (selectedFile) {
-			// Your file handling logic here
 			console.log("Selected file:", selectedFile);
 			const formData = new FormData();
 			formData.append("Username", username);

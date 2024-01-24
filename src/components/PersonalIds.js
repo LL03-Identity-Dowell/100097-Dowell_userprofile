@@ -65,10 +65,10 @@ const PersonalIds = (props) => {
                 </Col>
                 <Col lg={9}>
                     <div>
-                        {activeTab === 'voiceid' && <div><VoiceId/></div>}
+                        {activeTab === 'voiceid' && <div><VoiceId userInfo={userInfo}/></div>}
                         {activeTab === 'faceid' && <div><FaceId userInfo={userInfo}/></div>}
                         {activeTab === 'biometricid' && <div><BiometricId/></div>}
-                        {activeTab === 'videoid' && <div><VideoId/></div>}
+                        {activeTab === 'videoid' && <div><VideoId userInfo={userInfo}/></div>}
                         {activeTab === 'idCard1' && <div><IdCard1 userInfo={userInfo}/></div>}
                         {activeTab === 'idCard2' && <div><IdCard2 userInfo={userInfo}/></div>}
                         {activeTab === 'idCard3' && <div><IdCard3 userInfo={userInfo}/></div>}
