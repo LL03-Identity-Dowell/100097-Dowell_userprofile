@@ -55,21 +55,38 @@ const IdCard3 = (props) => {
     
   };
   return (
-    <div>
-    <div className='text-center'>
-    <ToastContainer position="top-right"/>
+		<div>
+			<div className="text-center">
+				<ToastContainer position="top-right" />
 
-      <Image className='img-fluid mb-4' src="/images/samanta.webp" alt="samanta" width={300} height={300}/>
-      </div>
-      <Form>
-        <Form.Group className="mb-3" controlId="IdCard2File">
-          <Form.Label className='labelsStyle'>ID Card3</Form.Label>
-          <Form.Control className='inputStyle' type="file" onChange={handleFileChange} accept="image/jpeg, image/png, image/gif, image/svg+xml"/>
-        </Form.Group> 
-        <Button onClick={handleSubmit}  variant="dark" className='lg:w-50'>{updating ? "Updating" : "Update Your ID Card 3"}</Button>
-    </Form>
-    </div>
-  )
+				<Image
+					className="img-fluid mb-4"
+					src={
+						props.userInfo.formsData[0].personalids.IDcard3 !== ""
+							? props.userInfo.formsData[0].personalids.IDcard3
+							: "/images/samanta.webp"
+					}
+					alt="samanta"
+					width={300}
+					height={300}
+				/>
+			</div>
+			<Form>
+				<Form.Group className="mb-3" controlId="IdCard2File">
+					<Form.Label className="labelsStyle">ID Card3</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="file"
+						onChange={handleFileChange}
+						accept="image/jpeg, image/png, image/gif, image/svg+xml"
+					/>
+				</Form.Group>
+				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
+					{updating ? "Updating" : "Update Your ID Card 3"}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default IdCard3

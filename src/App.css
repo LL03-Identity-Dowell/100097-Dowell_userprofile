@@ -216,3 +216,12 @@
   color: white;
   padding: 10px
 }    
+
+@media (min-width:300px) and (max-width:600px){
+  .card-container{
+    flex-direction: column;
+  }
+ .card-container  .card-profile-inner{
+  margin: 10px;
+ }
+}

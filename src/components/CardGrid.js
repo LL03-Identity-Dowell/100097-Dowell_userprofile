@@ -36,7 +36,7 @@ function NestedCard() {
     <Card
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
-      className={`position-relative ${isExpanded ? "expanded" : ""}`}
+      className={`position-relative card-profile-inner ${isExpanded ? "expanded" : ""}`}
     >
             {!isExpanded && <CardImg variant="top" src="/images/org-logo-3.png" alt="Image" />}
 

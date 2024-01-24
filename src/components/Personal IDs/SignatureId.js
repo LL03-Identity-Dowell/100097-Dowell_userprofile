@@ -85,21 +85,38 @@ console.log(selectedFile)
     
   };
   return (
-    <div>
-    <div className='text-center'>
-    <ToastContainer position="top-right"/>
+		<div>
+			<div className="text-center">
+				<ToastContainer position="top-right" />
 
-      <Image className='img-fluid mb-4' src="/images/samanta.webp" alt="samanta" width={300} height={300}/>
-      </div>
-      <Form>
-        <Form.Group className="mb-3" controlId="signature">
-          <Form.Label className='labelsStyle'>Signature ID</Form.Label>
-          <Form.Control className='inputStyle' type="file" onChange={handleFileChange} accept="image/jpeg, image/png, image/gif, image/svg+xml"/>
-        </Form.Group> 
-        <Button onClick={handleSubmit}  variant="dark" className='lg:w-50'>{updating ? "Updating" : "Update Your signature ID"}</Button>
-    </Form>
-    </div>
-  )
+				<Image
+					className="img-fluid mb-4"
+					src={
+						props.userInfo.formsData[0].personalids.signature !== ""
+							? props.userInfo.formsData[0].personalids.signature
+							: "/images/samanta.webp"
+					}
+					alt="samanta"
+					width={300}
+					height={300}
+				/>
+			</div>
+			<Form>
+				<Form.Group className="mb-3" controlId="signature">
+					<Form.Label className="labelsStyle">Signature ID</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="file"
+						onChange={handleFileChange}
+						accept="image/jpeg, image/png, image/gif, image/svg+xml"
+					/>
+				</Form.Group>
+				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
+					{updating ? "Updating" : "Update Your signature ID"}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default SignatureId
