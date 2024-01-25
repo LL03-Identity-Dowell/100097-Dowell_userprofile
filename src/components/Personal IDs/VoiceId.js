@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Button, Image, Form, Tab, Tabs } from 'react-bootstrap';
+import { Button, Image, Form, Tab, Tabs, Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import { FaTimes } from "react-icons/fa";
+
 
 const VoiceId = (props) => {
   const [recording, setRecording] = useState(false);
@@ -9,66 +11,71 @@ const VoiceId = (props) => {
   const [recordingTime, setRecordingTime] = useState(0);
   const [userChoice, setUserChoice] = useState('file'); // 'file' or 'record'
   const [updating,setUpdating] = useState(false);
+ const [audioUrl, setAudioUrl] = useState(null); // New state to store audio URL
+const audioRef = useRef();
+ const mediaRecorderRef = useRef(null);
 
-  const mediaRecorderRef = useRef(null);
-  const audioRef = useRef();
-  
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      const chunks = [];
+ const startRecording = async () => {
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+			const mediaRecorder = new MediaRecorder(stream);
+			const chunks = [];
 
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunks.push(e.data);
-        }
-      };
+			mediaRecorder.ondataavailable = (e) => {
+				if (e.data.size > 0) {
+					chunks.push(e.data);
+				}
+			};
 
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/wav' });
-        setAudioBlob(blob);
-      };
+			mediaRecorder.onstop = () => {
+				const blob = new Blob(chunks, { type: "audio/wav" });
+				setAudioBlob(blob);
+				setAudioUrl(URL.createObjectURL(blob)); // Set audio URL using state
+			};
 
-      mediaRecorder.onstart = () => {
-        setRecordingTime(0);
-        const interval = setInterval(() => {
-          setRecordingTime((prevTime) => prevTime + 1);
-        }, 1000);
+			mediaRecorder.onstart = () => {
+				setRecordingTime(0);
+				const interval = setInterval(() => {
+					setRecordingTime((prevTime) => prevTime + 1);
+				}, 1000);
 
-        mediaRecorderRef.current = mediaRecorder;
+				mediaRecorderRef.current = mediaRecorder;
 
-        mediaRecorderRef.current.onstop = () => {
-          clearInterval(interval);
-          const blob = new Blob(chunks, { type: 'audio/wav' });
-          setAudioBlob(blob);
-        };
-      };
+				mediaRecorderRef.current.onstop = () => {
+					clearInterval(interval);
+					const blob = new Blob(chunks, { type: "audio/wav" });
+					setAudioBlob(blob);
+					setAudioUrl(URL.createObjectURL(blob)); // Set audio URL using state
+				};
+			};
 
-      mediaRecorder.start();
-      setRecording(true);
-    } catch (error) {
-      console.error('Error accessing microphone:', error);
-    }
-  };
+			mediaRecorder.start();
+			setRecording(true);
+		} catch (error) {
+			console.error("Error accessing microphone:", error);
+		}
+ };
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && recording) {
-      mediaRecorderRef.current.stop();
-      setRecording(false);
-    }
-  };
+ const stopRecording = () => {
+		if (mediaRecorderRef.current && recording) {
+			mediaRecorderRef.current.stop();
+			setRecording(false);
+		}
 
-  const handleReplay = () => {
-    if (audioBlob) {
-      const audioURL = URL.createObjectURL(audioBlob);
-      audioRef.current.src = audioURL;
-      audioRef.current.play();
-    }
-  };
+	 console.log(audioBlob)
+ };
+
+ const handleReplay = () => {
+		if (audioBlob) {
+			// Use the audioUrl state to set the audio source
+			
+			audioRef.current.play();
+		}
+ };
 
   const handleReset = () => {
     setAudioBlob(null);
+    setAudioUrl(null)
     setRecordingTime(0);
   };
 
@@ -81,6 +88,7 @@ const VoiceId = (props) => {
       // Check if the selected file is an image
       if (file.type.startsWith('audio/')) {
         setAudioBlob(file);
+        setProgress(100)
       } else {
         toast.info('Please select a valid audio file (WAV, MP3, or OGG).');
         event.target.value = null; // Clear the input field
@@ -165,62 +173,105 @@ const VoiceId = (props) => {
   
 
   return (
-    <div className='text-center'>
-      <Image className='img-fluid mb-4' src="/images/samanta.webp" alt="samanta" width={300} height={300} />
+		<div className="text-center">
+			<Image
+				className="img-fluid mb-4"
+				src="/images/samanta.webp"
+				alt="samanta"
+				width={300}
+				height={300}
+			/>
 
-      <Tabs
-        activeKey={userChoice}
-        onSelect={(choice) => handleUserChoiceChange(choice)}
-        className="mb-3"
-      >
-        <Tab eventKey="file" title="Upload File">
-          <Form.Group className="mb-3" controlId="voiceIdFile">
-            <Form.Label className='labelsStyle'>Voice Id</Form.Label>
-            <Form.Control className='inputStyle' onChange={handleFileChange} type="file" />
-          </Form.Group>
-          {audioBlob && (
-        <div>
-          <p>File: {audioBlob.name}</p>
-          <p>Format: {audioBlob.type}</p>
-          <progress value={progress} max="100"></progress>
-          <button onClick={handleRemove}>Remove</button>
-        </div>
-      )}
-        </Tab>
-        <Tab eventKey="record" title="Record Audio">
-          <div>
-            <Button variant="success" onClick={startRecording} disabled={recording}>
-              {recording ? 'Recording...' : 'Start Recording'}
-            </Button>
-            <Button variant="success" onClick={stopRecording} disabled={!recording}>
-              Stop Recording
-            </Button>
-            <br />
-            <br />
-            <br />
-            <br />
-            <Button variant="success" onClick={handleReplay} disabled={!audioBlob}>
-              Replay
-            </Button>
-            <Button variant="success" onClick={handleReset} disabled={!audioBlob}>
-              Reset
-            </Button>
-            <br />
-            <br />
-            <div>
-              {recording && <p>Recording Time: {recordingTime}s</p>}
-            </div>
-            {audioBlob && <audio ref={audioRef} controls />}
-          </div>
-        </Tab>
-      </Tabs>
+			<Tabs
+				activeKey={userChoice}
+				onSelect={(choice) => handleUserChoiceChange(choice)}
+				className="mb-3"
+			>
+				<Tab eventKey="file" title="Upload File">
+					<Form.Group className="mb-3" controlId="voiceIdFile">
+						<Form.Label className="labelsStyle">Voice Id</Form.Label>
+						<Form.Control
+							className="inputStyle"
+							onChange={handleFileChange}
+							type="file"
+						/>
+					</Form.Group>
+					{audioBlob && (
+						<div>
+							<p>File: {audioBlob.name}</p>
+							<p>Format: {audioBlob.type}</p>
 
-    
-      <Button variant="dark" className='lg:w-50' onClick={handleUpload} >
-      {updating ? "Updating" : "Update Your Voice ID"}
-      </Button>
-    </div>
-  );
+							<div className="file-upload-progress">
+								<progress
+									value={progress}
+									max="100"
+									className="upload-progress-audio"
+								></progress>
+
+								<Button
+									variant="dark"
+									className="lg:w-50"
+									onClick={handleRemove}
+								>
+									<FaTimes />
+								</Button>
+							</div>
+						</div>
+					)}
+				</Tab>
+				<Tab eventKey="record" title="Record Audio">
+					<div>
+						<Button
+							variant="success"
+							onClick={startRecording}
+							disabled={recording}
+							className="me-2"
+						>
+							{recording ? "Recording..." : "Start Recording"}
+						</Button>
+						<Button
+							variant="success"
+							onClick={stopRecording}
+							disabled={!recording}
+						>
+							Stop Recording
+						</Button>
+						<br />
+						<br />
+						<br />
+						<br />
+						<Button
+							variant="success"
+							onClick={handleReplay}
+							disabled={!audioBlob}
+							className="me-2"
+						>
+							Replay
+						</Button>
+						<Button
+							variant="success"
+							onClick={handleReset}
+							disabled={!audioBlob}
+						>
+							Reset
+						</Button>
+						<br />
+						<br />
+						<div>{recording && <p>Recording Time: {recordingTime}s</p>}</div>
+						{audioUrl != null ? (
+							<audio ref={audioRef} src={audioUrl} controls />
+						) : (
+							""
+						)}
+					</div>
+				</Tab>
+			</Tabs>
+
+			<Button variant="dark" className="lg:w-50" onClick={() => handleUpload()}>
+				{updating ? "Updating" : "Update Your Voice ID"}
+			</Button>
+		</div>
+	);
 };
 
 export default VoiceId;

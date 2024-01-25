@@ -1,26 +1,54 @@
 
 import { Button, Image, Form } from 'react-bootstrap';
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import RecordRTC from "recordrtc";
 import { ToastContainer, toast } from "react-toastify";
 const VideoId = () => {
+	const [capturedVideo, setCapturedVideo] = useState(null);
+	const [opencamera, setopencamera] = useState(false);
+	const [recording, setRecording] = useState(false);
+	const webcamRef = useRef(null);
+	const recordRTCRef = useRef(null);
 
-   const [capturedVideo, setCapturedVideo] = useState(null);
-   const [opencamera, setopencamera] = useState(false);
-		const [recording, setRecording] = useState(false);
-		const webcamRef = useRef(null);
-		const recordRTCRef = useRef(null);
-
-  const opencamerahandle = () => {
-    setopencamera(true)
-  }
-  const closecamerahandle = () => {
-    setopencamera(false);
-    setCapturedVideo(null)
+	const opencamerahandle = () => {
+		setopencamera(true);
 	};
-  
-  
+	const closecamerahandle = () => {
+		const cleanup = () => {
+			setRecording(false);
+
+			// Stop recording if in progress
+			if (recordRTCRef.current) {
+				recordRTCRef.current.stopRecording(() => {
+					// Clear the recorder instance
+					recordRTCRef.current = null;
+				});
+			}
+
+			// Stop the webcam stream
+			const tracks = webcamRef.current?.video?.srcObject?.getTracks();
+			if (tracks) {
+				tracks.forEach((track) => track.stop());
+			}
+
+			// Clear the webcam stream
+			if (webcamRef.current) {
+				const videoSrcObject = webcamRef.current.video.srcObject;
+				if (videoSrcObject) {
+					const tracks = videoSrcObject.getTracks();
+					tracks.forEach((track) => track.stop());
+				}
+				webcamRef.current.video.srcObject = null;
+			}
+		};
+
+		cleanup();
+		setopencamera(false);
+		setCapturedVideo(null)
+	};
+
+
 	const handleStartCapture = () => {
 		// Check if the browser supports getUserMedia
 		if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -29,20 +57,20 @@ const VideoId = () => {
 				.getUserMedia({ video: true })
 				.then(function (stream) {
 					// User has granted access to the camera
-						setCapturedVideo(null);
-						setRecording(true);
+					setCapturedVideo(null);
+					setRecording(true);
 
-						const mediaRecorderOptions = {
-							mimeType: "video/webm",
-						};
+					const mediaRecorderOptions = {
+						mimeType: "video/webm",
+					};
 
-						// Start recording the webcam feed
-						const recorder = RecordRTC(
-							webcamRef.current.video.srcObject,
-							mediaRecorderOptions
-						);
-						recorder.startRecording();
-						recordRTCRef.current = recorder;
+					// Start recording the webcam feed
+					const recorder = RecordRTC(
+						webcamRef.current.video.srcObject,
+						mediaRecorderOptions
+					);
+					recorder.startRecording();
+					recordRTCRef.current = recorder;
 				})
 				.catch(function (error) {
 					// User has denied access or there was an error
@@ -52,30 +80,59 @@ const VideoId = () => {
 			// Browser doesn't support getUserMedia
 			console.error("getUserMedia not supported in this browser");
 		}
-
-	
 	};
 
-		const handleStopRecording = () => {
-			setRecording(false);
+	const handleStopRecording = () => {
+		setRecording(false);
 
-			// Stop recording and get the captured video blob
-			recordRTCRef.current.stopRecording(() => {
-				const capturedBlob = recordRTCRef.current.getBlob();
-				const capturedDataURL = URL.createObjectURL(capturedBlob);
-				setCapturedVideo(capturedDataURL);
-			});
+		// Stop recording and get the captured video blob
+		recordRTCRef.current.stopRecording(() => {
+			const capturedBlob = recordRTCRef.current.getBlob();
+			console.log(capturedBlob)
+			const capturedDataURL = URL.createObjectURL(capturedBlob);
+			setCapturedVideo(capturedDataURL);
+		});
+	};
+
+	const handleRetake = () => {
+		setCapturedVideo(null);
+	};
+
+	useEffect(() => {
+		const handleVisibilityChange = () => {
+			if (document.hidden) {
+				handleStopRecording();
+			}
 		};
 
-		const handleRetake = () => {
-			setCapturedVideo(null);
-		};
+		document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  
-  
-  
-  
-  return (
+		return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+			// Release resources when component unmounts
+			if (recordRTCRef.current) {
+				recordRTCRef.current.stopRecording();
+				recordRTCRef.current = null;
+			}
+
+			const tracks = webcamRef.current?.video?.srcObject?.getTracks();
+			if (tracks) {
+				tracks.forEach((track) => track.stop());
+			}
+
+			if (webcamRef.current) {
+				const videoSrcObject = webcamRef.current.video.srcObject;
+				if (videoSrcObject) {
+					const tracks = videoSrcObject.getTracks();
+					tracks.forEach((track) => track.stop());
+				}
+				webcamRef.current.video.srcObject = null;
+			}
+		};
+	}, []);
+
+	return (
 		<>
 			<ToastContainer position="top-right" />
 			<div className="videoid-file-wrapper">
@@ -154,14 +211,17 @@ const VideoId = () => {
 										Stop Recording
 									</Button>
 								)}
-
-								<Button
-									variant="dark"
-									className="lg:w-50"
-									onClick={closecamerahandle}
-								>
-									Close Camera
-								</Button>
+								{recording == false ? (
+									<Button
+										variant="dark"
+										className="lg:w-50"
+										onClick={closecamerahandle}
+									>
+										Close Camera
+									</Button>
+								) : (
+									""
+								)}
 							</div>
 						)}
 
