@@ -170,15 +170,28 @@ const VideoId = (props) => {
 			<div className="videoid-file-wrapper">
 				{opencamera !== true ? (
 					<>
-						<div className="text-center">
-							<Image
-								className="img-fluid mb-4"
-								src="/images/samanta.webp"
-								alt="samanta"
-								width={300}
-								height={300}
-							/>
-						</div>
+						{props.userInfo.formsData[0].personalids.videoID == "" ? (
+							<>
+								<video width="400" height="300" controls className="mx-auto">
+									<source
+										src={props.userInfo.formsData[0].personalids.videoID}
+										type="video/webm"
+									/>
+									Your browser does not support the video tag.
+								</video>
+							</>
+						) : (
+							<div className="text-center">
+								<Image
+									className="img-fluid mb-4"
+									src="/images/samanta.webp"
+									alt="samanta"
+									width={300}
+									height={300}
+								/>
+							</div>
+						)}
+
 						<Form>
 							<Form.Group className="mb-3" controlId="videoIdFile">
 								<Form.Label className="labelsStyle">Video Id</Form.Label>
@@ -265,7 +278,11 @@ const VideoId = (props) => {
 								</video>
 								<br />
 
-								<Button variant="dark" className="lg:w-50 me-2" onClick={handlesubmit}>
+								<Button
+									variant="dark"
+									className="lg:w-50 me-2"
+									onClick={handlesubmit}
+								>
 									Submit
 								</Button>
 								<Button
