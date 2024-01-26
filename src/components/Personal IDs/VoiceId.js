@@ -13,6 +13,7 @@ const VoiceId = (props) => {
   const [updating,setUpdating] = useState(false);
  const [audioUrl, setAudioUrl] = useState(null); // New state to store audio URL
 const audioRef = useRef();
+const apiaudioRef = useRef();
  const mediaRecorderRef = useRef(null);
 
  const startRecording = async () => {
@@ -52,13 +53,15 @@ const audioRef = useRef();
 			mediaRecorder.start();
 			setRecording(true);
 		} catch (error) {
-			console.error("Error accessing microphone:", error);
+			// console.error("Error accessing microphone:", error);
+			toast.error("Microphone Access Denied ");
 		}
  };
 
  const stopRecording = () => {
 		if (mediaRecorderRef.current && recording) {
 			mediaRecorderRef.current.stop();
+			apiaudioRef.current.pause();
 			setRecording(false);
 		}
 
@@ -174,13 +177,28 @@ const audioRef = useRef();
 
   return (
 		<div className="text-center">
-			<Image
-				className="img-fluid mb-4"
-				src="/images/samanta.webp"
-				alt="samanta"
-				width={300}
-				height={300}
-			/>
+			<div className="mb-2">
+				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
+					<audio
+						ref={apiaudioRef}
+						src={props.userInfo.formsData[0].personalids.voiceID}
+						controls
+						onPlay={() => {
+							if (audioRef.current != undefined) {
+								audioRef.current.pause();
+							}
+						}}
+					/>
+				) : (
+					<Image
+						className="img-fluid mb-4"
+						src="/images/samanta.webp"
+						alt="samanta"
+						width={300}
+						height={300}
+					/>
+				)}
+			</div>
 
 			<Tabs
 				activeKey={userChoice}
@@ -238,32 +256,34 @@ const audioRef = useRef();
 						</Button>
 						<br />
 						<br />
-						<br />
-						<br />
-						<Button
-							variant="success"
-							onClick={handleReplay}
-							disabled={!audioBlob}
-							className="me-2"
-						>
-							Replay
-						</Button>
-						<Button
-							variant="success"
-							onClick={handleReset}
-							disabled={!audioBlob}
-						>
-							Reset
-						</Button>
-						<br />
-						<br />
 						<div>{recording && <p>Recording Time: {recordingTime}s</p>}</div>
 						{audioUrl != null ? (
-							<audio ref={audioRef} src={audioUrl} controls />
+							<audio
+								ref={audioRef}
+								src={audioUrl}
+								controls
+								onPlay={() => {
+									apiaudioRef.current.pause();
+								}}
+							/>
 						) : (
 							""
 						)}
 					</div>
+
+					<Button
+						variant="success"
+						onClick={handleReplay}
+						disabled={!audioBlob}
+						className="me-2"
+					>
+						Replay
+					</Button>
+					<Button variant="success" onClick={handleReset} disabled={!audioBlob}>
+						Reset
+					</Button>
+					<br />
+					<br />
 				</Tab>
 			</Tabs>
 

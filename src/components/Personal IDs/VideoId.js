@@ -4,10 +4,13 @@ import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import RecordRTC from "recordrtc";
 import { ToastContainer, toast } from "react-toastify";
-const VideoId = () => {
+const VideoId = (props) => {
 	const [capturedVideo, setCapturedVideo] = useState(null);
 	const [opencamera, setopencamera] = useState(false);
 	const [recording, setRecording] = useState(false);
+	const [capturedata, setcapturedata] = useState(null);
+	
+ const username = props.userInfo.profileData.Username;
 	const webcamRef = useRef(null);
 	const recordRTCRef = useRef(null);
 
@@ -89,6 +92,7 @@ const VideoId = () => {
 		recordRTCRef.current.stopRecording(() => {
 			const capturedBlob = recordRTCRef.current.getBlob();
 			console.log(capturedBlob)
+			setcapturedata(capturedBlob)
 			const capturedDataURL = URL.createObjectURL(capturedBlob);
 			setCapturedVideo(capturedDataURL);
 		});
@@ -96,6 +100,7 @@ const VideoId = () => {
 
 	const handleRetake = () => {
 		setCapturedVideo(null);
+		setcapturedata(null)
 	};
 
 	useEffect(() => {
@@ -132,6 +137,33 @@ const VideoId = () => {
 		};
 	}, []);
 
+
+	const handlesubmit = async() => {
+		const formData = new FormData();
+		
+        formData.append("Username", username);
+        formData.append("videoID", capturedata, "capturedVideo.webm");
+
+        try {
+            // Use fetch to send the blob to the API
+            const response = await fetch("https://100097.pythonanywhere.com/getids", {
+                method: "POST",
+                body: formData,
+            });
+
+            // Handle the response
+            if (response.ok) {
+                // The API call was successful, you can handle the response here
+                console.log("Video successfully submitted!");
+            } else {
+                // The API call failed, handle the error
+                console.error("Failed to submit video:", response.status, response.statusText);
+            }
+        } catch (error) {
+            // Handle fetch error
+            console.error("Error during fetch:", error);
+        }
+}
 	return (
 		<>
 			<ToastContainer position="top-right" />
@@ -233,7 +265,7 @@ const VideoId = () => {
 								</video>
 								<br />
 
-								<Button variant="dark" className="lg:w-50 me-2">
+								<Button variant="dark" className="lg:w-50 me-2" onClick={handlesubmit}>
 									Submit
 								</Button>
 								<Button
