@@ -170,7 +170,7 @@ const VideoId = (props) => {
 			<div className="videoid-file-wrapper">
 				{opencamera !== true ? (
 					<>
-						{props.userInfo.formsData[0].personalids.videoID == "" ? (
+						{props.userInfo.formsData[0].personalids.videoID != "" ? (
 							<>
 								<video width="400" height="300" controls className="mx-auto">
 									<source
