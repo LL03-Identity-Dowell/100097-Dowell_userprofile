@@ -25,7 +25,7 @@ const FaceId = (props) => {
   const handleFileChange = () => {
     const fileInput = fileInputRef.current;
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      setUploadedFileName(fileInput.files[0].name);
+      setUploadedFileName(fileInput.files[0]);
     }
   };
   const handlecameraInput = async () => {
@@ -91,6 +91,7 @@ const FaceId = (props) => {
       if (response.ok) {
         setUpdating(false);
         toast.success("success");
+        console.log(response)
       } else {
         setUpdating(false);
         const errorData = await response.json(); // Parse the error response
@@ -122,7 +123,12 @@ const FaceId = (props) => {
       <div className="text-center">
         <Image
           className="img-fluid mb-4"
-          src="/images/samanta.webp"
+          // src="/images/samanta.webp"
+          src={
+						props.userInfo.formsData[0].personalids.faceID !== ""
+							? props.userInfo.formsData[0].personalids.faceID
+							: "/images/samanta.webp"
+					}
           alt="samanta"
           width={300}
           height={300}

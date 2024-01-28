@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Image, Form, Tab, Tabs, Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { FaTimes } from "react-icons/fa";
+import lamejs from 'lamejs';
 
 
 const VoiceId = (props) => {
@@ -16,6 +17,10 @@ const audioRef = useRef();
 const apiaudioRef = useRef();
  const mediaRecorderRef = useRef(null);
 
+ useEffect(() => {
+  console.log("audioUrl changed:", audioUrl);
+}, [audioUrl]);
+const desiredFileName = 'audiofile.mp3';
  const startRecording = async () => {
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -30,10 +35,10 @@ const apiaudioRef = useRef();
 
 			mediaRecorder.onstop = () => {
 				const blob = new Blob(chunks, { type: "audio/wav" });
+
 				setAudioBlob(blob);
 				setAudioUrl(URL.createObjectURL(blob)); // Set audio URL using state
 			};
-
 			mediaRecorder.onstart = () => {
 				setRecordingTime(0);
 				const interval = setInterval(() => {
@@ -44,9 +49,11 @@ const apiaudioRef = useRef();
 
 				mediaRecorderRef.current.onstop = () => {
 					clearInterval(interval);
-					const blob = new Blob(chunks, { type: "audio/wav" });
-					setAudioBlob(blob);
-					setAudioUrl(URL.createObjectURL(blob)); // Set audio URL using state
+					const blob = new Blob(chunks, { type: "audio/mpeg" });
+          const renamedFile = new File([blob], desiredFileName, { type: blob.type });
+          
+					setAudioBlob(renamedFile);
+					setAudioUrl(URL.createObjectURL(renamedFile)); // Set audio URL using state
 				};
 			};
 
@@ -63,15 +70,17 @@ const apiaudioRef = useRef();
 			mediaRecorderRef.current.stop();
 			apiaudioRef.current.pause();
 			setRecording(false);
+      
 		}
 
 	 console.log(audioBlob)
  };
+ console.log(audioUrl)
+ console.log(audioBlob)
+
 
  const handleReplay = () => {
-		if (audioBlob) {
-			// Use the audioUrl state to set the audio source
-			
+		if (audioBlob) {	
 			audioRef.current.play();
 		}
  };
@@ -103,18 +112,11 @@ const apiaudioRef = useRef();
     setAudioBlob(null);
     setProgress(0);
   };
+
   const handleUpload = async () => {
-    // const interval = setInterval(() => {
-    //   setProgress((prevProgress) => {
-    //     const newProgress = prevProgress + 10;
-    //     if (newProgress >= 100) {
-    //       clearInterval(interval);
-    //     }
-    //     return newProgress;
-    //   });
-    // }, 1000);
     setUpdating(true)        
     if(audioBlob){
+    
       const formData = new FormData();
       formData.append('Username', username);
       formData.append('voiceID', audioBlob);
@@ -129,11 +131,11 @@ const apiaudioRef = useRef();
         console.log(data)
         if (response.ok) {
           setUpdating(false)        
-          toast.success(response.message);
+          toast.success("Voice id updated successfully");
           setAudioBlob(null);
         } else {
           setUpdating(false)        
-          toast.error('Failed to upload image.');
+          toast.error('Failed to upload voice id.');
           setAudioBlob(null);
 
         }
@@ -148,35 +150,14 @@ const apiaudioRef = useRef();
       setUpdating(false)
       toast.error("Please select voice id first")
     }
-    // if (userChoice === 'file') {
-    //   const fileInput = document.getElementById('voiceIdFile');
-    //   const selectedFile = fileInput.files[0];
-  
-    //   if (selectedFile) {
-    //     setUpdating(false)        
-
-    //     console.log('Selected file:', selectedFile);
-    //     // Implement file upload logic
-    //   } else {
-    //     setUpdating(false)        
-
-    //     toast.error('Please select a file.');
-    //   }
-    // } else {
-    //   if (audioBlob) {
-    //     setUpdating(false)        
-
-    //     console.log('Recorded audio blob:', audioBlob);
-    //     // Implement recording upload logic
-    //   } else {
-    //     toast.error('No recorded audio to upload.');
-    //   }
-    // }
+    
   };
   
 
   return (
-		<div className="text-center">
+		<div className="text-center mt-5">
+				<ToastContainer position="top-right" />
+
 			<div className="mb-2">
 				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
 					<audio
@@ -257,7 +238,7 @@ const apiaudioRef = useRef();
 						<br />
 						<br />
 						<div>{recording && <p>Recording Time: {recordingTime}s</p>}</div>
-						{audioUrl != null ? (
+						{audioBlob != null ? (
 							<audio
 								ref={audioRef}
 								src={audioUrl}
