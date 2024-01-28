@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 const VideoId = (props) => {
 	const [capturedVideo, setCapturedVideo] = useState(null);
 	const [opencamera, setopencamera] = useState(false);
+	  const [videofile, setvideofile] = useState(null);
 	const [recording, setRecording] = useState(false);
 	const [capturedata, setcapturedata] = useState(null);
 	  const [updating, setUpdating] = useState(false);
@@ -16,6 +17,7 @@ const VideoId = (props) => {
 
 	const opencamerahandle = () => {
 		setopencamera(true);
+		setUpdating(false)
 	};
 	const closecamerahandle = () => {
 		const cleanup = () => {
@@ -89,13 +91,15 @@ const VideoId = (props) => {
 		setRecording(false);
 
 		// Stop recording and get the captured video blob
-		recordRTCRef.current.stopRecording(() => {
-			const capturedBlob = recordRTCRef.current.getBlob();
-			console.log(capturedBlob)
-			setcapturedata(capturedBlob)
-			const capturedDataURL = URL.createObjectURL(capturedBlob);
-			setCapturedVideo(capturedDataURL);
-		});
+		if (recordRTCRef.current) {
+			recordRTCRef.current.stopRecording(() => {
+				const capturedBlob = recordRTCRef.current.getBlob();
+				console.log(capturedBlob);
+				setcapturedata(capturedBlob);
+				const capturedDataURL = URL.createObjectURL(capturedBlob);
+				setCapturedVideo(capturedDataURL);
+			});
+		}
 	};
 
 	const handleRetake = () => {
@@ -138,38 +142,78 @@ const VideoId = (props) => {
 	}, []);
 
 
-	const handlesubmit = async () => {
+	const handlesubmit = async (userchoice) => {
 		setUpdating(true)
 		const formData = new FormData();
 		
-        formData.append("Username", username);
-        formData.append("videoID", capturedata, "capturedVideo.webm");
+		formData.append("Username", username);
+		
+		if (userchoice === "custom") {
+			formData.append("videoID", capturedata, "capturedVideo.webm");
+			setvideofile(null);
+			
+		}
+		if (userchoice === "browse"){
+			formData.append("videoID", videofile);
+			setcapturedata(null);
+		}
+		
+		
+		if (capturedata  !== null || videofile!=null) {
+			console.log(formData.get("videoID"));
+			try {
+				// Use fetch to send the blob to the API
+				const response = await fetch(
+					"https://100097.pythonanywhere.com/getids",
+					{
+						method: "POST",
+						body: formData,
+					}
+				);
 
-        try {
-            // Use fetch to send the blob to the API
-            const response = await fetch("https://100097.pythonanywhere.com/getids", {
-                method: "POST",
-                body: formData,
-            });
+				// Handle the response
+				if (response.ok) {
+					
+					// The API call was successful, you can handle the response here
+					console.log("Video successfully submitted!");
+					toast.success("Sucess");
+					setvideofile(null);
+					setcapturedata(null);
+					setUpdating(false);
+				} else {
+					// The API call failed, handle the error
+					setUpdating(false);
+					toast.error("Failed to submit video");
+					console.error(
+						"Failed to submit video:",
+						response.status,
+						response.statusText
+					);
+				}
+			} catch (error) {
+				// Handle fetch error
+				console.error("Error during fetch:", error);
+				setUpdating(false);
+			}
+		} else {
+			toast.error("Upload video or record video to update video id");
+		}
+	}
+	
 
-            // Handle the response
-			if (response.ok) {
-				setUpdating(false);
-                // The API call was successful, you can handle the response here
-				console.log("Video successfully submitted!");
-				toast.success("Sucess")
-            } else {
-				// The API call failed, handle the error
-				setUpdating(false);
-				toast.error("Failed to submit video");
-                console.error("Failed to submit video:", response.status, response.statusText);
-            }
-        } catch (error) {
-            // Handle fetch error
-			console.error("Error during fetch:", error);
-			setUpdating(false);
-        }
-}
+	 const handleFileChange = (event) => {
+			const file = event.target.files[0];
+			if (file) {
+				// Check if the selected file is an image
+				if (file.type.startsWith("video/")) {
+					setvideofile(file);
+					
+				} else {
+					toast.info("Please select a valid Video file (mkv or mp4).");
+					event.target.value = null; // Clear the input field
+				}
+			}
+		};
 	return (
 		<>
 			<ToastContainer position="top-right" />
@@ -205,11 +249,16 @@ const VideoId = (props) => {
 									className="inputStyle"
 									type="file"
 									accept="video/*"
+									onChange={handleFileChange}
 								/>
 							</Form.Group>
 
-							<Button variant="dark" className="lg:w-50">
-								Update Your Video ID
+							<Button
+								variant="dark"
+								className="lg:w-50"
+								onClick={() => handlesubmit("browse")}
+							>
+								{updating ? "Updating" : "Update Your Video ID"}
 							</Button>
 							<hr className="border-gray-300" />
 							<p className="text-center">OR</p>
@@ -287,7 +336,7 @@ const VideoId = (props) => {
 								<Button
 									variant="dark"
 									className="lg:w-50 me-2 my-1"
-									onClick={handlesubmit}
+									onClick={() => handlesubmit("custom")}
 								>
 									{updating ? "Updating" : "Update Your Video ID"}
 								</Button>
