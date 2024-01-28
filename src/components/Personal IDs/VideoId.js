@@ -9,7 +9,7 @@ const VideoId = (props) => {
 	const [opencamera, setopencamera] = useState(false);
 	const [recording, setRecording] = useState(false);
 	const [capturedata, setcapturedata] = useState(null);
-	
+	  const [updating, setUpdating] = useState(false);
  const username = props.userInfo.profileData.Username;
 	const webcamRef = useRef(null);
 	const recordRTCRef = useRef(null);
@@ -138,7 +138,8 @@ const VideoId = (props) => {
 	}, []);
 
 
-	const handlesubmit = async() => {
+	const handlesubmit = async () => {
+		setUpdating(true)
 		const formData = new FormData();
 		
         formData.append("Username", username);
@@ -152,16 +153,21 @@ const VideoId = (props) => {
             });
 
             // Handle the response
-            if (response.ok) {
+			if (response.ok) {
+				setUpdating(false);
                 // The API call was successful, you can handle the response here
-                console.log("Video successfully submitted!");
+				console.log("Video successfully submitted!");
+				toast.success("Sucess")
             } else {
-                // The API call failed, handle the error
+				// The API call failed, handle the error
+				setUpdating(false);
+				toast.error("Failed to submit video");
                 console.error("Failed to submit video:", response.status, response.statusText);
             }
         } catch (error) {
             // Handle fetch error
-            console.error("Error during fetch:", error);
+			console.error("Error during fetch:", error);
+			setUpdating(false);
         }
 }
 	return (
@@ -172,7 +178,7 @@ const VideoId = (props) => {
 					<>
 						{props.userInfo.formsData[0].personalids.videoID != "" ? (
 							<>
-								<video width="400" height="300" controls className="mx-auto">
+								<video controls className="videoid-wrapper mx-auto">
 									<source
 										src={props.userInfo.formsData[0].personalids.videoID}
 										type="video/webm"
@@ -250,7 +256,7 @@ const VideoId = (props) => {
 								) : (
 									<Button
 										variant="dark"
-										className="lg:w-50 me-2"
+										className="lg:w-50 me-2 my-1"
 										onClick={handleStopRecording}
 									>
 										Stop Recording
@@ -259,7 +265,7 @@ const VideoId = (props) => {
 								{recording == false ? (
 									<Button
 										variant="dark"
-										className="lg:w-50"
+										className="lg:w-50 my-1"
 										onClick={closecamerahandle}
 									>
 										Close Camera
@@ -272,7 +278,7 @@ const VideoId = (props) => {
 
 						{capturedVideo && (
 							<div>
-								<video width="400" height="300" controls>
+								<video className="videoid-wrapper my-2" controls>
 									<source src={capturedVideo} type="video/webm" />
 									Your browser does not support the video tag.
 								</video>
@@ -280,21 +286,21 @@ const VideoId = (props) => {
 
 								<Button
 									variant="dark"
-									className="lg:w-50 me-2"
+									className="lg:w-50 me-2 my-1"
 									onClick={handlesubmit}
 								>
-									Submit
+									{updating ? "Updating" : "Update Your Video ID"}
 								</Button>
 								<Button
 									variant="dark"
-									className="lg:w-50 me-2"
+									className="lg:w-50 me-2 my-1"
 									onClick={handleRetake}
 								>
 									Retake
 								</Button>
 								<Button
 									variant="dark"
-									className="lg:w-50 me-2"
+									className="lg:w-50 me-2 my-1"
 									onClick={closecamerahandle}
 								>
 									Close

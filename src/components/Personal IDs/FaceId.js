@@ -116,96 +116,100 @@ const FaceId = (props) => {
   };
 
   return (
-    <div>
-      <ToastContainer position="top-right" />
+		<div>
+			<ToastContainer position="top-right" />
 
-      <div className="text-center">
-        <Image
-          className="img-fluid mb-4"
-          src="/images/samanta.webp"
-          alt="samanta"
-          width={300}
-          height={300}
-        />
-      </div>
-      <Form>
-        <Form.Group className="mb-3" controlId="faceIdFile">
-          <Form.Label className="labelsStyle">Face Id</Form.Label>
-          <Form.Control
-            className="inputStyle"
-            type="file"
-            onChange={() => {
-              handleOptionChange("file");
-              handleFileChange();
-            }}
-            ref={fileInputRef}
-            disabled={selectedOption === "camera"}
-          />
-          <small>{uploadedFileName}</small>
-        </Form.Group>
+			<div className="text-center">
+				<Image
+					className="img-fluid mb-4"
+					src={
+						props.userInfo.formsData[0].personalids.faceID !== ""
+							? props.userInfo.formsData[0].personalids.faceID
+							: "/images/samanta.webp"
+					}
+					alt="faceid"
+					width={300}
+					height={300}
+				/>
+			</div>
+			<Form>
+				<Form.Group className="mb-3" controlId="faceIdFile">
+					<Form.Label className="labelsStyle">Face Id</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="file"
+						onChange={() => {
+							handleOptionChange("file");
+							handleFileChange();
+						}}
+						ref={fileInputRef}
+						disabled={selectedOption === "camera"}
+					/>
+					<small>{uploadedFileName}</small>
+				</Form.Group>
 
-        <Button
-          variant="dark"
-          className="lg:w-50"
-          onClick={() => handleOptionChange("file")}
-        >
-          Upload from File
-        </Button>
-        <div className="my-4">
-          <hr className="border-gray-300" />
-          <p className="text-center">OR</p>
-          <div className="divider-horizontal bg-gray-300"></div>
-        </div>
-        {selectedOption === "camera" && (
-          <div>
-            <Webcam
-              audio={false}
-              height={500}
-              screenshotFormat="image/jpeg"
-              width={500}
-              videoConstraints={videoConstraints}
-              ref={webcamRef}
-            />
-            {capturedImageSrc && (
-              <Image
-                src={capturedImageSrc}
-                alt="Captured Image"
-                className="img-fluid mt-3" // Adjust styling as needed
-              />
-            )}
-          </div>
-        )}
+				<Button
+					variant="dark"
+					className="lg:w-50"
+					onClick={() => handleOptionChange("file")}
+				>
+					Upload from File
+				</Button>
+				<div className="my-4">
+					<hr className="border-gray-300" />
+					<p className="text-center">OR</p>
+					<div className="divider-horizontal bg-gray-300"></div>
+				</div>
+				{selectedOption === "camera" && (
+					<div>
+						<Webcam
+							audio={false}
+							height={500}
+							screenshotFormat="image/jpeg"
+							width={500}
+							videoConstraints={videoConstraints}
+							ref={webcamRef}
+						/>
+						{capturedImageSrc && (
+							<Image
+								src={capturedImageSrc}
+								alt="Captured Image"
+								className="img-fluid mt-3" // Adjust styling as needed
+							/>
+						)}
+					</div>
+				)}
 
-        <Button
-          variant="dark"
-          className="lg:w-50"
-          onClick={() => handleOptionChange("camera")}
-          disabled={selectedOption === "camera"}
-        >
-          Open Camera
-        </Button>
-        <Button
-          variant="dark"
-          className="lg:w-50"
-          onClick={() => handlecameraInput("camera")}
-          //  disabled={selectedOption === 'camera'}
-        >
-          {capturedImageSrc?"Retake":"Click"}
-        </Button>
-        <div className="my-4">
-          <hr className="border-gray-300" />
-          <div className="divider-horizontal bg-gray-300"></div>
-        </div>
-        <Button
-          variant="dark"
-          className="lg:w-50 text-center"
-          onClick={capturePhoto}
-        >
-          {updating ? "Updating" : "Submit Face ID"}
-        </Button>
-      </Form>
-    </div>
-  );
+				<Button
+					variant="dark"
+					className="lg:w-50"
+					onClick={() => handleOptionChange("camera")}
+					disabled={selectedOption === "camera"}
+				>
+					Open Camera
+				</Button>
+				<Button
+					variant="dark"
+					className="lg:w-50"
+					onClick={() => handlecameraInput("camera")}
+					//  disabled={selectedOption === 'camera'}
+				>
+					{capturedImageSrc ? "Retake" : "Click"}
+				</Button>
+				<div className="my-4">
+					<hr className="border-gray-300" />
+					<div className="divider-horizontal bg-gray-300"></div>
+				</div>
+				<Button
+					variant="dark"
+					className="lg:w-50 text-center"
+					onClick={capturePhoto}
+				>
+					{updating ? "Updating" : "Submit Face ID"}
+				</Button>
+			</Form>
+		</div>
+	);
 };
 
 export default FaceId;

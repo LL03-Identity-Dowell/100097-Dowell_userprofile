@@ -301,3 +301,14 @@
    -ms-border-radius: 5px;
    -o-border-radius: 5px;
 }
+.videoid-wrapper{
+  width: 400px;
+  height: 300px;
+}
+
+@media (min-width:300px) and (max-width:400px){
+  .videoid-wrapper{
+  width: 230px;
+  height: 160px;
+}
+}

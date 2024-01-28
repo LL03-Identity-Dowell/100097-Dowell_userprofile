@@ -177,7 +177,7 @@ const apiaudioRef = useRef();
 
   return (
 		<div className="text-center">
-			<div className="mb-2">
+			<div className="my-2">
 				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
 					<audio
 						ref={apiaudioRef}
@@ -243,7 +243,7 @@ const apiaudioRef = useRef();
 							variant="success"
 							onClick={startRecording}
 							disabled={recording}
-							className="me-2"
+							className="me-2 my-1"
 						>
 							{recording ? "Recording..." : "Start Recording"}
 						</Button>
@@ -251,6 +251,7 @@ const apiaudioRef = useRef();
 							variant="success"
 							onClick={stopRecording}
 							disabled={!recording}
+							className="my-1"
 						>
 							Stop Recording
 						</Button>
