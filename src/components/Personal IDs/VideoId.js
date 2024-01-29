@@ -178,8 +178,13 @@ const VideoId = (props) => {
 					console.log("Video successfully submitted!");
 					toast.success("Sucess");
 					setvideofile(null);
-					setcapturedata(null);
+					
 					setUpdating(false);
+
+					 const fileInput = document.getElementById("videoIdFile");
+						if (fileInput) {
+							fileInput.value = null;
+						}
 				} else {
 					// The API call failed, handle the error
 					setUpdating(false);
