@@ -483,9 +483,9 @@ def MyWorkspace(request):
     except:
         return Response({"message":"It allows only images"})
     file_ext = org_logo.name[-4:]
-    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".MP3",".mp3",".MP4",".mp4"]
     if not file_ext in ls:
-        return Response({"message":f"pl provide image in jpg or png format {file_ext}"})
+        return Response({"message":f"pl provide files required format {file_ext}"})
     else:
         pass
     file_name = default_storage.save(org_logo.name, org_logo)

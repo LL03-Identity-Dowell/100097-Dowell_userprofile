@@ -158,6 +158,6 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR,'react/images')
 #STATIC_URL = '/static/'
 #STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'frontend/static'),
+    #os.path.join(BASE_DIR, 'frontend/static'),
     #os.path.join(os.path.join(BASE_DIR, 'build'), 'static', 'images'),
 #)
