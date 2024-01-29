@@ -9,6 +9,7 @@ const VideoId = (props) => {
 	const [opencamera, setopencamera] = useState(false);
 	const [recording, setRecording] = useState(false);
 	const [capturedata, setcapturedata] = useState(null);
+	const [updating, setUpdating] = useState(false);
 	
  const username = props.userInfo.profileData.Username;
 	const webcamRef = useRef(null);
@@ -139,10 +140,11 @@ const VideoId = (props) => {
 
 
 	const handlesubmit = async() => {
+		setUpdating(true)
 		const formData = new FormData();
 		
         formData.append("Username", username);
-        formData.append("videoID", capturedata, "capturedVideo.webm");
+        formData.append("videoID", capturedata, "capturedVideo.mp4");
 
         try {
             // Use fetch to send the blob to the API
@@ -153,14 +155,17 @@ const VideoId = (props) => {
 
             // Handle the response
             if (response.ok) {
-                // The API call was successful, you can handle the response here
-                console.log("Video successfully submitted!");
+				setUpdating(false)
+				toast.success("Video ID updated successfully");
+                console.log(response);
             } else {
-                // The API call failed, handle the error
+				setUpdating(false)
+				toast.error("Failed to update video ID");
                 console.error("Failed to submit video:", response.status, response.statusText);
             }
         } catch (error) {
-            // Handle fetch error
+			setUpdating(false)
+			toast.error("Failed to update video ID");
             console.error("Error during fetch:", error);
         }
 }
@@ -202,8 +207,8 @@ const VideoId = (props) => {
 								/>
 							</Form.Group>
 
-							<Button variant="dark" className="lg:w-50">
-								Update Your Video ID
+							<Button variant="dark" className="lg:w-50" onClick={handlesubmit}>
+							{updating ? "Updating" : "Update Your Video ID"}
 							</Button>
 							<hr className="border-gray-300" />
 							<p className="text-center">OR</p>
