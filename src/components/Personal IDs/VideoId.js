@@ -175,8 +175,8 @@ const VideoId = (props) => {
 				if (response.ok) {
 					
 					// The API call was successful, you can handle the response here
-					console.log("Video successfully submitted!");
-					toast.success("Sucess");
+					console.log("Video successfully submitted");
+					toast.success("Video successfully submitted");
 					setvideofile(null);
 					
 					setUpdating(false);
