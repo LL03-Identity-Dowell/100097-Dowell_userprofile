@@ -518,7 +518,7 @@ const IdVerification = () => {
               className='radioText'
             />
         </div>
-        <Button variant="dark" className='w-100'>Update</Button>
+        <Button variant="dark" className='w-100 btn mb-3'>Update</Button>
     </Form>
     </div>
   )
