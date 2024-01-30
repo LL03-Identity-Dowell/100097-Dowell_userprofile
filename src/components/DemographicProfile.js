@@ -113,7 +113,7 @@ console.log(demographics.occupation)
                     <Form.Label className='labelsStyle'>Others</Form.Label>
                     <Form.Control className='inputStyle' type="text" placeholder="other details" onChange={handleOnChange} value={formInputs.others}/>
                 </Form.Group>
-            <Button variant="dark" onClick={handleSubmit} className='w-100' size="lg">{loading ? "Updating..." :"Update Demographic Profile"}</Button>
+            <Button variant="dark" onClick={handleSubmit} className='btn w-100 mb-5'>{loading ? "Updating..." :"Update Demographic Profile"}</Button>
 
     </div>
   )

@@ -118,7 +118,7 @@ const MyOrganization = (userData) => {
                     <Form.Label className='labelsStyle'>Longitude of Workspace</Form.Label>
                     <Form.Control value={formInputs.longitude} onChange={handleOnChange} className='inputStyle' type="text" placeholder="Longitude of the geo coordinates of organisation" />
                 </Form.Group>
-                <Button variant="dark" type="submit"  className='w-100'>{loading ? "Updating" : "Update Workspace Details"}</Button>
+                <Button variant="dark" type="submit"  className='w-100 btn mb-5'>{loading ? "Updating" : "Update Workspace Details"}</Button>
 </Form>
 
             

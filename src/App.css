@@ -23,7 +23,8 @@
 }
 .sideBarBox{
   border: 2px solid #DBD8D8;
-  box-shadow: -2px 2px 5px 0px rgba(0, 0, 0, 0.29) inset;
+  margin-top: 100px;
+  box-shadow: 0 -5px 16px -5px rgba(0, 0, 0, 0.29) inset;
 }
 .myProfile{
   margin: 20px 20px 20px 20px;
@@ -312,3 +313,34 @@
   height: 160px;
 }
 }
+
+
+.personal-id-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.first-column {
+  width: 30%;
+  padding: 20px 10px ;
+  font-weight: 500;
+  border-right: 2px solid rgb(136, 136, 136);
+}
+
+.second-column {
+  width: 70%;
+  padding: 20px 10px ;
+}
+
+.light-background {
+  background-color: #f5f5f56b; /* Light white background color */
+}
+
+.full-background {
+  background-color: #ffffff; /* Full white background color */
+}
+.refererce-id-table{
+   width: 100%;
+  border-collapse: collapse;
+}
+
