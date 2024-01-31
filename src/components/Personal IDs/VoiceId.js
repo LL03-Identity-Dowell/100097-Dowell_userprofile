@@ -69,7 +69,9 @@ const VoiceId = (props) => {
 	const stopRecording = () => {
 		if (mediaRecorderRef.current && recording) {
 			mediaRecorderRef.current.stop();
-			apiaudioRef.current.pause();
+			if (apiaudioRef.current != undefined) {
+				apiaudioRef.current.pause();
+			}
 			setRecording(false);
 		}
 
@@ -241,7 +243,9 @@ const VoiceId = (props) => {
 								src={audioUrl}
 								controls
 								onPlay={() => {
-									apiaudioRef.current.pause();
+									if (apiaudioRef.current != undefined) {
+										apiaudioRef.current.pause();
+									}
 								}}
 							/>
 						) : (
