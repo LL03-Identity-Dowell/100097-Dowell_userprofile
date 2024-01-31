@@ -143,6 +143,38 @@ const Personalidinfo = (props) => {
 							/>
 						</td>
 					</tr>
+					<tr key="" className="light-background">
+						<td className="first-column"> ID Card 5</td>
+						<td className="second-column">
+							<Image
+								className="img-fluid mb-4"
+								src={
+									props.data.IDcard5 !== ""
+										? props.data.IDcard5
+										: "/images/samanta.webp"
+								}
+								alt="bioid"
+								width={300}
+								height={200}
+							/>
+						</td>
+					</tr>
+					<tr key="" className="full-background">
+						<td className="first-column"> Signature</td>
+						<td className="second-column">
+							<Image
+								className="img-fluid mb-4"
+								src={
+									props.data.signature !== ""
+										? props.data.signature
+										: "/images/samanta.webp"
+								}
+								alt="bioid"
+								width={300}
+								height={200}
+							/>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</>
