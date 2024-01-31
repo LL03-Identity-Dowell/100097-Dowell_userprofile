@@ -146,9 +146,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = '/images/'
 
 if DEBUG:
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR,'react/images'),
-    ]
+    # STATICFILES_DIRS = [
+    #     os.path.join(BASE_DIR,'react/images'),
+    # ]
    
     #STATIC_ROOT="E:\assign\gitprojects\newuserprofile\100097-Dowell_userprofile\react\images"
     STATIC_ROOT = os.path.join(BASE_DIR,'react/images')
