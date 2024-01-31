@@ -41,4 +41,5 @@ urlpatterns = [
       path("personalref",views.PersonalRef,name="personalref"),
       path("faceid",views.FaceID,name="faceid"),
       path("myworkspace",views.MyWorkspace,name="myworkspace"),
+      path("update_permissions",views.update_permissions),
 ]

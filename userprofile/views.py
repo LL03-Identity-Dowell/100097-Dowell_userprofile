@@ -3,6 +3,7 @@ from django.core.files.storage import default_storage
 # import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
 import requests
 import json
 from django.contrib import messages
@@ -393,16 +394,16 @@ def personalIds(request):
     data=request.data
     ids={
         "username":user,
-        "voiceID":"",
-        "faceID":"",
-        "biometricID":"",
-        "videoID":"",
-        "IDcard1":"",
+        "voiceID":"", #mp3
+        "faceID":"", #image
+        "biometricID":"", 
+        "videoID":"", #mp4
+        "IDcard1":"", #img
         "IDcard2":"",
         "IDcard3":"",
         "IDcard4":"",
         "IDcard5":"",
-        "signature":""
+        "signature":"" #img
     }
     value="test"
     for key, value1 in data.items():
@@ -424,9 +425,9 @@ def personalIds(request):
     except:
         return Response({"message":"Accept only images"})
     file_ext = file.name[-4:]
-    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".mp3",".MP3",".mp4",".MP4"]
     if not file_ext in ls:
-        return Response({"message":f"pl provide image in jpg or png format {file_ext}"})
+        return Response({"message":f"pl provide file in required format {file_ext}"},status=status.HTTP_400_BAD_REQUEST)
     else:
         pass
     file_name = default_storage.save(file.name, file)
@@ -520,3 +521,140 @@ def MyWorkspace(request):
         "longitude":"",
     }
         
+
+
+"""
+API for Create / Update Users Permissions and Section 
+"""
+@api_view(["POST"])
+def update_permissions(request):
+    username = request.data.get("username", None)
+    userID = request.data.get("userID", None)
+    section = request.data.get("section", None)
+
+    if username == None:
+        return Response(
+            {"success": False, "error": "username field is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    else:
+        # Sections Form Data
+        form_data = {
+            # Providing Default Value as NONE Explicitly
+            "MyProfile": request.data.get("MyProfile", None),
+            "VerifyUsername_Password_Strength": request.data.get(
+                "VerifyUsername_Password_Strength", None
+            ),
+            "DeviceDetails": request.data.get("DeviceDetails", None),
+            "PersonalIDs": request.data.get("PersonalIDs", None),
+            "PersonalReferences": request.data.get("PersonalReferences", None),
+            "IDVerification_Status": request.data.get("IDVerification_Status", None),
+            "OrganisationDetails": request.data.get("OrganisationDetails", None),
+            "GeographicProfile": request.data.get("GeographicProfile", None),
+            "DemographicProfile": request.data.get("DemographicProfile", None),
+            "PsychographicProfile": request.data.get("PsychographicProfile", None),
+            "BehaviouralProfile": request.data.get("BehaviouralProfile", None),
+            "UsageProfile": request.data.get("UsageProfile", None),
+        }
+
+        section_form = {}
+
+        # Create a section_form that stores form_data values which is not NONE
+        for key, value in form_data.items():
+            if value != None:
+                section_form[key] = value
+
+        userdetails = {"username": username}
+        try:
+            response = json.loads(
+                dowellconnection(
+                    "login",
+                    "bangalore",
+                    "login",
+                    "idverfication",
+                    "idverfication",
+                    "1253001",
+                    "ABCDE",
+                    "fetch",
+                    userdetails,
+                    "null",
+                )
+            )
+            if len(response["data"]) > 0:
+                # Response has Data so,Update the Section Field
+                update_fields = {section: section_form}
+                update_response = json.loads(
+                    dowellconnection(
+                        "login",
+                        "bangalore",
+                        "login",
+                        "idverfication",
+                        "idverfication",
+                        "1253001",
+                        "ABCDE",
+                        "update",
+                        userdetails,
+                        update_fields,
+                    )
+                )
+                if update_response["isSuccess"]:
+                    return Response(
+                        {"success": True, "message": "User Data updated Successfully"},
+                        status=status.HTTP_200_OK,
+                    )
+                else:
+                    return Response(
+                        {"success": False, "error": "Updating Data Failed!"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+            else:
+                # User Data doesnt Exists so Create a User Data with Empty Section Data
+                user_data_field = {
+                    "username": username,
+                    "userID": userID,
+                    "section1": {},
+                    "section2": {},
+                    "section3": {},
+                    "section4": {},
+                    "section5": {},
+                    "section6": {},
+                }
+                try:
+                    insert_response = json.loads(
+                        dowellconnection(
+                            "login",
+                            "bangalore",
+                            "login",
+                            "idverfication",
+                            "idverfication",
+                            "1253001",
+                            "ABCDE",
+                            "insert",
+                            user_data_field,
+                            "null",
+                        )
+                    )
+                    if insert_response["isSuccess"]:
+                        return Response(
+                            {
+                                "success": True,
+                                "message": "User Data Inserted Successfully",
+                            },
+                            status=status.HTTP_201_CREATED,
+                        )
+                    else:
+                        return Response(
+                            {"success": False, "error": "Inserting Data Failed!"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+                except Exception as e:
+                    return Response(
+                        {"success": False, "error": str(e)},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+        except Exception as e:
+            return Response(
+                {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )
