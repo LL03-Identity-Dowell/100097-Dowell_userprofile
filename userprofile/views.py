@@ -10,7 +10,7 @@ from django.contrib import messages
 from userprofile.dowellconnection import dowellconnection
 # import json
 
-#hira made som changes
+
 @api_view(["POST"])
 def Profile_create(request):
     user=request.data["Username"]
