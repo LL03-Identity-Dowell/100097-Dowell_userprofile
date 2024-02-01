@@ -9,6 +9,7 @@ const SideContent = (userData) => {
   const formsData = userData.formsData
   const [isOpen, setIsOpen] = useState(false);
   
+  
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
@@ -84,7 +85,7 @@ const SideContent = (userData) => {
           />
         </div>
     </Form>
-    <CardGrid/>
+      <CardGrid data={formsData[0] } />
     <hr className="hr" />
       {/* Edit Current Verions tagline */}
       <p className="myProfile text-white fw-bold text-center">
