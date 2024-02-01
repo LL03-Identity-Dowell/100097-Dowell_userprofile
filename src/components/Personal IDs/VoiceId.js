@@ -16,9 +16,9 @@ const VoiceId = (props) => {
 	const apiaudioRef = useRef();
 	const mediaRecorderRef = useRef(null);
 
-	useEffect(() => {
-		console.log("audioUrl changed:", audioUrl);
-	}, [audioUrl]);
+	// useEffect(() => {
+	// 	console.log("audioUrl changed:", audioUrl);
+	// }, [audioUrl]);
 	const desiredFileName = "audiofile.mp3";
 	const startRecording = async () => {
 		try {

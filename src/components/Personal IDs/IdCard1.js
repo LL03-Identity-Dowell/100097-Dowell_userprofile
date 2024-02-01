@@ -61,6 +61,7 @@ const IdCard1 = (props) => {
 			toast.error("Please select ID card first");
 		}
 	};
+	console.log(props.userInfo.formsData[0].personalids.IDcard1);
 
 
 	return (
