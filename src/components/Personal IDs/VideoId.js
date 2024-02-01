@@ -66,9 +66,12 @@ const VideoId = (props) => {
 					setRecording(true);
 
 					const mediaRecorderOptions = {
-						mimeType: "video/webm",
+						mimeType: "video/webm;codecs=vp8;",
 					};
-
+					// video/x-matroska;codecs=avc1
+					// video/webm;codecs=vp8;
+					// video/webm;codecs=vp9;
+					
 					// Start recording the webcam feed
 					const recorder = RecordRTC(
 						webcamRef.current.video.srcObject,

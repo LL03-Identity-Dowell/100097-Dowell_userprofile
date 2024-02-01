@@ -166,15 +166,19 @@ const MyProfileForm = (userData) => {
     useEffect(() => {
       const fetchCountries = async () => {
         try {
-          const response = await fetch('https://restcountries.com/v3.1/all');
+          const response = await fetch("https://restcountries.com/v2/all");
           const data = await response.json();
-          const countryData = data.map((country) => ({
-            name: country.name.common,
-            alpha2Code: country.cca2,
-            phoneCode_country: country.ccn3,
-          }));
+          const countryData = data.map((country) => {
+            
+            return {
+							name: country.name,
+							alpha2Code: country.alpha2Code,
+							phoneCode_country: `+${country.callingCodes[0]}`,
+						};
+          });
           
           setCountries(countryData);
+          console.log(countries)
         } catch (error) {
           console.error('Error fetching countries:', error);
         }

@@ -10,6 +10,7 @@ import DemographicView from './AccordionComponents/DemographicView'
 import Workspace from './AccordionComponents/Workspace'
 import Personalidinfo from "./AccordionComponents/Personalidinfo";
 import ReferenceView from './AccordionComponents/ReferenceView';
+import Paswordview from './AccordionComponents/Paswordview';
 const AccordionList = (profileData) => {
  const profiledata = profileData.profileData
 
@@ -43,7 +44,9 @@ const all_forms = profileData.formsData[0]
 				</Accordion.Item>
 				<Accordion.Item eventKey="1">
 					<Accordion.Header>Set Password</Accordion.Header>
-					<Accordion.Body></Accordion.Body>
+					<Accordion.Body>
+						<Paswordview data={profileData}></Paswordview>
+					</Accordion.Body>
 				</Accordion.Item>
 				<Accordion.Item eventKey="2">
 					<Accordion.Header>Device IDs</Accordion.Header>
