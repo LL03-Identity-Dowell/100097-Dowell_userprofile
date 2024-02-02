@@ -4,7 +4,7 @@ from django.core.files.storage import default_storage
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-import requests
+import requests,re
 import json
 from django.contrib import messages
 from userprofile.dowellconnection import dowellconnection
@@ -524,7 +524,6 @@ def MyWorkspace(request):
     }
         
 
-import re
 """
 API for Create / Update Users Permissions and Section 
 """
@@ -543,7 +542,7 @@ def update_permissions(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
     
-    if username == None or userID == None:
+    if not username or not userID:
         return Response(
             {"success": False, "error": "username or userId field is required"},
             status=status.HTTP_400_BAD_REQUEST,
