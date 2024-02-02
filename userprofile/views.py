@@ -590,9 +590,12 @@ def update_permissions(request):
                 "null",
             )
         )
+        response_data = response_validate_user["data"]
+        username_in_datbase = response_data[0].get("username")
+        userID_in_datbase = response_data[0].get("userID")
 
         # username is Valid
-        if len( response_validate_user["data"]) > 0 :
+        if len( response_validate_user["data"]) > 0 and username ==username_in_datbase and  userID == userID_in_datbase:
             response = json.loads(
                 dowellconnection(
                     "login",
@@ -678,7 +681,7 @@ def update_permissions(request):
                     )
         else:
             return Response(
-                {"success": False, "error": "username is Invalid!"}, status=status.HTTP_400_BAD_REQUEST
+                {"success": False, "error": "username or userID is Invalid!"}, status=status.HTTP_400_BAD_REQUEST
             )
 
     except Exception as e:
