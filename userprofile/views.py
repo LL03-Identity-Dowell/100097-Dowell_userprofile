@@ -576,24 +576,24 @@ def update_permissions(request):
 
     userdetails = {"username": username}
     try:
-        response = json.loads(
+        response_validate_user = json.loads(
             dowellconnection(
                 "login",
                 "bangalore",
                 "login",
-                "idverfication",
-                "idverfication",
-                "1253001",
+                "user_profile",
+                "user_profile",
+                "1168",
                 "ABCDE",
                 "fetch",
                 userdetails,
                 "null",
             )
         )
-        if len(response["data"]) > 0:
-            # Response has Data so,Update the Section Field
-            update_fields = {section: section_form}
-            update_response = json.loads(
+
+        # username is Valid
+        if len( response_validate_user["data"]) > 0 :
+            response = json.loads(
                 dowellconnection(
                     "login",
                     "bangalore",
@@ -602,35 +602,53 @@ def update_permissions(request):
                     "idverfication",
                     "1253001",
                     "ABCDE",
-                    "update",
+                    "fetch",
                     userdetails,
-                    update_fields,
+                    "null",
                 )
             )
-            if update_response["isSuccess"]:
-                return Response(
-                    {"success": True, "message": "User Data updated Successfully"},
-                    status=status.HTTP_200_OK,
-                )
-            else:
-                return Response(
-                    {"success": False, "error": "Updating Data Failed!"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+            
 
-        else:
-            # User Data doesnt Exists so Create a User Data with Empty Section Data
-            user_data_field = {
-                "username": username,
-                "userID": userID,
-                "section1": {},
-                "section2": {},
-                "section3": {},
-                "section4": {},
-                "section5": {},
-                "section6": {},
-            }
-            try:
+            if len(response["data"]) > 0:
+                # Response has Data so,Update the Section Field
+                update_fields = {section: section_form}
+                update_response = json.loads(
+                    dowellconnection(
+                        "login",
+                        "bangalore",
+                        "login",
+                        "idverfication",
+                        "idverfication",
+                        "1253001",
+                        "ABCDE",
+                        "update",
+                        userdetails,
+                        update_fields,
+                    )
+                )
+                if update_response["isSuccess"]:
+                    return Response(
+                        {"success": True, "message": "User Data updated Successfully"},
+                        status=status.HTTP_200_OK,
+                    )
+                else:
+                    return Response(
+                        {"success": False, "error": "Updating Data Failed!"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+            else:
+                # User Data doesnt Exists so Create a User Data with Empty Section Data
+                user_data_field = {
+                    "username": username,
+                    "userID": userID,
+                    "section1": {},
+                    "section2": {},
+                    "section3": {},
+                    "section4": {},
+                    "section5": {},
+                    "section6": {},
+                }
                 insert_response = json.loads(
                     dowellconnection(
                         "login",
@@ -658,11 +676,10 @@ def update_permissions(request):
                         {"success": False, "error": "Inserting Data Failed!"},
                         status=status.HTTP_400_BAD_REQUEST,
                     )
-            except Exception as e:
-                return Response(
-                    {"success": False, "error": str(e)},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
+        else:
+            return Response(
+                {"success": False, "error": "username is Invalid!"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
     except Exception as e:
         return Response(
