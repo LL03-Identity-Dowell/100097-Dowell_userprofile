@@ -427,7 +427,7 @@ def personalIds(request):
     except:
         return Response({"message":"Accept only images"})
     file_ext = file.name[-4:]
-    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".mp3",".MP3",".mp4",".MP4"]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".mp3",".MP3",".mp4",".MP4",".avc1",".vp8",".vp9"]
     if not file_ext in ls:
         return Response({"message":f"pl provide file in required format {file_ext}"},status=status.HTTP_400_BAD_REQUEST)
     else:
