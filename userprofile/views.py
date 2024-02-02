@@ -534,14 +534,17 @@ def update_permissions(request):
     section = request.data.get("section", None).lower()
 
     # Regex to Check section value format explicitly! must be 'section1'...'section6'
-    section_pattern = re.compile(r'^section[1-6]$')
+    section_pattern = re.compile(r"^section[1-6]$")
 
     if not section_pattern.match(section):
         return Response(
-            {"success": False, "error": "Invalid 'section' value! Must be in Format 'section1'"},
+            {
+                "success": False,
+                "error": "Invalid 'section' value! Must be in Format 'section1'",
+            },
             status=status.HTTP_400_BAD_REQUEST,
         )
-    
+
     if not username or not userID:
         return Response(
             {"success": False, "error": "username or userId field is required"},
@@ -591,11 +594,18 @@ def update_permissions(request):
             )
         )
         response_data = response_validate_user["data"]
-        username_in_datbase = response_data[0].get("username")
-        userID_in_datbase = response_data[0].get("userID")
 
         # username is Valid
-        if len( response_validate_user["data"]) > 0 and username ==username_in_datbase and  userID == userID_in_datbase:
+        if len(response_data) > 0:
+            username_in_datbase = response_data[0].get("username")
+            userID_in_datbase = response_data[0].get("userID")
+
+            if username != username_in_datbase or userID != userID_in_datbase:
+                return Response(
+                    {"success": False, "error": "username or userID is Invalid!"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             response = json.loads(
                 dowellconnection(
                     "login",
@@ -610,7 +620,6 @@ def update_permissions(request):
                     "null",
                 )
             )
-            
 
             if len(response["data"]) > 0:
                 # Response has Data so,Update the Section Field
@@ -681,7 +690,8 @@ def update_permissions(request):
                     )
         else:
             return Response(
-                {"success": False, "error": "username or userID is Invalid!"}, status=status.HTTP_400_BAD_REQUEST
+                {"success": False, "error": "username or userID is Invalid!"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
     except Exception as e:
