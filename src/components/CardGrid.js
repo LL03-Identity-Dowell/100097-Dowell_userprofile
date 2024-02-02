@@ -65,7 +65,7 @@ function NestedCard(props) {
 				},
 				body: JSON.stringify({
 					section: props.section,
-					userId: props.formdata.userID,
+					userID: props.formdata.userID,
 					username: props.formdata.username,
 					...permissions,
 				}),
