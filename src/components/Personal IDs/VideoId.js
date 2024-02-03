@@ -66,7 +66,7 @@ const VideoId = (props) => {
 					setRecording(true);
 
 					const mediaRecorderOptions = {
-						mimeType: "video/webm;codecs=vp8;",
+						mimeType: "video/mp4",
 					};
 					// video/x-matroska;codecs=avc1
 					// video/webm;codecs=vp8;
@@ -152,7 +152,7 @@ const VideoId = (props) => {
 		formData.append("Username", username);
 		
 		if (userchoice === "custom") {
-			formData.append("videoID", capturedata, "capturedVideo.webm");
+			formData.append("videoID", capturedata, "capturedVideo.mp4");
 			setvideofile(null);
 			
 		}
@@ -178,7 +178,7 @@ const VideoId = (props) => {
 				if (response.ok) {
 					
 					// The API call was successful, you can handle the response here
-					console.log("Video successfully submitted");
+					console.log("Video successfully submitted",response);
 					toast.success("Video successfully submitted");
 					setvideofile(null);
 					
@@ -205,6 +205,7 @@ const VideoId = (props) => {
 			}
 		} else {
 			toast.error("Upload video or record video to update video id");
+			setUpdating(false);
 		}
 	}
 	
@@ -217,7 +218,7 @@ const VideoId = (props) => {
 					setvideofile(file);
 					
 				} else {
-					toast.info("Please select a valid Video file (mkv or mp4).");
+					toast.info("Please select a valid Video file (mp4).");
 					event.target.value = null; // Clear the input field
 				}
 			}

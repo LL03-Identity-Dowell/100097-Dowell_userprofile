@@ -76,6 +76,7 @@ function NestedCard(props) {
 				toast.success("Success");
 			} else {
 				toast.error("Failed to update permission");
+				console.log(response)
 			}
 		} catch (error) {
 			console.error("Error updating permissions:", error);
