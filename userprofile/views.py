@@ -714,23 +714,39 @@ def get_user_sections(request):
 
     userdetails = {"username": username}
     try:
-        response = json.loads(
+        response_validate_user = json.loads(
             dowellconnection(
                 "login",
                 "bangalore",
                 "login",
-                "idverfication",
-                "idverfication",
-                "1253001",
+                "user_profile",
+                "user_profile",
+                "1168",
                 "ABCDE",
                 "fetch",
                 userdetails,
                 "null",
             )
         )
+        response_data = response_validate_user["data"]
 
-        # Empty data means username not found OR invalid username
-        if len(response["data"]) > 0:
+        # username is Valid
+        if len(response_data) > 0:
+            response = json.loads(
+                dowellconnection(
+                    "login",
+                    "bangalore",
+                    "login",
+                    "idverfication",
+                    "idverfication",
+                    "1253001",
+                    "ABCDE",
+                    "fetch",
+                    userdetails,
+                    "null",
+                )
+            )
+
             response_data = response["data"][0]
             all_section_data = {}
             count = 0
