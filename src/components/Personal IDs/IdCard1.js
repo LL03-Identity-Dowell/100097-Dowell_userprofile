@@ -3,6 +3,21 @@ import { Button, Image, Form } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 
 const IdCard1 = (props) => {
+	const substr = "100097.pythonanywhere.com/";
+	function removeSecondOccurrence(str, substr) {
+		var firstIndex = str.indexOf(substr);
+		if (firstIndex !== -1) {
+			var secondIndex = str.indexOf(substr, firstIndex + 1);
+			if (secondIndex !== -1) {
+				return (
+					str.substring(0, secondIndex) +
+					str.substring(secondIndex + substr.length)
+				);
+			}
+		}
+		return str;
+	}
+
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [updating, setUpdating] = useState(false);
 	const handleFileChange = (event) => {
@@ -15,7 +30,7 @@ const IdCard1 = (props) => {
 				toast.info(
 					"Please select a valid image file (JPEG, PNG, GIF, or SVG)."
 				);
-				event.target.value = null; 
+				event.target.value = null;
 			}
 		}
 	};
@@ -62,7 +77,6 @@ const IdCard1 = (props) => {
 		}
 	};
 
-
 	return (
 		<div>
 			<div className="text-center">
@@ -72,7 +86,10 @@ const IdCard1 = (props) => {
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.IDcard1 !== ""
-							? props.userInfo.formsData[0].personalids.IDcard1
+							? removeSecondOccurrence(
+									props.userInfo.formsData[0].personalids.IDcard1,
+									substr
+							  )
 							: "/images/samanta.webp"
 					}
 					alt="samanta"

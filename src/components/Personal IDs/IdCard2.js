@@ -1,67 +1,85 @@
-import React ,{useState} from 'react'
-import {Button, Image, Form} from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
-
+import React, { useState } from "react";
+import { Button, Image, Form } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 
 const IdCard2 = (props) => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [updating,setUpdating] = useState(false);
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    // Check if a file is selected
-    if (file) {
-      // Check if the selected file is an image
-      if (file.type.startsWith('image/')) {
-        setSelectedFile(file);
-      } else {
-        toast.info('Please select a valid image file (JPEG, PNG, GIF, or SVG).');
-        event.target.value = null; // Clear the input field
-      }
-    }
-  };
-  const username = props.userInfo.profileData.Username;
-console.log(selectedFile)
-  const handleSubmit = async () => {
-    setUpdating(true)
-    // Use `selectedFile` for further processing (e.g., send it to the API)
-    if (selectedFile) {
-      // Your file handling logic here
-      console.log('Selected file:', selectedFile);
-      const formData = new FormData();
-    formData.append('Username', username);
-    formData.append('IDcard2', selectedFile);
+	const substr = "100097.pythonanywhere.com/";
+	function removeSecondOccurrence(str, substr) {
+		var firstIndex = str.indexOf(substr);
+		if (firstIndex !== -1) {
+			var secondIndex = str.indexOf(substr, firstIndex + 1);
+			if (secondIndex !== -1) {
+				return (
+					str.substring(0, secondIndex) +
+					str.substring(secondIndex + substr.length)
+				);
+			}
+		}
+		return str;
+	}
 
-    console.log("Upload Payload:", {
-      username,
-      image: formData.get("IDcard2"),
-    });    try {
-      const response = await fetch("https://100097.pythonanywhere.com/getids", {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      console.log(data)
-      if (response.ok) {
-        setUpdating(false)        
-        toast.success('Image uploaded successfully!');
-        setSelectedFile(null);
-      } else {
-        setUpdating(false)        
-        toast.error('Failed to upload image.');
-      }
-    } catch (error) {
-      setUpdating(false)
-      console.error('Error:', error);
-      toast.error('An error occurred while uploading the image.');
-    }
-    } 
-    else{
-      setUpdating(false)
-      toast.error("Please select ID card first")
-    }
-    
-  };
-  return (
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [updating, setUpdating] = useState(false);
+	const handleFileChange = (event) => {
+		const file = event.target.files[0];
+		// Check if a file is selected
+		if (file) {
+			// Check if the selected file is an image
+			if (file.type.startsWith("image/")) {
+				setSelectedFile(file);
+			} else {
+				toast.info(
+					"Please select a valid image file (JPEG, PNG, GIF, or SVG)."
+				);
+				event.target.value = null; // Clear the input field
+			}
+		}
+	};
+	const username = props.userInfo.profileData.Username;
+	console.log(selectedFile);
+	const handleSubmit = async () => {
+		setUpdating(true);
+		// Use `selectedFile` for further processing (e.g., send it to the API)
+		if (selectedFile) {
+			// Your file handling logic here
+			console.log("Selected file:", selectedFile);
+			const formData = new FormData();
+			formData.append("Username", username);
+			formData.append("IDcard2", selectedFile);
+
+			console.log("Upload Payload:", {
+				username,
+				image: formData.get("IDcard2"),
+			});
+			try {
+				const response = await fetch(
+					"https://100097.pythonanywhere.com/getids",
+					{
+						method: "POST",
+						body: formData,
+					}
+				);
+				const data = await response.json();
+				console.log(data);
+				if (response.ok) {
+					setUpdating(false);
+					toast.success("Image uploaded successfully!");
+					setSelectedFile(null);
+				} else {
+					setUpdating(false);
+					toast.error("Failed to upload image.");
+				}
+			} catch (error) {
+				setUpdating(false);
+				console.error("Error:", error);
+				toast.error("An error occurred while uploading the image.");
+			}
+		} else {
+			setUpdating(false);
+			toast.error("Please select ID card first");
+		}
+	};
+	return (
 		<div>
 			<div className="text-center">
 				<ToastContainer position="top-right" />
@@ -70,7 +88,10 @@ console.log(selectedFile)
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.IDcard2 !== ""
-							? props.userInfo.formsData[0].personalids.IDcard2
+							? removeSecondOccurrence(
+									props.userInfo.formsData[0].personalids.IDcard2,
+									substr
+							  )
 							: "/images/samanta.webp"
 					}
 					alt="samanta"
@@ -94,6 +115,6 @@ console.log(selectedFile)
 			</Form>
 		</div>
 	);
-}
+};
 
-export default IdCard2
+export default IdCard2;
