@@ -42,4 +42,5 @@ urlpatterns = [
       path("faceid",views.FaceID,name="faceid"),
       path("myworkspace",views.MyWorkspace,name="myworkspace"),
       path("update_permissions",views.update_permissions),
+      path("get_user_sections",views.get_user_sections),
 ]

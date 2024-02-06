@@ -698,3 +698,56 @@ def update_permissions(request):
         return Response(
             {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+"""
+API for Fetching all user section / Update ID Verification
+"""
+@api_view(["GET"])
+def get_user_sections(request):
+    username = request.data.get("username", None)
+    if not username:
+        return Response(
+            {"success": False, "error": "username field is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    userdetails = {"username": username}
+    try:
+        response = json.loads(
+            dowellconnection(
+                "login",
+                "bangalore",
+                "login",
+                "idverfication",
+                "idverfication",
+                "1253001",
+                "ABCDE",
+                "fetch",
+                userdetails,
+                "null",
+            )
+        )
+
+        # Empty data means username not found OR invalid username
+        if len(response["data"]) > 0:
+            response_data = response["data"][0]
+            all_section_data = {}
+            count = 0
+            for i in response_data:
+                if "section" in i:
+                    count += 1
+                    all_section_data[f"section{count}"] = response_data[i]
+            data = {"success":True,"data":all_section_data}
+            return Response(data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(
+                {"success": False, "error": "Invalid username"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    except Exception as e:
+        return Response(
+            {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
+        )
