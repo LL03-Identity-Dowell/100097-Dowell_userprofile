@@ -529,19 +529,27 @@ API for Create / Update Users Permissions and Section
 """
 @api_view(["POST"])
 def update_permissions(request):
+    """
+    How this API work ?
+
+    This API is used to either create an empty user profile with section1..6 + idverification if the profile isnt created 
+    If the profile is there then, from request body we check if we have section or idverification and then we update that dictionary in the userprofile 
+    """
+
     username = request.data.get("username", None)
     userID = request.data.get("userID", None)
-    section = request.data.get("section", None).lower()
+    section = request.data.get("section", None)
+    idverification = request.data.get("idverification", None)
 
-    # Regex to Check section value format explicitly! must be 'section1'...'section6'
-    section_pattern = re.compile(r"^section[1-6]$")
-
-    if not section_pattern.match(section):
+    if idverification and section:
         return Response(
-            {
-                "success": False,
-                "error": "Invalid 'section' value! Must be in Format 'section1'",
-            },
+            {"success": False, "error": "You can't update both section & idverification at the same time"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    
+    if not idverification and not section:
+        return Response(
+            {"success": False, "error": "Section or Idverification not Found"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -551,34 +559,9 @@ def update_permissions(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # Sections Form Data
-    form_data = {
-        # Providing Default Value as NONE Explicitly
-        "MyProfile": request.data.get("MyProfile", None),
-        "VerifyUsername_Password_Strength": request.data.get(
-            "VerifyUsername_Password_Strength", None
-        ),
-        "DeviceDetails": request.data.get("DeviceDetails", None),
-        "PersonalIDs": request.data.get("PersonalIDs", None),
-        "PersonalReferences": request.data.get("PersonalReferences", None),
-        "IDVerification_Status": request.data.get("IDVerification_Status", None),
-        "OrganisationDetails": request.data.get("OrganisationDetails", None),
-        "GeographicProfile": request.data.get("GeographicProfile", None),
-        "DemographicProfile": request.data.get("DemographicProfile", None),
-        "PsychographicProfile": request.data.get("PsychographicProfile", None),
-        "BehaviouralProfile": request.data.get("BehaviouralProfile", None),
-        "UsageProfile": request.data.get("UsageProfile", None),
-    }
-
-    section_form = {}
-
-    # Create a section_form that stores form_data values which is not NONE
-    for key, value in form_data.items():
-        if value != None:
-            section_form[key] = value
-
     userdetails = {"username": username}
     try:
+        # Try to Fetch user profile data from 'user_profile' collection
         response_validate_user = json.loads(
             dowellconnection(
                 "login",
@@ -595,11 +578,12 @@ def update_permissions(request):
         )
         response_data = response_validate_user["data"]
 
-        # username is Valid
+        # User Profile found, (username is valid)
         if len(response_data) > 0:
             username_in_datbase = response_data[0].get("username")
             userID_in_datbase = response_data[0].get("userID")
 
+            # Validate username && userId 
             if username != username_in_datbase or userID != userID_in_datbase:
                 return Response(
                     {"success": False, "error": "username or userID is Invalid!"},
@@ -621,45 +605,166 @@ def update_permissions(request):
                 )
             )
 
+            # Response has Data so,Update the Section Field
             if len(response["data"]) > 0:
-                # Response has Data so,Update the Section Field
-                update_fields = {section: section_form}
-                update_response = json.loads(
-                    dowellconnection(
-                        "login",
-                        "bangalore",
-                        "login",
-                        "idverfication",
-                        "idverfication",
-                        "1253001",
-                        "ABCDE",
-                        "update",
-                        userdetails,
-                        update_fields,
+
+                # The request is for updating 'section'
+                if section:
+                    # Validate the section_name value using REGEX
+                    section_name = section["Section_Name"].lower()
+                    # Regex to Check section value format explicitly! must be 'section1'...'section6'
+                    section_pattern = re.compile(r"^section[1-6]$")
+
+                    if not section_pattern.match(section_name):
+                        return Response(
+                            {
+                                "success": False,
+                                "error": "Invalid 'section' value! Must be in Format 'section1'",
+                            },
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+                    
+                    # Sections Form Data
+                    section_form_data = {
+                        # Providing Default Value as NONE Explicitly
+                        "MyProfile": section.get("MyProfile", False),
+                        "VerifyUsername_Password_Strength": section.get(
+                            "VerifyUsername_Password_Strength", False
+                        ),
+                        "DeviceDetails": section.get("DeviceDetails", False),
+                        "PersonalIDs": section.get("PersonalIDs", False),
+                        "PersonalReferences": section.get("PersonalReferences", False),
+                        "IDVerification_Status": section.get("IDVerification_Status", False),
+                        "OrganisationDetails": section.get("OrganisationDetails", False),
+                        "GeographicProfile": section.get("GeographicProfile", False),
+                        "DemographicProfile": section.get("DemographicProfile", False),
+                        "PsychographicProfile": section.get("PsychographicProfile", False),
+                        "BehaviouralProfile": section.get("BehaviouralProfile", False),
+                        "UsageProfile": section.get("UsageProfile", False),
+                    }
+
+                    update_fields = {section_name: section_form_data}
+                    update_response = json.loads(
+                        dowellconnection(
+                            "login",
+                            "bangalore",
+                            "login",
+                            "idverfication",
+                            "idverfication",
+                            "1253001",
+                            "ABCDE",
+                            "update",
+                            userdetails,
+                            update_fields,
+                        )
                     )
-                )
-                if update_response["isSuccess"]:
-                    return Response(
-                        {"success": True, "message": "User Data updated Successfully"},
-                        status=status.HTTP_200_OK,
+                    if update_response["isSuccess"]:
+                        return Response(
+                            {"success": True, "message": "User Data updated Successfully"},
+                            status=status.HTTP_200_OK,
+                        )
+                    else:
+                        return Response(
+                            {"success": False, "error": "Updating Data Failed!"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+
+                # The request is for updating 'idverification'
+                elif idverification:
+                    # Idverification Form Data
+                    id_verification_form_data = {
+                        # Providing Default Value as NONE Explicitly
+                        "phone_Verification": idverification.get("phone_Verification", False),
+                        "email_Verification": idverification.get("email_Verification", False),
+                        "voiceID_Verification": idverification.get("voiceID_Verification", False),
+                        "faceID_Verification": idverification.get("faceID_Verification", False),
+                        "biometricID_Verification": idverification.get("biometricID_Verification", False),
+                        "videoID_Verification": idverification.get("videoID_Verification", False),
+                        "idCard1_Verification": idverification.get("idCard1_Verification", False),
+                        "idCard2_Verification": idverification.get("idCard2_Verification", False),
+                        "idCard3_Verification": idverification.get("idCard3_Verification", False),
+                        "idCard4_Verification": idverification.get("idCard4_Verification", False),
+                        "idCard5_Verification": idverification.get("idCard5_Verification", False),
+                        "signature_Verification": idverification.get("signature_Verification", False),
+                        "socialMedia_Verification": idverification.get("socialMedia_Verification", False),
+                        "personalReference_Verification": idverification.get("personalReference_Verification", False), 
+                        "personal_Verification_By_Witness": idverification.get("personal_Verification_By_Witness", False), 
+                        "organisation_Verification": idverification.get("organisation_Verification", False), 
+                    }
+
+                   
+                    update_fields = {"idverification": id_verification_form_data}
+                    update_response = json.loads(
+                        dowellconnection(
+                            "login",
+                            "bangalore",
+                            "login",
+                            "idverfication",
+                            "idverfication",
+                            "1253001",
+                            "ABCDE",
+                            "update",
+                            userdetails,
+                            update_fields,
+                        )
                     )
-                else:
-                    return Response(
-                        {"success": False, "error": "Updating Data Failed!"},
-                        status=status.HTTP_400_BAD_REQUEST,
-                    )
+                    if update_response["isSuccess"]:
+                        return Response(
+                            {"success": True, "message": "User Data updated Successfully"},
+                            status=status.HTTP_200_OK,
+                        )
+                    else:
+                        return Response(
+                            {"success": False, "error": "Updating Data Failed!"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
 
             else:
                 # User Data doesnt Exists so Create a User Data with Empty Section Data
+                empty_section_form = {
+                    "MyProfile": False,
+                    "VerifyUsername_Password_Strength": False,
+                    "DeviceDetails": False,
+                    "PersonalIDs": False,
+                    "PersonalReferences": False,
+                    "IDVerification_Status": False,
+                    "OrganisationDetails": False,
+                    "GeographicProfile": False,
+                    "DemographicProfile": False,
+                    "PsychographicProfile": False,
+                    "BehaviouralProfile": False,
+                    "UsageProfile": False
+                }
+                
+                empty_id_verification_form = {
+                    "phone_Verification": False,
+                    "email_Verification": False,
+                    "voiceID_Verification": False,
+                    "faceID_Verification": False,
+                    "biometricID_Verification": False,
+                    "videoID_Verification": False,
+                    "idCard1_Verification": False,
+                    "idCard2_Verification": False,
+                    "idCard3_Verification": False,
+                    "idCard4_Verification": False,
+                    "idCard5_Verification": False,
+                    "signature_Verification": False,
+                    "socialMedia_Verification": False,
+                    "personalReference_Verification": False, 
+                    "personal_Verification_By_Witness": False, 
+                    "organisation_Verification": False, 
+                }
+
                 user_data_field = {
                     "username": username,
                     "userID": userID,
-                    "section1": {},
-                    "section2": {},
-                    "section3": {},
-                    "section4": {},
-                    "section5": {},
-                    "section6": {},
+                    "section1": {empty_section_form},
+                    "section2": {empty_section_form},
+                    "section3": {empty_section_form},
+                    "section4": {empty_section_form},
+                    "section5": {empty_section_form},
+                    "section6": {empty_section_form},
+                    "idverification":{empty_id_verification_form}
                 }
                 insert_response = json.loads(
                     dowellconnection(
