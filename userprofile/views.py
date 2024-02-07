@@ -755,15 +755,19 @@ def get_user_sections(request):
                     )
                 )
 
-                response_data = response["data"][0]
-                all_section_data = {}
-                count = 0
-                for i in response_data:
-                    if "section" in i:
-                        count += 1
-                        all_section_data[f"section{count}"] = response_data[i]
-                data = {"success":True,"data":all_section_data}
-                return Response(data, status=status.HTTP_200_OK)
+                # user doesnt have a profile yet
+                if not response["data"]:
+                    return Response({"success":True,"data":response["data"],"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
+                else :
+                    response_user_data = response["data"][0]
+                    all_section_data = {}
+                    count = 0
+                    for i in response_user_data:
+                        if "section" in i:
+                            count += 1
+                            all_section_data[f"section{count}"] = response_user_data[i]
+                    data = {"success":True,"data":all_section_data}
+                    return Response(data, status=status.HTTP_200_OK)
 
             else:
                 return Response(
