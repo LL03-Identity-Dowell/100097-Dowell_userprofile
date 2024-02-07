@@ -706,64 +706,76 @@ API for Fetching all user section / Update ID Verification
 @api_view(["GET"])
 def get_user_sections(request):
     username = request.data.get("username", None)
-    if not username:
+    session_id = request.data.get("session_id", None)
+
+    if not username or not session_id:
         return Response(
-            {"success": False, "error": "username field is required"},
+            {"success": False, "error": "username or session_id field is required"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    userdetails = {"username": username}
-    try:
-        response_validate_user = json.loads(
-            dowellconnection(
-                "login",
-                "bangalore",
-                "login",
-                "user_profile",
-                "user_profile",
-                "1168",
-                "ABCDE",
-                "fetch",
-                userdetails,
-                "null",
-            )
-        )
-        response_data = response_validate_user["data"]
+    session_json = ({"session_id" : session_id})
+    response_validate_session_id = requests.post("https://100014.pythonanywhere.com/api/userinfo/", json=session_json)
+    session_data = response_validate_session_id.json()
 
-        # username is Valid
-        if len(response_data) > 0:
-            response = json.loads(
+    #The session_id response contains error message which will make the response length 1 so,check if the response is valid by comparing it to length more than 1.      
+    if len(session_data) > 1:
+        userdetails = {"username": username}
+        try:
+            response_validate_user = json.loads(
                 dowellconnection(
                     "login",
                     "bangalore",
                     "login",
-                    "idverfication",
-                    "idverfication",
-                    "1253001",
+                    "user_profile",
+                    "user_profile",
+                    "1168",
                     "ABCDE",
                     "fetch",
                     userdetails,
                     "null",
                 )
             )
+            response_data = response_validate_user["data"]
 
-            response_data = response["data"][0]
-            all_section_data = {}
-            count = 0
-            for i in response_data:
-                if "section" in i:
-                    count += 1
-                    all_section_data[f"section{count}"] = response_data[i]
-            data = {"success":True,"data":all_section_data}
-            return Response(data, status=status.HTTP_200_OK)
+            # username is Valid
+            if len(response_data) > 0:
+                response = json.loads(
+                    dowellconnection(
+                        "login",
+                        "bangalore",
+                        "login",
+                        "idverfication",
+                        "idverfication",
+                        "1253001",
+                        "ABCDE",
+                        "fetch",
+                        userdetails,
+                        "null",
+                    )
+                )
 
-        else:
+                response_data = response["data"][0]
+                all_section_data = {}
+                count = 0
+                for i in response_data:
+                    if "section" in i:
+                        count += 1
+                        all_section_data[f"section{count}"] = response_data[i]
+                data = {"success":True,"data":all_section_data}
+                return Response(data, status=status.HTTP_200_OK)
+
+            else:
+                return Response(
+                    {"success": False, "error": "Invalid username"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except Exception as e:
             return Response(
-                {"success": False, "error": "Invalid username"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
             )
-
-    except Exception as e:
+    else:
         return Response(
-            {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            {"success": False, "error": "Invalid session_id"}, status=status.HTTP_400_BAD_REQUEST
         )
