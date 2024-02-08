@@ -4,6 +4,10 @@ import Webcam from "react-webcam";
 import { ToastContainer, toast } from "react-toastify";
 
 const FaceId = (props) => {
+
+
+
+  
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -71,12 +75,9 @@ const FaceId = (props) => {
     // Create a FormData object to send the image file
     const formData = new FormData();
     formData.append("username", username);
-    formData.append("image", dataURLtoFile(imageSrc, "screenshot.jpg"));
-    console.log("Upload Payload:", {
-      username,
-      image: formData.get("image"),
-    });
-    console.log(formData)
+    formData.append("faceID", dataURLtoFile(imageSrc, "screenshot.jpg"));
+  
+    console.log(formData.get("faceID"));
     try {
       // Make a POST request to the API endpoint
       const response = await fetch(
