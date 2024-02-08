@@ -8,6 +8,7 @@ import requests,re
 import json
 from django.contrib import messages
 from userprofile.dowellconnection import dowellconnection
+from userprofile.serializers import UserSerializer
 # import json
 
 
@@ -536,10 +537,17 @@ def update_permissions(request):
     If the profile is there then, from request body we check if we have section or idverification and then we update that dictionary in the userprofile 
     """
 
-    username = request.data.get("username", None)
-    userID = request.data.get("userID", None)
-    section = request.data.get("section", None)
-    idverification = request.data.get("idverification", None)
+    # Validate data using serializer
+    serializer = UserSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response({"success":False,"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Extract validated data
+    validated_data = serializer.validated_data
+    userID = validated_data.get('userID')
+    username = validated_data.get('username')
+    section = validated_data.get('section')
+    idverification = validated_data.get('idverification')
 
     if idverification and section:
         return Response(
