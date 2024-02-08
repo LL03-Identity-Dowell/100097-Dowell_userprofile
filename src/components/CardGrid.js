@@ -47,7 +47,7 @@ function NestedCard(props) {
 		BehaviouralProfile: false,
 		UsageProfile: false,
 	});
-
+	const [updating, setUpdating] = useState(false);
 	const handleCheckboxChange = (checkboxId) => {
 		setPermissions((prevPermissions) => ({
 			...prevPermissions,
@@ -56,6 +56,7 @@ function NestedCard(props) {
 	};
 
 	const handleUpdatePermissionClick = async () => {
+		setUpdating(true);
 		try {
 			const apiUrl = "https://100097.pythonanywhere.com/update_permissions";
 			const response = await fetch(apiUrl, {
@@ -74,12 +75,15 @@ function NestedCard(props) {
 			// Handle the response as needed
 			if (response.ok) {
 				toast.success("Success");
+				setUpdating(false);
 			} else {
 				toast.error("Failed to update permission");
 				console.log(response)
+				setUpdating(false);
 			}
 		} catch (error) {
 			console.error("Error updating permissions:", error);
+			setUpdating(false);
 		}
 	};
 
@@ -191,7 +195,7 @@ function NestedCard(props) {
 								onChange={() => handleCheckboxChange("UsageProfile")}
 							/>
 							<Button variant="dark" onClick={handleUpdatePermissionClick}>
-								Update Permission
+								{updating ? "Updating..." : "Update Permission"}
 							</Button>
 						</Form>
 					)}

@@ -32,8 +32,8 @@ const App = () => {
      
     } else {
       console.log("not Found")
-      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
-      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
+      // const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
+      const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
       
     if (typeof window !== "undefined") {
       window.location.href = redirectUrl;
@@ -54,7 +54,7 @@ const App = () => {
 
       const data = await response.json();
       setUserData(data);
-      console.log(data)
+      console.log("user info",data)
       let user_name = data.userinfo.username;
       const user_id = data.userinfo.userID;
       console.log(user_name, user_id)

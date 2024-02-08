@@ -146,7 +146,7 @@ const FaceId = (props) => {
 						ref={fileInputRef}
 						disabled={selectedOption === "camera"}
 					/>
-					<small>{uploadedFileName}</small>
+					<small>{uploadedFileName.name}</small>
 				</Form.Group>
 
 				<Button
