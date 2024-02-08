@@ -61,6 +61,14 @@ console.log(selectedFile)
     }
     
   };
+  const url =props.userInfo.formsData[0].personalids.IDcard4
+	// Find the index of "media"
+	const index = url.indexOf("/media");
+
+	// Remove everything before "media"
+	const modifiedUrl = url.substring(index);
+
+	console.log(modifiedUrl); 
   return (
 		<div>
 			<div className="text-center">
@@ -70,7 +78,7 @@ console.log(selectedFile)
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.IDcard4 !== ""
-							? props.userInfo.formsData[0].personalids.IDcard4
+							? modifiedUrl
 							: "/images/samanta.webp"
 					}
 					alt="samanta"

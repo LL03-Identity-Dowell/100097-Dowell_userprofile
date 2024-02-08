@@ -223,6 +223,11 @@ const VideoId = (props) => {
 				}
 			}
 		};
+		const url =props.userInfo.formsData[0].personalids.videoID
+		// Find the index of "media"
+		const index = url.indexOf("/media");
+		// Remove everything before "media"
+		const modifiedUrl = url.substring(index);
 	return (
 		<>
 			<ToastContainer position="top-right" />
@@ -233,7 +238,7 @@ const VideoId = (props) => {
 							<>
 								<video controls className="videoid-wrapper mx-auto">
 									<source
-										src={props.userInfo.formsData[0].personalids.videoID}
+										src={modifiedUrl}
 										type="video/webm"
 									/>
 									Your browser does not support the video tag.

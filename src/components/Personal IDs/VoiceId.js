@@ -153,6 +153,11 @@ const VoiceId = (props) => {
 			toast.error("Please select voice id first");
 		}
 	};
+	const url =props.userInfo.formsData[0].personalids.voiceID
+	// Find the index of "media"
+	const index = url.indexOf("/media");
+	// Remove everything before "media"
+	const modifiedUrl = url.substring(index);
 
 	return (
 		<div className="text-center mt-5">
@@ -162,7 +167,7 @@ const VoiceId = (props) => {
 				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
 					<audio
 						ref={apiaudioRef}
-						src={props.userInfo.formsData[0].personalids.voiceID}
+						src={modifiedUrl}
 						controls
 						onPlay={() => {
 							if (audioRef.current != undefined) {

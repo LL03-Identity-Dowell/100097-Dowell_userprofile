@@ -77,7 +77,8 @@ const FaceId = (props) => {
     formData.append("username", username);
     formData.append("faceID", dataURLtoFile(imageSrc, "screenshot.jpg"));
   
-    console.log(formData.get("faceID"));
+    // console.log(formData.get("faceID"));
+console.log(formData)
     try {
       // Make a POST request to the API endpoint
       const response = await fetch(

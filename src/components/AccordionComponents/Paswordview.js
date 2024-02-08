@@ -11,7 +11,7 @@ const Paswordview = (props) => {
 		};
 	return (
 		<>
-			<table className="personal-id-table">
+			{/* <table className="personal-id-table">
 				<tbody>
 					<tr key="" className="light-background">
 						<td className="first-column">Password</td>
@@ -32,7 +32,7 @@ const Paswordview = (props) => {
 						</td>
 					</tr>
 				</tbody>
-			</table>
+			</table> */}
 		</>
 	);
 };

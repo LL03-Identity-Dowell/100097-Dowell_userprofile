@@ -76,7 +76,14 @@ const IdCard1 = (props) => {
 			toast.error("Please select ID card first");
 		}
 	};
-	console.log(props.userInfo.formsData[0].personalids.IDcard1);
+	const url =props.userInfo.formsData[0].personalids.IDcard1
+	// Find the index of "media"
+	const index = url.indexOf("/media");
+
+	// Remove everything before "media"
+	const modifiedUrl = url.substring(index);
+
+	console.log(modifiedUrl); 
 
 	return (
 		<div>
@@ -87,10 +94,7 @@ const IdCard1 = (props) => {
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.IDcard1 !== ""
-							? removeSecondOccurrence(
-									props.userInfo.formsData[0].personalids.IDcard1,
-									substr
-							  )
+							? modifiedUrl
 							: "/images/samanta.webp"
 					}
 					alt="samanta"

@@ -54,6 +54,14 @@ const IdCard3 = (props) => {
       }
     
   };
+  const url =props.userInfo.formsData[0].personalids.IDcard3
+	// Find the index of "media"
+	const index = url.indexOf("/media");
+
+	// Remove everything before "media"
+	const modifiedUrl = url.substring(index);
+
+	console.log(modifiedUrl); 
   return (
 		<div>
 			<div className="text-center">
@@ -63,7 +71,7 @@ const IdCard3 = (props) => {
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.IDcard3 !== ""
-							? props.userInfo.formsData[0].personalids.IDcard3
+							? modifiedUrl
 							: "/images/samanta.webp"
 					}
 					alt="samanta"

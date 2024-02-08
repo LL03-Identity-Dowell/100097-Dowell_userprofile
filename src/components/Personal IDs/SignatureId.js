@@ -1,27 +1,3 @@
-// import React from 'react'
-// import {Button, Image, Form} from 'react-bootstrap';
-
-// const SignatureId = () => {
-//   return (
-//     <div>
-//     <div className='text-center'>
-//       <Image className='img-fluid mb-4' src="/images/samanta.webp" alt="samanta" width={300} height={300}/>
-//       </div>
-//       <Form>
-//         <Form.Group className="mb-3" controlId="signatureFile">
-//           <Form.Label className='labelsStyle'>Signature</Form.Label>
-//           <Form.Control className='inputStyle' type="file"/>
-//         </Form.Group> 
-//         <Button  variant="dark" className='lg:w-50'>Update Your Signature</Button>
-//         </Form>
-//     </div>
-//   )
-// }
-
-// export default SignatureId
-
-
-
 import React, {useState} from 'react'
 import {Button, Image, Form} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -84,6 +60,11 @@ console.log(selectedFile)
     }
     
   };
+  const url =props.userInfo.formsData[0].personalids.signature
+	// Find the index of "media"
+	const index = url.indexOf("/media");
+	// Remove everything before "media"
+	const modifiedUrl = url.substring(index);
   return (
 		<div>
 			<div className="text-center">
@@ -93,7 +74,7 @@ console.log(selectedFile)
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.signature !== ""
-							? props.userInfo.formsData[0].personalids.signature
+							? modifiedUrl
 							: "/images/samanta.webp"
 					}
 					alt="samanta"
