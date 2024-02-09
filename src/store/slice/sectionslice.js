@@ -1,0 +1,101 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const sectionslice = createSlice({
+	name: "sections",
+	initialState: {
+		section1: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+		section2: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+		section3: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+		section4: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+		section5: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+		section6: {
+			MyProfile: false,
+			VerifyUsername_Password_Strength: false,
+			DeviceDetails: false,
+			PersonalIDs: false,
+			PersonalReferences: false,
+			IDVerification_Status: false,
+			OrganisationDetails: false,
+			GeographicProfile: false,
+			DemographicProfile: false,
+			PsychographicProfile: false,
+			BehaviouralProfile: false,
+			UsageProfile: false,
+		},
+	},
+	reducers: {
+		getsections(state, action) {
+			
+			return action.payload;
+		},
+	},
+});
+
+export default sectionslice.reducer;
+
+export const { getsections } = sectionslice.actions;

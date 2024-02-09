@@ -9,18 +9,44 @@ import {
 	Button,
 	Form,
 } from "react-bootstrap";
+import { useSelector } from "react-redux";
 const CardGrid = (props) => {
+	const allsections = useSelector((state) => state.sections);
 	return (
 		<div>
 			<div className="card-container mt-5">
-				<NestedCard section="section1" formdata={props.data} />
-				<NestedCard section="section2" formdata={props.data} />
-				<NestedCard section="section3" formdata={props.data} />
+				<NestedCard
+					section="section1"
+					formdata={props.data}
+					singlesection={allsections.section1}
+				/>
+				<NestedCard
+					section="section2"
+					formdata={props.data}
+					singlesection={allsections.section2}
+				/>
+				<NestedCard
+					section="section3"
+					formdata={props.data}
+					singlesection={allsections.section3}
+				/>
 			</div>
 			<div className="card-container mt-5">
-				<NestedCard section="section4" formdata={props.data} />
-				<NestedCard section="section5" formdata={props.data} />
-				<NestedCard section="section6" formdata={props.data} />
+				<NestedCard
+					section="section4"
+					formdata={props.data}
+					singlesection={allsections.section4}
+				/>
+				<NestedCard
+					section="section5"
+					formdata={props.data}
+					singlesection={allsections.section5}
+				/>
+				<NestedCard
+					section="section6"
+					formdata={props.data}
+					singlesection={allsections.section6}
+				/>
 			</div>
 		</div>
 	);
@@ -30,22 +56,21 @@ export default CardGrid;
 
 function NestedCard(props) {
 	const [isExpanded, setIsExpanded] = useState(false);
-	console.log(props.section);
-	console.log("insideform", props.formdata.userID);
 
 	const [permissions, setPermissions] = useState({
-		MyProfile: false,
-		VerifyUsername_Password_Strength: false,
-		DeviceDetails: false,
-		PersonalIDs: false,
-		PersonalReferences: false,
-		IDVerification_Status: false,
-		OrganisationDetails: false,
-		GeographicProfile: false,
-		DemographicProfile: false,
-		PsychographicProfile: false,
-		BehaviouralProfile: false,
-		UsageProfile: false,
+		MyProfile: props.singlesection.MyProfile,
+		VerifyUsername_Password_Strength:
+			props.singlesection.VerifyUsername_Password_Strength,
+		DeviceDetails: props.singlesection.DeviceDetails,
+		PersonalIDs: props.singlesection.PersonalIDs,
+		PersonalReferences: props.singlesection.PersonalReferences,
+		IDVerification_Status: props.singlesection.IDVerification_Status,
+		OrganisationDetails: props.singlesection.OrganisationDetails,
+		GeographicProfile: props.singlesection.GeographicProfile,
+		DemographicProfile: props.singlesection.DemographicProfile,
+		PsychographicProfile: props.singlesection.PsychographicProfile,
+		BehaviouralProfile: props.singlesection.BehaviouralProfile,
+		UsageProfile: props.singlesection.UsageProfile,
 	});
 	const [updating, setUpdating] = useState(false);
 	const handleCheckboxChange = (checkboxId) => {
@@ -80,7 +105,7 @@ function NestedCard(props) {
 				setUpdating(false);
 			} else {
 				toast.error("Failed to update permission");
-				console.log(response)
+				console.log(response);
 				setUpdating(false);
 			}
 		} catch (error) {
