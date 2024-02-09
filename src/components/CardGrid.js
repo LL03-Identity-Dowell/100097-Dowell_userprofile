@@ -65,10 +65,12 @@ function NestedCard(props) {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					section: props.section,
 					userID: props.formdata.userID,
 					username: props.formdata.username,
-					...permissions,
+					section: {
+						Section_Name: props.section,
+						...permissions,
+					},
 				}),
 			});
 

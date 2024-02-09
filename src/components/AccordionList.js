@@ -45,7 +45,7 @@ const all_forms = profileData.formsData[0]
 				<Accordion.Item eventKey="1">
 					<Accordion.Header>Set Password</Accordion.Header>
 					<Accordion.Body>
-						<Paswordview data={profileData}></Paswordview>
+						{/* <Paswordview data={profileData}></Paswordview> */}
 					</Accordion.Body>
 				</Accordion.Item>
 				<Accordion.Item eventKey="2">
