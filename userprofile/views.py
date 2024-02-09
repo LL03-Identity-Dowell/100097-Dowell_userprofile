@@ -632,26 +632,8 @@ def update_permissions(request):
                             status=status.HTTP_400_BAD_REQUEST,
                         )
                     
-                    # Sections Form Data
-                    section_form_data = {
-                        # Providing Default Value as NONE Explicitly
-                        "MyProfile": section.get("MyProfile", False),
-                        "VerifyUsername_Password_Strength": section.get(
-                            "VerifyUsername_Password_Strength", False
-                        ),
-                        "DeviceDetails": section.get("DeviceDetails", False),
-                        "PersonalIDs": section.get("PersonalIDs", False),
-                        "PersonalReferences": section.get("PersonalReferences", False),
-                        "IDVerification_Status": section.get("IDVerification_Status", False),
-                        "OrganisationDetails": section.get("OrganisationDetails", False),
-                        "GeographicProfile": section.get("GeographicProfile", False),
-                        "DemographicProfile": section.get("DemographicProfile", False),
-                        "PsychographicProfile": section.get("PsychographicProfile", False),
-                        "BehaviouralProfile": section.get("BehaviouralProfile", False),
-                        "UsageProfile": section.get("UsageProfile", False),
-                    }
-
-                    update_fields = {section_name: section_form_data}
+                    # update_fields = {section_name: section_form_data}
+                    update_fields = {section_name: section}
                     update_response = json.loads(
                         dowellconnection(
                             "login",
@@ -678,30 +660,8 @@ def update_permissions(request):
                         )
 
                 # The request is for updating 'idverification'
-                elif idverification:
-                    # Idverification Form Data
-                    id_verification_form_data = {
-                        # Providing Default Value as NONE Explicitly
-                        "phone_Verification": idverification.get("phone_Verification", False),
-                        "email_Verification": idverification.get("email_Verification", False),
-                        "voiceID_Verification": idverification.get("voiceID_Verification", False),
-                        "faceID_Verification": idverification.get("faceID_Verification", False),
-                        "biometricID_Verification": idverification.get("biometricID_Verification", False),
-                        "videoID_Verification": idverification.get("videoID_Verification", False),
-                        "idCard1_Verification": idverification.get("idCard1_Verification", False),
-                        "idCard2_Verification": idverification.get("idCard2_Verification", False),
-                        "idCard3_Verification": idverification.get("idCard3_Verification", False),
-                        "idCard4_Verification": idverification.get("idCard4_Verification", False),
-                        "idCard5_Verification": idverification.get("idCard5_Verification", False),
-                        "signature_Verification": idverification.get("signature_Verification", False),
-                        "socialMedia_Verification": idverification.get("socialMedia_Verification", False),
-                        "personalReference_Verification": idverification.get("personalReference_Verification", False), 
-                        "personal_Verification_By_Witness": idverification.get("personal_Verification_By_Witness", False), 
-                        "organisation_Verification": idverification.get("organisation_Verification", False), 
-                    }
-
-                   
-                    update_fields = {"idverification": id_verification_form_data}
+                elif idverification:                    
+                    update_fields = {"idverification": idverification}
                     update_response = json.loads(
                         dowellconnection(
                             "login",
@@ -727,8 +687,8 @@ def update_permissions(request):
                             status=status.HTTP_400_BAD_REQUEST,
                         )
 
+            # User Data doesnt Exists so Create a User Data with Empty Section Data
             else:
-                # User Data doesnt Exists so Create a User Data with Empty Section Data
                 empty_section_form = {
                     "MyProfile": False,
                     "VerifyUsername_Password_Strength": False,
@@ -745,22 +705,22 @@ def update_permissions(request):
                 }
                 
                 empty_id_verification_form = {
-                    "phone_Verification": False,
-                    "email_Verification": False,
-                    "voiceID_Verification": False,
-                    "faceID_Verification": False,
-                    "biometricID_Verification": False,
-                    "videoID_Verification": False,
-                    "idCard1_Verification": False,
-                    "idCard2_Verification": False,
-                    "idCard3_Verification": False,
-                    "idCard4_Verification": False,
-                    "idCard5_Verification": False,
-                    "signature_Verification": False,
-                    "socialMedia_Verification": False,
-                    "personalReference_Verification": False, 
-                    "personal_Verification_By_Witness": False, 
-                    "organisation_Verification": False, 
+                    "phone_Verification": "Not_Started",
+                    "email_Verification": "Not_Started",
+                    "voiceID_Verification": "Not_Started",
+                    "faceID_Verification": "Not_Started",
+                    "biometricID_Verification": "Not_Started",
+                    "videoID_Verification": "Not_Started",
+                    "idCard1_Verification": "Not_Started",
+                    "idCard2_Verification": "Not_Started",
+                    "idCard3_Verification": "Not_Started",
+                    "idCard4_Verification": "Not_Started",
+                    "idCard5_Verification": "Not_Started",
+                    "signature_Verification": "Not_Started",
+                    "socialMedia_Verification": "Not_Started",
+                    "personalReference_Verification": "Not_Started", 
+                    "personal_Verification_By_Witness": "Not_Started", 
+                    "organisation_Verification": "Not_Started", 
                 }
 
                 user_data_field = {
@@ -880,6 +840,83 @@ def get_user_sections(request):
                             count += 1
                             all_section_data[f"section{count}"] = response_user_data[i]
                     data = {"success":True,"data":all_section_data}
+                    return Response(data, status=status.HTTP_200_OK)
+
+            else:
+                return Response(
+                    {"success": False, "error": "Invalid username"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except Exception as e:
+            return Response(
+                {"success": False, "error": str(e)}, status=status.HTTP_400_BAD_REQUEST
+            )
+    else:
+        return Response(
+            {"success": False, "error": "Invalid session_id"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@api_view(["GET"])
+def get_user_idverifications(request):
+    username = request.data.get("username", None)
+    session_id = request.data.get("session_id", None)
+
+    if not username or not session_id:
+        return Response(
+            {"success": False, "error": "username or session_id field is required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    session_json = ({"session_id" : session_id})
+    response_validate_session_id = requests.post("https://100014.pythonanywhere.com/api/userinfo/", json=session_json)
+    session_data = response_validate_session_id.json()
+
+    #The session_id response contains error message which will make the response length 1 so,check if the response is valid by comparing it to length more than 1.      
+    if len(session_data) > 1:
+        userdetails = {"username": username}
+        try:
+            response_validate_user = json.loads(
+                dowellconnection(
+                    "login",
+                    "bangalore",
+                    "login",
+                    "user_profile",
+                    "user_profile",
+                    "1168",
+                    "ABCDE",
+                    "fetch",
+                    userdetails,
+                    "null",
+                )
+            )
+            response_data = response_validate_user["data"]
+
+            # username is Valid
+            if len(response_data) > 0:
+                response = json.loads(
+                    dowellconnection(
+                        "login",
+                        "bangalore",
+                        "login",
+                        "idverfication",
+                        "idverfication",
+                        "1253001",
+                        "ABCDE",
+                        "fetch",
+                        userdetails,
+                        "null",
+                    )
+                )
+
+                # user doesnt have a profile yet
+                if not response["data"]:
+                    return Response({"success":True,"data":response["data"],"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
+                else :
+                    response_user_data = response["data"][0]
+                    all_idverification_data = response_user_data["idverification"]
+                    data = {"success":True,"data":all_idverification_data}
                     return Response(data, status=status.HTTP_200_OK)
 
             else:

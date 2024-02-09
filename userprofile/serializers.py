@@ -2,7 +2,10 @@ from rest_framework import serializers
 
 class SectionSerializer(serializers.Serializer):
     Section_Name = serializers.CharField()
+    MyProfile = serializers.BooleanField(required=False)
+    VerifyUsername_Password_Strength = serializers.BooleanField(required=False)
     DeviceDetails = serializers.BooleanField(required=False)
+    PersonalIDs = serializers.BooleanField(required=False)
     PersonalReferences = serializers.BooleanField(required=False)
     IDVerification_Status = serializers.BooleanField(required=False)
     OrganisationDetails = serializers.BooleanField(required=False)
@@ -12,18 +15,28 @@ class SectionSerializer(serializers.Serializer):
     BehaviouralProfile = serializers.BooleanField(required=False)
     UsageProfile = serializers.BooleanField(required=False)
 
+
+IdVerification_Choices = ["Rejected_After_Verification", "Not_Started", "In_Progress","Accepted_After_Verification"]
+
+
 class IdVerificationSerializer(serializers.Serializer):
-    phone_Verification = serializers.BooleanField(required=False)
-    email_Verification = serializers.BooleanField(required=False)
-    voiceID_Verification = serializers.BooleanField(required=False)
-    faceID_Verification = serializers.BooleanField(required=False)
-    idCard2_Verification = serializers.BooleanField(required=False)
-    idCard4_Verification = serializers.BooleanField(required=False)
-    signature_Verification = serializers.BooleanField(required=False)
-    socialMedia_Verification = serializers.BooleanField(required=False)
-    personalReference_Verification = serializers.BooleanField(required=False)
-    personal_Verification_By_Witness = serializers.BooleanField(required=False)
-    organisation_Verification = serializers.BooleanField(required=False)
+    phone_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    email_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    voiceID_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    faceID_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    biometricID_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    videoID_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    idCard1_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    idCard2_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    idCard3_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    idCard4_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    idCard5_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    signature_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    socialMedia_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    personalReference_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+    personal_Verification_By_Witness = serializers.ChoiceField(choices=IdVerification_Choices)
+    organisation_Verification = serializers.ChoiceField(choices=IdVerification_Choices)
+
 
 class UserSerializer(serializers.Serializer):
     userID = serializers.CharField()

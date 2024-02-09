@@ -43,4 +43,5 @@ urlpatterns = [
       path("myworkspace",views.MyWorkspace,name="myworkspace"),
       path("update_permissions",views.update_permissions),
       path("get_user_sections",views.get_user_sections),
+      path("get_user_idverifications",views.get_user_idverifications),
 ]
