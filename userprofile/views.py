@@ -612,10 +612,9 @@ def update_permissions(request):
                     "null",
                 )
             )
-
+        
             # Response has Data so,Update the Section Field
             if len(response["data"]) > 0:
-
                 # The request is for updating 'section'
                 if section:
                     # Validate the section_name value using REGEX
@@ -726,13 +725,13 @@ def update_permissions(request):
                 user_data_field = {
                     "username": username,
                     "userID": userID,
-                    "section1": {empty_section_form},
-                    "section2": {empty_section_form},
-                    "section3": {empty_section_form},
-                    "section4": {empty_section_form},
-                    "section5": {empty_section_form},
-                    "section6": {empty_section_form},
-                    "idverification":{empty_id_verification_form}
+                    "section1": empty_section_form,
+                    "section2": empty_section_form,
+                    "section3": empty_section_form,
+                    "section4": empty_section_form,
+                    "section5": empty_section_form,
+                    "section6": empty_section_form,
+                    "idverification":empty_id_verification_form
                 }
                 insert_response = json.loads(
                     dowellconnection(
