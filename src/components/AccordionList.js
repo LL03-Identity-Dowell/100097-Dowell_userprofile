@@ -1,39 +1,39 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import MyProfileView from './AccordionComponents/MyProfileView'
-import DeviceIDView from './AccordionComponents/DeviceIDView'
-import BehaviouralView from './AccordionComponents/BehaviouralView'
-import UsageView from './AccordionComponents/UsageView'
-import GeographicView from './AccordionComponents/GeographicView'
-import PsychographicProfileView from './AccordionComponents/PsychographicProfileView'
-import DemographicView from './AccordionComponents/DemographicView'
-import Workspace from './AccordionComponents/Workspace'
+import MyProfileView from "./AccordionComponents/MyProfileView";
+import DeviceIDView from "./AccordionComponents/DeviceIDView";
+import BehaviouralView from "./AccordionComponents/BehaviouralView";
+import UsageView from "./AccordionComponents/UsageView";
+import GeographicView from "./AccordionComponents/GeographicView";
+import PsychographicProfileView from "./AccordionComponents/PsychographicProfileView";
+import DemographicView from "./AccordionComponents/DemographicView";
+import Workspace from "./AccordionComponents/Workspace";
 import Personalidinfo from "./AccordionComponents/Personalidinfo";
-import ReferenceView from './AccordionComponents/ReferenceView';
-import Paswordview from './AccordionComponents/Paswordview';
+import ReferenceView from "./AccordionComponents/ReferenceView";
+import Paswordview from "./AccordionComponents/Paswordview";
+import Sectionview from "./AccordionComponents/Sectionviewdata";
 const AccordionList = (profileData) => {
- const profiledata = profileData.profileData
+	const profiledata = profileData.profileData;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
-const all_forms = profileData.formsData[0]
+	const [isOpen, setIsOpen] = useState(false);
+	const toggleAccordion = () => {
+		setIsOpen(!isOpen);
+	};
+	const all_forms = profileData.formsData[0];
 
+	const _id = all_forms._id;
+	var _username = all_forms.username;
+	var _userID = all_forms.userID;
+	var _reference = all_forms.reference;
+	var _demographic = all_forms.demographic;
+	var _psychographic = all_forms.psychographic;
+	var _deviceIDs = all_forms.deviceIDs;
+	var _behavioural = all_forms.behavioural;
+	var _geographic = all_forms.geographic;
+	var _usage = all_forms.usage;
+	var _workspace = all_forms.myworkspace;
 
-    const _id = all_forms._id;
-    var _username = all_forms.username;
-    var _userID = all_forms.userID;
-    var _reference = all_forms.reference;
-    var _demographic = all_forms.demographic;
-    var _psychographic = all_forms.psychographic;
-    var _deviceIDs = all_forms.deviceIDs;
-    var _behavioural = all_forms.behavioural;
-    var _geographic = all_forms.geographic;
-    var _usage = all_forms.usage;
-    var _workspace = all_forms.myworkspace
-
-  return (
+	return (
 		<div>
 			<Accordion>
 				<Accordion.Item eventKey="0">
@@ -108,11 +108,13 @@ const all_forms = profileData.formsData[0]
 				</Accordion.Item>
 				<Accordion.Item eventKey="12">
 					<Accordion.Header>Section Permissions</Accordion.Header>
-					<Accordion.Body></Accordion.Body>
+					<Accordion.Body>
+						<Sectionview />
+					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>
 		</div>
 	);
-}
+};
 
-export default AccordionList
+export default AccordionList;
