@@ -776,7 +776,7 @@ def update_permissions(request):
 """
 API for Fetching all user section / Update ID Verification
 """
-@api_view(["GET"])
+@api_view(["POST"])
 def get_user_sections(request):
     username = request.data.get("username", None)
     session_id = request.data.get("session_id", None)
@@ -858,7 +858,7 @@ def get_user_sections(request):
         )
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 def get_user_idverifications(request):
     username = request.data.get("username", None)
     session_id = request.data.get("session_id", None)
