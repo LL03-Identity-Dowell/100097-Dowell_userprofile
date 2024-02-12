@@ -911,7 +911,7 @@ def get_user_idverifications(request):
 
                 # user doesnt have a profile yet
                 if not response["data"]:
-                    return Response({"success":True,"data":response["data"],"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
+                    return Response({"success":True,"data":{},"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
                 else :
                     response_user_data = response["data"][0]
                     all_idverification_data = response_user_data["idverification"]
