@@ -1,8 +1,12 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const PinterestProfile = (userData) => {
+   const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.pinterestLink
  
@@ -43,6 +47,17 @@ const PinterestProfile = (userData) => {
         console.log(responseData);
   
         toast.success("success");
+
+         const updatedUser = {
+						...currentstate,
+						reference: {
+							...currentstate.reference,
+							Pinterest: formInputs.pinterestProfile,
+						},
+					};
+
+					const newState = [updatedUser];
+					dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit pinterest IDs: ${response.status}`);
       }

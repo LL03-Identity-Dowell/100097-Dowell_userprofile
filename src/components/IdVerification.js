@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { getidverify } from "../store/slice/idverify";
 const IdVerification = (props) => {
-  const idverify = useSelector((state) => state.idverify);
-  
-const [updating, setUpdating] = useState(false);
-
+	const idverify = useSelector((state) => state.idverify);
+	const dispatch = useDispatch();
+	const [updating, setUpdating] = useState(false);
 
 	const [verificationStatus, setVerificationStatus] = useState({
 		phone_Verification: idverify.phone_Verification,
@@ -29,7 +29,7 @@ const [updating, setUpdating] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-setUpdating(true);
+		setUpdating(true);
 		try {
 			const response = await fetch(
 				"https://100097.pythonanywhere.com/update_permissions",
@@ -47,16 +47,17 @@ setUpdating(true);
 			);
 
 			if (response.ok) {
-        toast.success("Success");
-        setUpdating(false);
+				toast.success("Success");
+				dispatch(getidverify(verificationStatus));
+				setUpdating(false);
 			} else {
 				toast.error("Failed to update permission");
-        console.log(response);
-        setUpdating(false);
+				console.log(response);
+				setUpdating(false);
 			}
 		} catch (error) {
-      console.error("Error:", error);
-      setUpdating(false);
+			console.error("Error:", error);
+			setUpdating(false);
 		}
 	};
 

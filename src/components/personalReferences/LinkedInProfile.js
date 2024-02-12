@@ -3,8 +3,12 @@ import { Button, Form } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Iframe from 'react-iframe'
+import { useDispatch, useSelector } from 'react-redux';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const LinkedInProfile = (userData) => {
+    const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
   const linkedinLink_value= userData.linkedinLink
   console.log(linkedinLink_value)
   const userName = userData.userData.userData.userData.userinfo.username;
@@ -48,6 +52,17 @@ const LinkedInProfile = (userData) => {
         console.log(responseData);
   
         toast.success("success");
+
+        const updatedUser = {
+					...currentstate,
+					reference: {
+						...currentstate.reference,
+						Linkedin: formInputs.linkedInProfile,
+					},
+				};
+
+				const newState = [updatedUser];
+				dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit device IDs: ${response.status}`);
       }

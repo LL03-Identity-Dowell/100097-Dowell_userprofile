@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 
 const RedditProfile = (userData) => {
+   const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.redditLink
  
@@ -44,6 +48,17 @@ const RedditProfile = (userData) => {
         console.log(responseData);
   
         toast.success("success");
+
+         const updatedUser = {
+						...currentstate,
+						reference: {
+							...currentstate.reference,
+							Reddit: formInputs.redditProfile,
+						},
+					};
+
+					const newState = [updatedUser];
+					dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit Reddit IDs: ${response.status}`);
       }

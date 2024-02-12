@@ -1,8 +1,12 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const DiscordProfile = (userData) => {
+  const currentstate = useSelector((state) => state.profile[0]);
+	const dispatch = useDispatch();
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.discordLink
  
@@ -43,8 +47,18 @@ const DiscordProfile = (userData) => {
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-  
         toast.success("success");
+	const updatedUser = {
+		...currentstate,
+		reference: {
+			...currentstate.reference,
+			Discord: formInputs.discordProfile,
+		},
+	};
+
+	const newState = [updatedUser];
+	dispatch(getprofiledetails(newState));
+
       } else {
         throw new Error(`Failed to submit device IDs: ${response.status}`);
       }

@@ -1,8 +1,14 @@
 import React,{useState} from 'react'
 import { Button , Form} from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const TwitterProfile = (userData) => {
+
+    const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
+
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.twitterLink
  
@@ -41,6 +47,18 @@ const TwitterProfile = (userData) => {
         const responseData = await response.json();
   
         toast.success("success");
+
+
+        const updatedUser = {
+					...currentstate,
+					reference: {
+						...currentstate.reference,
+						Twitter: formInputs.twitterProfile,
+					},
+				};
+
+				const newState = [updatedUser];
+				dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit device IDs: ${response.status}`);
       }

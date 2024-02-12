@@ -6,16 +6,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import HomeComponent from "./components/Home";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getsections } from "./store/slice/sectionslice";
 import { getidverify } from "./store/slice/idverify";
+import { getprofiledetails } from "./store/slice/profiledataSlice";
+import { getprofileview } from "./store/slice/profileviewSlice";
+import { getuserdetails } from "./store/slice/userdataslice";
 
 const App = () => {
 	const searchParams = new URLSearchParams(window.location.search);
 	let [userData, setUserData] = useState(null);
 	let [profileView, setProfileView] = useState(null);
 	let [getResponse, setGetResponse] = useState();
+	const [sectiondata, setsectiondata] = useState(null);
+	const [verifydata, setverifydata] = useState(null);
 	const navigate = useNavigate();
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const sessionID = searchParams.get("session_id");
@@ -53,7 +60,8 @@ const App = () => {
 			});
 
 			const data = await response.json();
-			setUserData(data);
+
+			dispatch(getuserdetails(data));
 			console.log("user info", data);
 			let user_name = data.userinfo.username;
 			const user_id = data.userinfo.userID;
@@ -93,9 +101,10 @@ const App = () => {
 				requestOptions
 			);
 			const responseData = await response.json();
-			setGetResponse(responseData);
+
+			dispatch(getprofiledetails(responseData));
 			if (response.ok) {
-				console.log(responseData);
+				console.log(responseData, "getprofile");
 				// alert('Form submitted successfully');
 			} else {
 				// alert('Form submission failed');
@@ -123,7 +132,7 @@ const App = () => {
 				requestOptions
 			);
 			const responseData = await response.json();
-			setProfileView(responseData);
+			dispatch(getprofileview(responseData));
 
 			if (response.ok) {
 				// alert('Form submitted successfully');
@@ -135,10 +144,6 @@ const App = () => {
 		}
 	};
 
-	const dispatch = useDispatch();
-
-	const [sectiondata, setsectiondata] = useState(null);
-	const [verifydata, setverifydata] = useState(null);
 	const storedSessionId = sessionStorage.getItem("session_id");
 
 	useEffect(() => {
@@ -164,10 +169,99 @@ const App = () => {
 				const responseData = await response.json();
 
 				if (response.ok) {
-					console.log(responseData);
 
-					dispatch(getsections(responseData.data));
-					setsectiondata(responseData.data);
+					if (responseData.data.section1 !== undefined) {
+						console.log(responseData);
+
+						dispatch(getsections(responseData.data));
+					}
+					else {
+						dispatch(
+							getsections({
+								section1: {
+									Section_Name: "section1",
+									MyProfile: false,
+									VerifyUsername_Password_Strength: false,
+									DeviceDetails: false,
+									PersonalIDs: false,
+									PersonalReferences: false,
+									IDVerification_Status: false,
+									OrganisationDetails: false,
+									GeographicProfile: false,
+									DemographicProfile: false,
+									PsychographicProfile: false,
+									BehaviouralProfile: false,
+									UsageProfile: false,
+								},
+								section2: {
+									Section_Name: "section2",
+									MyProfile: false,
+									VerifyUsername_Password_Strength: false,
+									DeviceDetails: false,
+									PersonalIDs: false,
+									PersonalReferences: false,
+									IDVerification_Status: false,
+									OrganisationDetails: false,
+									GeographicProfile: false,
+									DemographicProfile: false,
+									PsychographicProfile: false,
+									BehaviouralProfile: false,
+									UsageProfile: false,
+								},
+								section3: {
+									Section_Name: "section3",
+									DeviceDetails: false,
+									PersonalReferences: false,
+									OrganisationDetails: false,
+								},
+								section4: {
+									Section_Name: "section4",
+									MyProfile: false,
+									VerifyUsername_Password_Strength: false,
+									DeviceDetails: false,
+									PersonalIDs: false,
+									PersonalReferences: false,
+									IDVerification_Status: false,
+									OrganisationDetails: false,
+									GeographicProfile: false,
+									DemographicProfile: false,
+									PsychographicProfile: false,
+									BehaviouralProfile: false,
+									UsageProfile: false,
+								},
+								section5: {
+									Section_Name: "section5",
+									MyProfile: false,
+									VerifyUsername_Password_Strength: false,
+									DeviceDetails: false,
+									PersonalIDs: false,
+									PersonalReferences: false,
+									IDVerification_Status: false,
+									OrganisationDetails: false,
+									GeographicProfile: false,
+									DemographicProfile: false,
+									PsychographicProfile: false,
+									BehaviouralProfile: false,
+									UsageProfile: false,
+								},
+								section6: {
+									Section_Name: "section6",
+									MyProfile: false,
+									VerifyUsername_Password_Strength: false,
+									DeviceDetails: false,
+									PersonalIDs: false,
+									PersonalReferences: false,
+									IDVerification_Status: false,
+									OrganisationDetails: false,
+									GeographicProfile: false,
+									DemographicProfile: false,
+									PsychographicProfile: false,
+									BehaviouralProfile: false,
+									UsageProfile: false,
+								},
+							})
+						);
+					}
 				}
 			} catch (error) {
 				console.error("Error submitting ", error);
@@ -196,10 +290,33 @@ const App = () => {
 				const responseData = await response.json();
 
 				if (response.ok) {
-					console.log(responseData);
+					if (responseData.data.phone_Verification !== undefined) {
+						console.log(responseData);
 
-					dispatch(getidverify(responseData.data));
-					setverifydata(responseData.data);
+						dispatch(getidverify(responseData.data));
+					} 
+					else {
+						dispatch(
+							getidverify({
+								phone_Verification: "Not_Started",
+								email_Verification: "Not_Started",
+								voiceID_Verification: "Not_Started",
+								faceID_Verification: "Not_Started",
+								biometricID_Verification: "Not_Started",
+								videoID_Verification: "Not_Started",
+								idCard1_Verification: "Not_Started",
+								idCard2_Verification: "Not_Started",
+								idCard3_Verification: "Not_Started",
+								idCard4_Verification: "Not_Started",
+								idCard5_Verification: "Not_Started",
+								signature_Verification: "Not_Started",
+								socialMedia_Verification: "Not_Started",
+								personalReference_Verification: "Not_Started",
+								personal_Verification_By_Witness: "Not_Started",
+								organisation_Verification: "Not_Started",
+							})
+						);
+					}
 				}
 			} catch (error) {
 				console.error("Error submitting :", error);
@@ -211,6 +328,23 @@ const App = () => {
 			idverify();
 		}
 	}, [profileView, storedSessionId]);
+
+	const getprofiledata = useSelector((state) => state.profile);
+	const getviewdata = useSelector((state) => state.view);
+	const getuserdata = useSelector((state) => state.user);
+	const sections = useSelector((state) => state.sections);
+	const idverify = useSelector((state) => state.idverify);
+	useEffect(() => {
+		setGetResponse(getprofiledata);
+
+		setProfileView(getviewdata);
+
+		setUserData(getuserdata);
+
+		setsectiondata(sections);
+
+		setverifydata(idverify);
+	}, [getprofiledata, getviewdata, getuserdata, idverify, sections]);
 
 	return getResponse && profileView && userData && sectiondata && verifydata ? (
 		<div>

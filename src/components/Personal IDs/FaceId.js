@@ -75,7 +75,7 @@ const FaceId = (props) => {
     // Create a FormData object to send the image file
     const formData = new FormData();
     formData.append("username", username);
-    formData.append("faceID", dataURLtoFile(imageSrc, "screenshot.jpg"));
+    formData.append("image", dataURLtoFile(imageSrc, "screenshot.jpg"));
   
     // console.log(formData.get("faceID"));
 console.log(formData)

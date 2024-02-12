@@ -1,8 +1,12 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const PersonalReferences3 = (userData) => {
+   const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.perRefLink3
  
@@ -43,6 +47,17 @@ const PersonalReferences3 = (userData) => {
         console.log(responseData);
   
         toast.success("success");
+
+         const updatedUser = {
+						...currentstate,
+						reference: {
+							...currentstate.reference,
+							personal_reference_3: formInputs.personalRefernce3,
+						},
+					};
+
+					const newState = [updatedUser];
+					dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit Personal Refernece ID 3: ${response.status}`);
       }

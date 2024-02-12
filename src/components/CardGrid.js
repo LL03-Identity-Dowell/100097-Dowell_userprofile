@@ -9,7 +9,8 @@ import {
 	Button,
 	Form,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getsections } from "../store/slice/sectionslice";
 const CardGrid = (props) => {
 	const allsections = useSelector((state) => state.sections);
 	return (
@@ -55,24 +56,29 @@ const CardGrid = (props) => {
 export default CardGrid;
 
 function NestedCard(props) {
+const currentstate = useSelector((state) => state.sections);
+
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const [permissions, setPermissions] = useState({
-		MyProfile: props.singlesection.MyProfile,
+		MyProfile: props.singlesection != undefined?props.singlesection.MyProfile:false,
 		VerifyUsername_Password_Strength:
-			props.singlesection.VerifyUsername_Password_Strength,
-		DeviceDetails: props.singlesection.DeviceDetails,
-		PersonalIDs: props.singlesection.PersonalIDs,
-		PersonalReferences: props.singlesection.PersonalReferences,
-		IDVerification_Status: props.singlesection.IDVerification_Status,
-		OrganisationDetails: props.singlesection.OrganisationDetails,
-		GeographicProfile: props.singlesection.GeographicProfile,
-		DemographicProfile: props.singlesection.DemographicProfile,
-		PsychographicProfile: props.singlesection.PsychographicProfile,
-		BehaviouralProfile: props.singlesection.BehaviouralProfile,
-		UsageProfile: props.singlesection.UsageProfile,
+			props.singlesection != undefined? props.singlesection.VerifyUsername_Password_Strength:false,
+		DeviceDetails: props.singlesection != undefined?props.singlesection.DeviceDetails:false,
+		PersonalIDs: props.singlesection != undefined?props.singlesection.PersonalIDs:false,
+		PersonalReferences: props.singlesection != undefined?props.singlesection.PersonalReferences:false,
+		IDVerification_Status: props.singlesection != undefined?props.singlesection.IDVerification_Status:false,
+		OrganisationDetails: props.singlesection != undefined?props.singlesection.OrganisationDetails:false,
+		GeographicProfile: props.singlesection != undefined?props.singlesection.GeographicProfile :false,
+		DemographicProfile: props.singlesection != undefined?props.singlesection.DemographicProfile:false,
+		PsychographicProfile: props.singlesection != undefined?props.singlesection.PsychographicProfile:false,
+		BehaviouralProfile: props.singlesection != undefined?props.singlesection.BehaviouralProfile:false,
+		UsageProfile: props.singlesection != undefined?props.singlesection.UsageProfile:false,
 	});
 	const [updating, setUpdating] = useState(false);
+
+
+	const dispatch=useDispatch()
 	const handleCheckboxChange = (checkboxId) => {
 		setPermissions((prevPermissions) => ({
 			...prevPermissions,
@@ -102,6 +108,16 @@ function NestedCard(props) {
 			// Handle the response as needed
 			if (response.ok) {
 				toast.success("Success");
+				
+				dispatch(
+					getsections({
+						...currentstate,
+						[props.section]: {
+							Section_Name: props.section,
+							...permissions,
+						},
+					})
+				);
 				setUpdating(false);
 			} else {
 				toast.error("Failed to update permission");
