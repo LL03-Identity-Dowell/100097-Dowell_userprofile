@@ -829,7 +829,7 @@ def get_user_sections(request):
 
                 # user doesnt have a profile yet
                 if not response["data"]:
-                    return Response({"success":True,"data":response["data"],"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
+                    return Response({"success":True,"data":{},"message":"User doesn't have a profile yet"},status=status.HTTP_200_OK)
                 else :
                     response_user_data = response["data"][0]
                     all_section_data = {}
