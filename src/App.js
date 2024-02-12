@@ -64,9 +64,10 @@ const App = () => {
 				navigate(
 					"https://100014.pythonanywhere.com/en/?redirect_url=http://127.0.0.1:3000"
 				);
-			} else {
-				navigate("src/components/Home.js");
-			}
+			} 
+			// else {
+			// 	navigate("src/components/Home.js");
+			// }
 			navigate("/");
 		} catch (error) {
 			console.error("Error fetching user info:", error);
