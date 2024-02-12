@@ -1,8 +1,14 @@
 import React, {useState} from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
 
 const XingProfile = (userData) => {
+
+
+    const currentstate = useSelector((state) => state.profile[0]);
+		const dispatch = useDispatch();
 
   const userName = userData.userData.userData.userData.userinfo.username;
   const profileLink= userData.xingLink
@@ -44,6 +50,17 @@ const XingProfile = (userData) => {
         console.log(responseData);
   
         toast.success("success");
+
+         const updatedUser = {
+						...currentstate,
+						reference: {
+							...currentstate.reference,
+							xing_profile: formInputs.xingProfile,
+						},
+					};
+
+					const newState = [updatedUser];
+					dispatch(getprofiledetails(newState));
       } else {
         throw new Error(`Failed to submit Xing IDs: ${response.status}`);
       }
