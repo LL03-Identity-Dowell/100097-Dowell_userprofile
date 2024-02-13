@@ -13,10 +13,10 @@ const IDVerification = () => {
 						<ListGroup.Item as="li" key={index}>
 							<div className="ms-2 me-auto">
 								<Row className="align-items-center">
-									<Col sm={3} className="fw-bold">
+									<Col sm={4} className="fw-bold">
 										{idVerifyKey}
 									</Col>
-									<Col sm={9}>
+									<Col sm={8}>
 										{idverifyValue}
 									</Col>
 								</Row>
