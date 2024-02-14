@@ -12,6 +12,7 @@ import Personalidinfo from "./AccordionComponents/Personalidinfo";
 import ReferenceView from "./AccordionComponents/ReferenceView";
 import Paswordview from "./AccordionComponents/Paswordview";
 import Sectionview from "./AccordionComponents/Sectionviewdata";
+import IdVerificationView from "./AccordionComponents/IdVerificationView"
 const AccordionList = (profileData) => {
 	const profiledata = profileData.profileData;
 
@@ -68,7 +69,9 @@ const AccordionList = (profileData) => {
 				</Accordion.Item>
 				<Accordion.Item eventKey="5">
 					<Accordion.Header>ID Verification</Accordion.Header>
-					<Accordion.Body></Accordion.Body>
+					<Accordion.Body>
+						<IdVerificationView/>
+					</Accordion.Body>
 				</Accordion.Item>
 				<Accordion.Item eventKey="6">
 					<Accordion.Header>My Workspace</Accordion.Header>

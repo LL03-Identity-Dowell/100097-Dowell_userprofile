@@ -63,7 +63,7 @@ const currentstate = useSelector((state) => state.sections);
 	const [permissions, setPermissions] = useState({
 		MyProfile: props.singlesection != undefined?props.singlesection.MyProfile:false,
 		VerifyUsername_Password_Strength:
-			props.singlesection != undefined? props.singlesection.VerifyUsername_Password_Strength:false,
+		props.singlesection != undefined? props.singlesection.VerifyUsername_Password_Strength:false,
 		DeviceDetails: props.singlesection != undefined?props.singlesection.DeviceDetails:false,
 		PersonalIDs: props.singlesection != undefined?props.singlesection.PersonalIDs:false,
 		PersonalReferences: props.singlesection != undefined?props.singlesection.PersonalReferences:false,
