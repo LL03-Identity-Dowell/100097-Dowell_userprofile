@@ -1,63 +1,83 @@
-import React,{useState} from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { ToastContainer, toast } from 'react-toastify';
-
-
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { getprofiledetails } from "../store/slice/profiledataSlice";
 
 const PsychographicProfile = (userData) => {
-  const psychoData = userData._psychographic
-  const [formInputs, setFormInputs] = useState({
-    lifestyle: psychoData.Life_Style || "",
-    iqlevel: psychoData.IQ_Level || "",
-    attitude: psychoData.Your_Attitude || "",
-    personality: psychoData.Your_Personality || "",
-    others: psychoData.Others_psychographic || ""
-  });
-  const [loading, setLoading] = useState(false);
+	const currentstate = useSelector((state) => state.profile[0]);
+	const dispatch = useDispatch();
+	const psychoData = userData._psychographic;
+	const [formInputs, setFormInputs] = useState({
+		lifestyle: psychoData.Life_Style || "",
+		iqlevel: psychoData.IQ_Level || "",
+		attitude: psychoData.Your_Attitude || "",
+		personality: psychoData.Your_Personality || "",
+		others: psychoData.Others_psychographic || "",
+	});
+	const [loading, setLoading] = useState(false);
 
-  const userName = userData.userData.userData.userinfo.username;
-  const handleOnChange = (e) => {
-    setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
-  };
+	const userName = userData.userData.userData.userinfo.username;
+	const handleOnChange = (e) => {
+		setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
+	};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-  
-    const data = {
-      Username:userName,
-      lifestyle:formInputs.lifestyle,
-      iqlevel:formInputs.iqlevel,
-      attitude:formInputs.attitude,
-      personality:formInputs.personality,
-      others:formInputs.others
-    };
-  
-    try {
-      const response = await fetch("https://100097.pythonanywhere.com/Psychographic_form", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-  
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-  
-        toast.success("success");
-      } else {
-        throw new Error(`Failed to submit device IDs: ${response.status}`);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("An unknown error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-  return (
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true);
+
+		const data = {
+			Username: userName,
+			lifestyle: formInputs.lifestyle,
+			iqlevel: formInputs.iqlevel,
+			attitude: formInputs.attitude,
+			personality: formInputs.personality,
+			others: formInputs.others,
+		};
+
+		try {
+			const response = await fetch(
+				"https://100097.pythonanywhere.com/Psychographic_form",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				}
+			);
+
+			if (response.ok) {
+				const responseData = await response.json();
+				console.log(responseData);
+
+				const updatedUser = {
+					...currentstate,
+					psychographic: {
+						Life_Style: formInputs.lifestyle,
+						IQ_Level: formInputs.iqlevel,
+						Your_Attitude: formInputs.attitude,
+						Your_Personality: formInputs.personality,
+						Others_psychographic: formInputs.others,
+						
+					},
+				};
+
+				const newState = [updatedUser];
+				dispatch(getprofiledetails(newState));
+
+				toast.success("success");
+			} else {
+				throw new Error(`Failed to submit device IDs: ${response.status}`);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("An unknown error occurred");
+		} finally {
+			setLoading(false);
+		}
+	};
+	return (
 		<div>
 			<ToastContainer position="top-right" />
 
@@ -160,6 +180,6 @@ const PsychographicProfile = (userData) => {
 			</Form>
 		</div>
 	);
-}
+};
 
-export default PsychographicProfile
+export default PsychographicProfile;
