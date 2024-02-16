@@ -8,7 +8,7 @@ import requests,re
 import json
 from django.contrib import messages
 from userprofile.dowellconnection import dowellconnection
-from userprofile.serializers import UserSerializer
+from userprofile.serializers import *
 # import json
 
 
@@ -931,4 +931,38 @@ def get_user_idverifications(request):
     else:
         return Response(
             {"success": False, "error": "Invalid session_id"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+@api_view(["POST"])
+def get_all_users_voiceId(request):
+    serializer = GetAllUsersVoiceIDSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {"success": False, "error": serializer.errors},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    response = json.loads(
+        dowellconnection(
+            "login",
+            "bangalore",
+            "login",
+            "personnel_ids",
+            "personnel_ids",
+            "1252001",
+            "ABCDE",
+            "fetch",
+            {},
+            "null",
+        )
+    )
+    if response["isSuccess"] == True:
+        all_users_data = response["data"]
+        data = [{"username": user["username"], "voiceID": user["voiceID"]} for user in all_users_data if user["voiceID"]]
+        return Response({"success": True, "data": data}, status=status.HTTP_200_OK)
+    else:
+        return Response(
+            {"success": False, "error": "Failed to fetch all users voiceId"},
+            status=status.HTTP_400_BAD_REQUEST,
         )

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.conf import settings
 
 class SectionSerializer(serializers.Serializer):
     Section_Name = serializers.CharField()
@@ -49,4 +50,14 @@ class UserSerializer(serializers.Serializer):
             raise serializers.ValidationError("Either 'section' or 'idverification' should be provided.")
         if 'section' in attrs and 'idverification' in attrs:
             raise serializers.ValidationError("Both 'section' or 'idverification' cant be updated at one.")
+        return attrs
+
+
+class GetAllUsersVoiceIDSerializer(serializers.Serializer):
+    passcode = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        req_passcode = attrs.get('passcode')
+        if req_passcode != settings.GET_ALL_USERS_VOICEID_PASSCODE:
+            raise serializers.ValidationError("Invalid Passcode!")
         return attrs
