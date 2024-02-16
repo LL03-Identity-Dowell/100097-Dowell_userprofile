@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button, Image, Form, Tab, Tabs, Container } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
-
+import { getprofiledetails } from "../../store/slice/profiledataSlice";
+import { useDispatch } from "react-redux";
 
 const VoiceId = (props) => {
 	const [recording, setRecording] = useState(false);
@@ -49,9 +50,9 @@ const VoiceId = (props) => {
 				mediaRecorderRef.current.onstop = () => {
 					clearInterval(interval);
 					const blob = new Blob(chunks, { type: "audio/mpeg" });
-          const renamedFile = new File([blob], desiredFileName, { type: blob.type });
-          
-					
+					const renamedFile = new File([blob], desiredFileName, {
+						type: blob.type,
+					});
 
 					setAudioBlob(renamedFile);
 					setAudioUrl(URL.createObjectURL(renamedFile)); // Set audio URL using state
@@ -73,7 +74,6 @@ const VoiceId = (props) => {
 				apiaudioRef.current.pause();
 			}
 			setRecording(false);
-      
 		}
 
 		console.log(audioBlob);
@@ -109,7 +109,9 @@ const VoiceId = (props) => {
 			}
 		}
 	};
+	const dispatch = useDispatch();
 	const username = props.userInfo.profileData.Username;
+	const id = props.userInfo.profileData._id;
 	const handleRemove = () => {
 		setAudioBlob(null);
 		setProgress(0);
@@ -134,9 +136,37 @@ const VoiceId = (props) => {
 				const data = await response.json();
 				console.log(data);
 				if (response.ok) {
-					setUpdating(false);
-					toast.success("Voice id updated successfully");
-					setAudioBlob(null);
+					const formData = {
+						Username: username,
+						userID: id,
+					};
+
+					const requestOptions = {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(formData),
+					};
+
+					try {
+						const response = await fetch(
+							"https://100097.pythonanywhere.com/getprofile",
+							requestOptions
+						);
+						const responseData = await response.json();
+
+						if (response.ok) {
+							dispatch(getprofiledetails(responseData));
+							setUpdating(false);
+							toast.success("Voice id updated successfully");
+							setAudioBlob(null);
+						} else {
+							// alert('Form submission failed');
+						}
+					} catch (error) {
+						console.error("Error submitting form:", error);
+					}
 				} else {
 					setUpdating(false);
 					toast.error("Failed to upload voice id.");
@@ -153,7 +183,7 @@ const VoiceId = (props) => {
 			toast.error("Please select voice id first");
 		}
 	};
-	const url =props.userInfo.formsData[0].personalids.voiceID
+	const url = props.userInfo.formsData[0].personalids.voiceID;
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 	// Remove everything before "media"

@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import { Button, Image, Form } from "react-bootstrap";
 import Webcam from "react-webcam";
 import { ToastContainer, toast } from "react-toastify";
+import { getprofiledetails } from "../../store/slice/profiledataSlice";
+import { useDispatch } from "react-redux";
 
 const FaceId = (props) => {
 
@@ -19,7 +21,9 @@ const FaceId = (props) => {
   const [uploadedFileName, setUploadedFileName] = useState(""); // Define setUploadedFileName
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
-  const username = props.userInfo.profileData.Username;
+  const dispatch = useDispatch();
+	const username = props.userInfo.profileData.Username;
+	const id = props.userInfo.profileData._id;
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -91,9 +95,37 @@ console.log(formData)
      
       // Handle the response as needed
       if (response.ok) {
-        setUpdating(false);
-        toast.success("success");
-        console.log(response)
+       const formData = {
+					Username: username,
+					userID: id,
+				};
+
+				const requestOptions = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				};
+
+				try {
+					const response = await fetch(
+						"https://100097.pythonanywhere.com/getprofile",
+						requestOptions
+					);
+					const responseData = await response.json();
+
+					if (response.ok) {
+						dispatch(getprofiledetails(responseData));
+						setUpdating(false);
+						toast.success("Faceid uploaded successfully!");
+						
+					} else {
+						// alert('Form submission failed');
+					}
+				} catch (error) {
+					console.error("Error submitting form:", error);
+				}
       } else {
         setUpdating(false);
         const errorData = await response.json(); // Parse the error response

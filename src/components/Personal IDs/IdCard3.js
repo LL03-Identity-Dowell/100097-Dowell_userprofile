@@ -1,6 +1,8 @@
 import React ,{useState} from 'react'
 import {Button, Image, Form} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
+import { useDispatch } from 'react-redux';
 
 
 const IdCard3 = (props) => {
@@ -19,7 +21,9 @@ const IdCard3 = (props) => {
       }
     }
   };
-  const username = props.userInfo.profileData.Username;
+const dispatch = useDispatch();
+const username = props.userInfo.profileData.Username;
+const id = props.userInfo.profileData._id;
   const handleSubmit = async () => {
     setUpdating(true)
     if (selectedFile) {
@@ -35,9 +39,37 @@ const IdCard3 = (props) => {
         const data = await response.json();
         console.log(data)
         if (response.ok) {
-          setUpdating(false)        
-          toast.success('Image uploaded successfully!');
-          setSelectedFile(null);
+         const formData = {
+						Username: username,
+						userID: id,
+					};
+
+					const requestOptions = {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(formData),
+					};
+
+					try {
+						const response = await fetch(
+							"https://100097.pythonanywhere.com/getprofile",
+							requestOptions
+						);
+						const responseData = await response.json();
+
+						if (response.ok) {
+							dispatch(getprofiledetails(responseData));
+							setUpdating(false);
+							toast.success("Image uploaded successfully!");
+							setSelectedFile(null);
+						} else {
+							// alert('Form submission failed');
+						}
+					} catch (error) {
+						console.error("Error submitting form:", error);
+					}
         } else {
           setUpdating(false)        
           toast.error('Failed to upload image.');

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Image, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { getprofiledetails } from "../../store/slice/profiledataSlice";
 
 const IdCard1 = (props) => {
 	const substr = "100097.pythonanywhere.com/";
@@ -18,6 +20,7 @@ const IdCard1 = (props) => {
 		return str;
 	}
 
+	
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [updating, setUpdating] = useState(false);
 	const handleFileChange = (event) => {
@@ -34,7 +37,11 @@ const IdCard1 = (props) => {
 			}
 		}
 	};
+
+	const dispatch = useDispatch();
 	const username = props.userInfo.profileData.Username;
+	const id = props.userInfo.profileData._id;
+
 	console.log(selectedFile);
 	const handleSubmit = async () => {
 		setUpdating(true);
@@ -59,9 +66,37 @@ const IdCard1 = (props) => {
 				const data = await response.json();
 				console.log(data);
 				if (response.ok) {
-					setUpdating(false);
-					toast.success("Image uploaded successfully!");
-					setSelectedFile(null);
+					const formData = {
+						Username: username,
+						userID: id,
+					};
+					
+					const requestOptions = {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(formData),
+					};
+
+					try {
+						const response = await fetch(
+							"https://100097.pythonanywhere.com/getprofile",
+							requestOptions
+						);
+						const responseData = await response.json();
+
+						if (response.ok) {
+							dispatch(getprofiledetails(responseData));
+							setUpdating(false);
+							toast.success("Image uploaded successfully!");
+							setSelectedFile(null);
+						} else {
+							// alert('Form submission failed');
+						}
+					} catch (error) {
+						console.error("Error submitting form:", error);
+					}
 				} else {
 					setUpdating(false);
 					toast.error("Failed to upload image.");
@@ -76,14 +111,14 @@ const IdCard1 = (props) => {
 			toast.error("Please select ID card first");
 		}
 	};
-	const url =props.userInfo.formsData[0].personalids.IDcard1
+	const url = props.userInfo.formsData[0].personalids.IDcard1;
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 
 	// Remove everything before "media"
 	const modifiedUrl = url.substring(index);
 
-	console.log(modifiedUrl); 
+	console.log(modifiedUrl);
 
 	return (
 		<div>

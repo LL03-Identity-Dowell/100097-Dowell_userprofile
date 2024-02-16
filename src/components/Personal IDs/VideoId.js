@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import RecordRTC from "recordrtc";
 import { ToastContainer, toast } from "react-toastify";
+import { getprofiledetails } from '../../store/slice/profiledataSlice';
+import { useDispatch } from 'react-redux';
 const VideoId = (props) => {
 	const [capturedVideo, setCapturedVideo] = useState(null);
 	const [opencamera, setopencamera] = useState(false);
@@ -11,7 +13,9 @@ const VideoId = (props) => {
 	const [recording, setRecording] = useState(false);
 	const [capturedata, setcapturedata] = useState(null);
 	  const [updating, setUpdating] = useState(false);
- const username = props.userInfo.profileData.Username;
+const dispatch = useDispatch();
+const username = props.userInfo.profileData.Username;
+const id = props.userInfo.profileData._id;
 	const webcamRef = useRef(null);
 	const recordRTCRef = useRef(null);
 
@@ -178,16 +182,49 @@ const VideoId = (props) => {
 				if (response.ok) {
 					
 					// The API call was successful, you can handle the response here
-					console.log("Video successfully submitted",response);
-					toast.success("Video successfully submitted");
-					setvideofile(null);
 					
-					setUpdating(false);
+					
 
-					 const fileInput = document.getElementById("videoIdFile");
-						if (fileInput) {
-							fileInput.value = null;
+
+					const formData = {
+						Username: username,
+						userID: id,
+					};
+
+					const requestOptions = {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(formData),
+					};
+
+					try {
+						const response = await fetch(
+							"https://100097.pythonanywhere.com/getprofile",
+							requestOptions
+						);
+						const responseData = await response.json();
+
+						if (response.ok) {
+							dispatch(getprofiledetails(responseData));
+							console.log("Video successfully submitted", response);
+							toast.success("Video successfully submitted");
+							setvideofile(null);
+
+							setUpdating(false);
+
+							const fileInput = document.getElementById("videoIdFile");
+							if (fileInput) {
+								fileInput.value = null;
+							}
+							
+						} else {
+							// alert('Form submission failed');
 						}
+					} catch (error) {
+						console.error("Error submitting form:", error);
+					}
 				} else {
 					// The API call failed, handle the error
 					setUpdating(false);
