@@ -79,3 +79,8 @@ class GetAllUsersVoiceIDSerializer(serializers.Serializer):
         if req_passcode != server_passcode:
             raise serializers.ValidationError("Invalid Passcode!")
         return attrs
+
+
+class UpdateUsersBiometricSerializer(serializers.Serializer):
+    username = serializers.CharField(required = True)
+    image = serializers.ImageField(required = True)

@@ -1001,3 +1001,59 @@ def get_all_users_biometricId(request):
             {"success": False, "error": "Failed to fetch all users biometricID"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+@api_view(["POST"])
+def update_users_biometric(request):
+    serializer = UpdateUsersBiometricSerializer(data=request.data)
+
+    if not serializer.is_valid():
+        return Response({"success":True,"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    stored_image = default_storage.save((serializer.validated_data["image"].name).replace(" ", "-"), serializer.validated_data["image"])
+    biometric_path = f"https:100097.pythonanywhere.com/media/users/biometric/{stored_image}"
+
+    userdetails = {"username": serializer.validated_data["username"]}
+    updated_field = {"biometricID":biometric_path}
+
+    # Try to Fetch user profile data from 'user_profile' collection
+    response_validate_user = json.loads(
+        dowellconnection(
+            "login",
+            "bangalore",
+            "login",
+            "user_profile",
+            "user_profile",
+            "1168",
+            "ABCDE",
+            "fetch",
+            userdetails,
+            "null",
+        )
+    )
+    response_data = response_validate_user["data"]
+
+    # User Profile found, (username is valid)
+    if len(response_data) > 0:
+        response = json.loads(
+            dowellconnection(
+                "login",
+                "bangalore",
+                "login",
+                "personnel_ids",
+                "personnel_ids",
+                "1252001",
+                "ABCDE",
+                "update",
+                userdetails,
+                updated_field,
+            )
+        )
+
+        if response["isSuccess"]:
+            return Response({"success": True, "message": "BiometricID saved successfully"},status=status.HTTP_200_OK)
+        else :
+            return Response({"success": False, "error": "Failed to update BiometricID"},status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"success": False, "error": "Invalid Username"},status=status.HTTP_400_BAD_REQUEST)
+
