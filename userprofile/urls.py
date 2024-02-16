@@ -45,4 +45,5 @@ urlpatterns = [
       path("get_user_sections",views.get_user_sections),
       path("get_user_idverifications",views.get_user_idverifications),
       path("get_all_users_voiceId",views.get_all_users_voiceId),
+      path("get_all_users_biometricId",views.get_all_users_biometricId),
 ]
