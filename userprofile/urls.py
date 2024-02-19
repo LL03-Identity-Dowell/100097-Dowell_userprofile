@@ -47,4 +47,5 @@ urlpatterns = [
       path("get_all_users_voiceId",views.get_all_users_voiceId),
       path("get_all_users_biometricId",views.get_all_users_biometricId),
       path("update_users_biometric",views.update_users_biometric),
+      path("get_all_users_faceId",views.get_all_users_faceId),
 ]

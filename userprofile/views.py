@@ -1057,3 +1057,37 @@ def update_users_biometric(request):
     else:
         return Response({"success": False, "error": "Invalid Username"},status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(["POST"])
+def get_all_users_faceId(request):
+    serializer = GetAllUsersVoiceIDSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {"success": False, "error": serializer.errors},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    response = json.loads(
+        dowellconnection(
+            "login",
+            "bangalore",
+            "login",
+            "personnel_ids",
+            "personnel_ids",
+            "1252001",
+            "ABCDE",
+            "fetch",
+            {},
+            "null",
+        )
+    )
+    if response["isSuccess"] == True:
+        all_users_data = response["data"]
+        data = [{"username": user["username"], "faceID": user["faceID"]} for user in all_users_data if user["faceID"]]
+        return Response({"success": True, "data": data}, status=status.HTTP_200_OK)
+    else:
+        return Response(
+            {"success": False, "error": "Failed to fetch all users faceID"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
