@@ -1011,7 +1011,7 @@ def update_users_biometric(request):
         return Response({"success":True,"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     stored_image = default_storage.save((serializer.validated_data["image"].name).replace(" ", "-"), serializer.validated_data["image"])
-    biometric_path = f"https:100097.pythonanywhere.com/media/users/biometric/{stored_image}"
+    biometric_path = f"https:100097.pythonanywhere.com/media/{stored_image}"
 
     userdetails = {"username": serializer.validated_data["username"]}
     updated_field = {"biometricID":biometric_path}
