@@ -3,7 +3,7 @@ import { Button, Image, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const IdCard1 = (props) => {
 	const substr = "100097.pythonanywhere.com/";
 	function removeSecondOccurrence(str, substr) {
@@ -148,7 +148,13 @@ const IdCard1 = (props) => {
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
-					{updating ? "Updating" : "Update Your ID Card 1"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your ID Card 1"
+					)}
 				</Button>
 			</Form>
 		</div>

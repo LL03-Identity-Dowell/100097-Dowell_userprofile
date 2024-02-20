@@ -3,7 +3,7 @@ import { Container, Form, Col, Row, Button, Image } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../store/slice/profiledataSlice";
 import { useDispatch } from "react-redux";
-
+import { Spinner } from "react-bootstrap";
 const MyOrganization = (userData) => {
 	const myworkspace_info = userData._myworkspace;
 	const user_id = userData._userId;
@@ -207,7 +207,13 @@ const MyOrganization = (userData) => {
 					/>
 				</Form.Group>
 				<Button variant="dark" type="submit" className="w-100 btn mb-5">
-					{loading ? "Updating" : "Update Workspace Details"}
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Workspace Details"
+					)}
 				</Button>
 			</Form>
 		</div>

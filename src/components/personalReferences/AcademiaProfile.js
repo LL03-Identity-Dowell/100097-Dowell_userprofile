@@ -3,9 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const AcademiaProfile = (userData) => {
- 
 	const currentstate = useSelector((state) => state.profile[0]);
 	const dispatch = useDispatch();
 	const userName = userData.userData.userData.userData.userinfo.username;
@@ -104,7 +103,13 @@ const AcademiaProfile = (userData) => {
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} size="lg">
-					{loading ? "Updating" : "Update Your Academia Profile"}
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your Academia Profile"
+					)}
 				</Button>
 			</Form>
 		</div>

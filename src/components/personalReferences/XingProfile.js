@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
-
+import { Spinner } from "react-bootstrap";
 const XingProfile = (userData) => {
 
 
@@ -72,27 +72,49 @@ const XingProfile = (userData) => {
     }
   };
   return (
-    <div>
-        <ToastContainer position="top-right"/>
-        <iframe
-          width="100%"
-          height="450"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src={profileLink}>
-        </iframe>
-        <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Xing Profile</Button>    
+		<div>
+			<ToastContainer position="top-right" />
+			<iframe
+				width="100%"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="no-referrer-when-downgrade"
+				src={profileLink}
+			></iframe>
+			<Button
+				className="mb-5"
+				variant="dark"
+				size="sm"
+				onClick={() => {
+					window.open(profileLink, "_blank");
+				}}
+			>
+				My Xing Profile
+			</Button>
 
-            <Form>
-        <Form.Group className="mb-3" controlId="xingProfile">
-          <Form.Label className='labelsStyle'>Xing Profile</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder='Enter Xing profile url'/>
-        </Form.Group> 
-            <Button variant="dark" onClick={handleSubmit} size="lg">{loading? "updating": "Update Your Xing Profile"}</Button>
-         </Form> 
-    </div>
-  )
+			<Form>
+				<Form.Group className="mb-3" controlId="xingProfile">
+					<Form.Label className="labelsStyle">Xing Profile</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						onChange={handleOnChange}
+						type="text"
+						placeholder="Enter Xing profile url"
+					/>
+				</Form.Group>
+				<Button variant="dark" onClick={handleSubmit} size="lg">
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your Xing Profile"
+					)}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default XingProfile

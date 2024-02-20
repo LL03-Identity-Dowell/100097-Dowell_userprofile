@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const UsageProfile = (userData) => {
 	const currentstate = useSelector((state) => state.profile[0]);
 	const dispatch = useDispatch();
@@ -138,7 +138,13 @@ const UsageProfile = (userData) => {
 					/>
 				</Form.Group>
 				<Button variant="dark" className="w-100" onClick={handleSubmit}>
-					{loading ? "Updating..." : "Update Usage Profile"}
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Usage Profile"
+					)}
 				</Button>
 			</Form>
 		</div>

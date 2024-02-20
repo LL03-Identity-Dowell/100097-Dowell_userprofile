@@ -11,6 +11,8 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getsections } from "../store/slice/sectionslice";
+import { Spinner } from "react-bootstrap";
+
 const CardGrid = (props) => {
 	const allsections = useSelector((state) => state.sections);
 	return (
@@ -56,29 +58,61 @@ const CardGrid = (props) => {
 export default CardGrid;
 
 function NestedCard(props) {
-const currentstate = useSelector((state) => state.sections);
+	const currentstate = useSelector((state) => state.sections);
 
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const [permissions, setPermissions] = useState({
-		MyProfile: props.singlesection != undefined?props.singlesection.MyProfile:false,
+		MyProfile:
+			props.singlesection != undefined ? props.singlesection.MyProfile : false,
 		VerifyUsername_Password_Strength:
-		props.singlesection != undefined? props.singlesection.VerifyUsername_Password_Strength:false,
-		DeviceDetails: props.singlesection != undefined?props.singlesection.DeviceDetails:false,
-		PersonalIDs: props.singlesection != undefined?props.singlesection.PersonalIDs:false,
-		PersonalReferences: props.singlesection != undefined?props.singlesection.PersonalReferences:false,
-		IDVerification_Status: props.singlesection != undefined?props.singlesection.IDVerification_Status:false,
-		OrganisationDetails: props.singlesection != undefined?props.singlesection.OrganisationDetails:false,
-		GeographicProfile: props.singlesection != undefined?props.singlesection.GeographicProfile :false,
-		DemographicProfile: props.singlesection != undefined?props.singlesection.DemographicProfile:false,
-		PsychographicProfile: props.singlesection != undefined?props.singlesection.PsychographicProfile:false,
-		BehaviouralProfile: props.singlesection != undefined?props.singlesection.BehaviouralProfile:false,
-		UsageProfile: props.singlesection != undefined?props.singlesection.UsageProfile:false,
+			props.singlesection != undefined
+				? props.singlesection.VerifyUsername_Password_Strength
+				: false,
+		DeviceDetails:
+			props.singlesection != undefined
+				? props.singlesection.DeviceDetails
+				: false,
+		PersonalIDs:
+			props.singlesection != undefined
+				? props.singlesection.PersonalIDs
+				: false,
+		PersonalReferences:
+			props.singlesection != undefined
+				? props.singlesection.PersonalReferences
+				: false,
+		IDVerification_Status:
+			props.singlesection != undefined
+				? props.singlesection.IDVerification_Status
+				: false,
+		OrganisationDetails:
+			props.singlesection != undefined
+				? props.singlesection.OrganisationDetails
+				: false,
+		GeographicProfile:
+			props.singlesection != undefined
+				? props.singlesection.GeographicProfile
+				: false,
+		DemographicProfile:
+			props.singlesection != undefined
+				? props.singlesection.DemographicProfile
+				: false,
+		PsychographicProfile:
+			props.singlesection != undefined
+				? props.singlesection.PsychographicProfile
+				: false,
+		BehaviouralProfile:
+			props.singlesection != undefined
+				? props.singlesection.BehaviouralProfile
+				: false,
+		UsageProfile:
+			props.singlesection != undefined
+				? props.singlesection.UsageProfile
+				: false,
 	});
 	const [updating, setUpdating] = useState(false);
 
-
-	const dispatch=useDispatch()
+	const dispatch = useDispatch();
 	const handleCheckboxChange = (checkboxId) => {
 		setPermissions((prevPermissions) => ({
 			...prevPermissions,
@@ -108,7 +142,7 @@ const currentstate = useSelector((state) => state.sections);
 			// Handle the response as needed
 			if (response.ok) {
 				toast.success("Success");
-				
+
 				dispatch(
 					getsections({
 						...currentstate,
@@ -238,7 +272,18 @@ const currentstate = useSelector((state) => state.sections);
 								onChange={() => handleCheckboxChange("UsageProfile")}
 							/>
 							<Button variant="dark" onClick={handleUpdatePermissionClick}>
-								{updating ? "Updating..." : "Update Permission"}
+								{updating ? (
+									<Spinner
+										animation="border"
+										size="sm"
+										variant="light"
+										role="status"
+									>
+										<span className="visually-hidden">Loading...</span>
+									</Spinner>
+								) : (
+									"Update Permission"
+								)}
 							</Button>
 						</Form>
 					)}

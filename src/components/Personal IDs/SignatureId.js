@@ -3,7 +3,7 @@ import {Button, Image, Form} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
 import { useDispatch } from 'react-redux';
-
+import { Spinner } from "react-bootstrap";
 const SignatureId = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [updating,setUpdating] = useState(false);
@@ -124,7 +124,13 @@ const id = props.userInfo.profileData._id;
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
-					{updating ? "Updating" : "Update Your signature ID"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your signature ID"
+					)}
 				</Button>
 			</Form>
 		</div>

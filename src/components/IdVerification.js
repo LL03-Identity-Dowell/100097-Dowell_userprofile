@@ -3,6 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getidverify } from "../store/slice/idverify";
+
+import { Spinner } from "react-bootstrap";
 const IdVerification = (props) => {
 	const idverify = useSelector((state) => state.idverify);
 	const dispatch = useDispatch();
@@ -450,7 +452,13 @@ const IdVerification = (props) => {
 					))}
 				</div>
 				<Button variant="dark" type="submit" className="w-100 btn mb-3">
-					{updating ? "Updating..." : "Update"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update"
+					)}
 				</Button>
 			</Form>
 		</div>
