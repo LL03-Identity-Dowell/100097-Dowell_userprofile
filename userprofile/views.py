@@ -9,6 +9,7 @@ import json
 from django.contrib import messages
 from userprofile.dowellconnection import dowellconnection
 from userprofile.serializers import *
+from django.contrib.staticfiles.storage import staticfiles_storage
 # import json
 
 
@@ -1010,9 +1011,12 @@ def update_users_biometric(request):
     if not serializer.is_valid():
         return Response({"success":True,"error":serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-    stored_image = default_storage.save((serializer.validated_data["image"].name).replace(" ", "-"), serializer.validated_data["image"])
-    biometric_path = f"https:100097.pythonanywhere.com/media/{stored_image}"
-
+    try:
+        stored_image = default_storage.save((serializer.validated_data["image"].name).replace(" ", "-"), serializer.validated_data["image"])
+        biometric_path = f"https:100097.pythonanywhere.com/media/{stored_image}"
+    except Exception as e :
+        return Response({"success": False, "error": str(e)},status=status.HTTP_400_BAD_REQUEST)
+        
     userdetails = {"username": serializer.validated_data["username"]}
     updated_field = {"biometricID":biometric_path}
 
