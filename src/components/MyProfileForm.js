@@ -12,10 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { json } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofileview } from "../store/slice/profileviewSlice";
+import { Spinner } from "react-bootstrap";
 
 const MyProfileForm = (userData) => {
 	const currentstate = useSelector((state) => state.view);
-	
+
 	const formdata = userData.userData.profileData;
 	const [updating, setUpdating] = useState(false);
 	const [apiResponse, setApiResponse] = useState({});
@@ -298,7 +299,18 @@ const MyProfileForm = (userData) => {
 									variant="success"
 									className="w-100"
 								>
-									{isSendingMobileOtp ? "Sending OTP..." : "OTP"}
+									{isSendingMobileOtp ? (
+										<Spinner
+											animation="border"
+											size="sm"
+											variant="light"
+											role="status"
+										>
+											<span className="visually-hidden">Loading...</span>
+										</Spinner>
+									) : (
+										"OTP"
+									)}
 								</Button>
 
 								<Form.Group className="mb-3" controlId="phoneotp">
@@ -330,7 +342,18 @@ const MyProfileForm = (userData) => {
 									variant="success"
 									className="w-100"
 								>
-									{isSendingOtp ? "Sending OTP..." : "OTP"}
+									{isSendingOtp ? (
+										<Spinner
+											animation="border"
+											size="sm"
+											variant="light"
+											role="status"
+										>
+											<span className="visually-hidden">Loading...</span>
+										</Spinner>
+									) : (
+										"OTP"
+									)}
 								</Button>
 								<Form.Group className="mb-3" controlId="otp">
 									<Form.Label className="labelsStyle">
@@ -486,7 +509,18 @@ const MyProfileForm = (userData) => {
 								</Form.Group>
 
 								<Button type="submit" variant="dark" className="w-100">
-									{updating ? "Updating" : "Update"}
+									{updating ? (
+										<Spinner
+											animation="border"
+											size="sm"
+											variant="light"
+											role="status"
+										>
+											<span className="visually-hidden">Loading...</span>
+										</Spinner>
+									) : (
+										"Update"
+									)}
 								</Button>
 							</Col>
 						</Row>

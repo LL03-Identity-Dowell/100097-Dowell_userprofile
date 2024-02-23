@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
-
+import { Spinner } from "react-bootstrap";
 const InstagramProfile = (userData) => {
   const currentstate = useSelector((state) => state.profile[0]);
 	const dispatch = useDispatch();
@@ -72,26 +72,48 @@ const InstagramProfile = (userData) => {
   };
   
   return (
-    <div>
-              <ToastContainer position="top-right"/>
-              <iframe
-          width="100%"
-          height="450"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src={profileLink}>
-        </iframe>
-              <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Instagram Profile</Button>    
-           <Form>
-        <Form.Group className="mb-3" controlId="instagramProfile">
-          <Form.Label className='labelsStyle'>Instagram Profile</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder='Enter instagram profile url' onChange={handleOnChange}/>
-        </Form.Group> 
-            <Button variant="dark" className='' onClick={handleSubmit} size="lg">{loading?"Updating":"Update Your Instagram Profile"}</Button>
-        </Form>
-    </div>
-  )
+		<div>
+			<ToastContainer position="top-right" />
+			<iframe
+				width="100%"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="no-referrer-when-downgrade"
+				src={profileLink}
+			></iframe>
+			<Button
+				className="mb-5"
+				variant="dark"
+				size="sm"
+				onClick={() => {
+					window.open(profileLink, "_blank");
+				}}
+			>
+				My Instagram Profile
+			</Button>
+			<Form>
+				<Form.Group className="mb-3" controlId="instagramProfile">
+					<Form.Label className="labelsStyle">Instagram Profile</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="text"
+						placeholder="Enter instagram profile url"
+						onChange={handleOnChange}
+					/>
+				</Form.Group>
+				<Button variant="dark" className="" onClick={handleSubmit} size="lg">
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your Instagram Profile"
+					)}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default InstagramProfile

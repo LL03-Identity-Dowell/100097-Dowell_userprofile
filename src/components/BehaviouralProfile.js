@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const BehaviouralProfile = (userData) => {
 	const currentstate = useSelector((state) => state.profile[0]);
 	const dispatch = useDispatch();
@@ -148,7 +148,13 @@ const BehaviouralProfile = (userData) => {
 					className="w-100 btn mb-5"
 					onClick={handleSubmit}
 				>
-					{loading ? "Updating..." : "Update Behavioural Profile"}
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Behavioural Profile"
+					)}
 				</Button>
 			</Form>
 		</div>

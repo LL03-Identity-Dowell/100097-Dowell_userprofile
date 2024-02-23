@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
-
+import { Spinner } from "react-bootstrap";
 const YoutubeProfile = (userData) => {
 
     const currentstate = useSelector((state) => state.profile[0]);
@@ -71,27 +71,49 @@ const YoutubeProfile = (userData) => {
   };
   
   return (
-    <div>
-              <ToastContainer position="top-right"/>
-              <iframe
-          width="100%"
-          height="450"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src={profileLink}>
-        </iframe>
-              <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Youtube Profile</Button>    
+		<div>
+			<ToastContainer position="top-right" />
+			<iframe
+				width="100%"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="no-referrer-when-downgrade"
+				src={profileLink}
+			></iframe>
+			<Button
+				className="mb-5"
+				variant="dark"
+				size="sm"
+				onClick={() => {
+					window.open(profileLink, "_blank");
+				}}
+			>
+				My Youtube Profile
+			</Button>
 
-   <Form>
-        <Form.Group className="mb-3" controlId="youtubeProfile">
-          <Form.Label className='labelsStyle'>Youtube Profile</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder='Enter youtube profile url'  onChange={handleOnChange}/>
-        </Form.Group> 
-                    <Button variant="dark" className='' onClick={handleSubmit}  size="lg">{loading ? "Updating..." :"Update Your youtube Profile"}</Button>
-          </Form>
-    </div>
-  )
+			<Form>
+				<Form.Group className="mb-3" controlId="youtubeProfile">
+					<Form.Label className="labelsStyle">Youtube Profile</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="text"
+						placeholder="Enter youtube profile url"
+						onChange={handleOnChange}
+					/>
+				</Form.Group>
+				<Button variant="dark" className="" onClick={handleSubmit} size="lg">
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your youtube Profile"
+					)}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default YoutubeProfile

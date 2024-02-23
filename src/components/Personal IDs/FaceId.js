@@ -4,7 +4,7 @@ import Webcam from "react-webcam";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
 import { useDispatch } from "react-redux";
-
+import { Spinner } from "react-bootstrap";
 const FaceId = (props) => {
 
 
@@ -243,7 +243,13 @@ console.log(formData)
 					className="lg:w-50 text-center"
 					onClick={capturePhoto}
 				>
-					{updating ? "Updating" : "Submit Face ID"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Submit Face ID"
+					)}
 				</Button>
 			</Form>
 		</div>

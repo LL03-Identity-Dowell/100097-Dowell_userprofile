@@ -3,7 +3,7 @@ import { Container, Form, Col, Row, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const DeviceID = (userData) => {
 	const currentstate = useSelector((state) => state.profile[0]);
 	const dispatch = useDispatch();
@@ -164,7 +164,18 @@ const DeviceID = (userData) => {
 								/>
 							</Form.Group>
 							<Button variant="dark" className="w-100" type="submit">
-								{loading ? "Updating..." : "Update Device IDs"}
+								{loading ? (
+									<Spinner
+										animation="border"
+										size="sm"
+										variant="light"
+										role="status"
+									>
+										<span className="visually-hidden">Loading...</span>
+									</Spinner>
+								) : (
+									"Update Device IDs"
+								)}
 							</Button>
 						</Form>
 					</Col>

@@ -3,7 +3,7 @@ import { Button, Image, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
-
+import { Spinner } from "react-bootstrap";
 const IdCard2 = (props) => {
 	const substr = "100097.pythonanywhere.com/";
 	function removeSecondOccurrence(str, substr) {
@@ -119,7 +119,6 @@ const IdCard2 = (props) => {
 
 	console.log(modifiedUrl); 
 	return (
-		
 		<div>
 			<div className="text-center">
 				<ToastContainer position="top-right" />
@@ -147,7 +146,13 @@ const IdCard2 = (props) => {
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
-					{updating ? "Updating" : "Update Your ID Card 2"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your ID Card 2"
+					)}
 				</Button>
 			</Form>
 		</div>

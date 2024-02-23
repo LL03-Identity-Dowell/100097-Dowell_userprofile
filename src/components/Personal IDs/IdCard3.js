@@ -3,7 +3,7 @@ import {Button, Image, Form} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
 import { useDispatch } from 'react-redux';
-
+import { Spinner } from "react-bootstrap";
 
 const IdCard3 = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -122,7 +122,13 @@ const id = props.userInfo.profileData._id;
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="lg:w-50">
-					{updating ? "Updating" : "Update Your ID Card 3"}
+					{updating ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your ID Card 3"
+					)}
 				</Button>
 			</Form>
 		</div>

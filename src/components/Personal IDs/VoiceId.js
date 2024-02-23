@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
 import { useDispatch } from "react-redux";
-
+import { Spinner } from "react-bootstrap";
 const VoiceId = (props) => {
 	const [recording, setRecording] = useState(false);
 	const [audioBlob, setAudioBlob] = useState(null);
@@ -306,7 +306,13 @@ const VoiceId = (props) => {
 			</Tabs>
 
 			<Button variant="dark" className="lg:w-50" onClick={() => handleUpload()}>
-				{updating ? "Updating" : "Update Your Voice ID"}
+				{updating ? (
+					<Spinner animation="border" size="sm" variant="light" role="status">
+						<span className="visually-hidden">Loading...</span>
+					</Spinner>
+				) : (
+					"Update Your Voice ID"
+				)}
 			</Button>
 		</div>
 	);

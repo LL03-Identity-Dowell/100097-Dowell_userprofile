@@ -6,6 +6,8 @@ import RecordRTC from "recordrtc";
 import { ToastContainer, toast } from "react-toastify";
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
 import { useDispatch } from 'react-redux';
+
+import { Spinner } from "react-bootstrap";
 const VideoId = (props) => {
 	const [capturedVideo, setCapturedVideo] = useState(null);
 	const [opencamera, setopencamera] = useState(false);
@@ -274,10 +276,7 @@ const id = props.userInfo.profileData._id;
 						{props.userInfo.formsData[0].personalids.videoID != "" ? (
 							<>
 								<video controls className="videoid-wrapper mx-auto">
-									<source
-										src={modifiedUrl}
-										type="video/webm"
-									/>
+									<source src={modifiedUrl} type="video/webm" />
 									Your browser does not support the video tag.
 								</video>
 							</>
@@ -309,7 +308,18 @@ const id = props.userInfo.profileData._id;
 								className="lg:w-50"
 								onClick={() => handlesubmit("browse")}
 							>
-								{updating ? "Updating" : "Update Your Video ID"}
+								{updating ? (
+									<Spinner
+										animation="border"
+										size="sm"
+										variant="light"
+										role="status"
+									>
+										<span className="visually-hidden">Loading...</span>
+									</Spinner>
+								) : (
+									"Update Your Video ID"
+								)}
 							</Button>
 							<hr className="border-gray-300" />
 							<p className="text-center">OR</p>
@@ -389,7 +399,18 @@ const id = props.userInfo.profileData._id;
 									className="lg:w-50 me-2 my-1"
 									onClick={() => handlesubmit("custom")}
 								>
-									{updating ? "Updating" : "Update Your Video ID"}
+									{updating ? (
+										<Spinner
+											animation="border"
+											size="sm"
+											variant="light"
+											role="status"
+										>
+											<span className="visually-hidden">Loading...</span>
+										</Spinner>
+									) : (
+										"Update Your Video ID"
+									)}
 								</Button>
 								<Button
 									variant="dark"

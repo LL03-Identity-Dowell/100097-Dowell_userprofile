@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
-
+import { Spinner } from "react-bootstrap";
 
 const RedditProfile = (userData) => {
    const currentstate = useSelector((state) => state.profile[0]);
@@ -70,28 +70,49 @@ const RedditProfile = (userData) => {
     }
   };
   return (
-    <div>
-      <ToastContainer position="top-right"/>
-      <iframe
-          width="100%"
-          height="450"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src={profileLink}>
-        </iframe>
-      <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>My Reddit Profile</Button>    
+		<div>
+			<ToastContainer position="top-right" />
+			<iframe
+				width="100%"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="no-referrer-when-downgrade"
+				src={profileLink}
+			></iframe>
+			<Button
+				className="mb-5"
+				variant="dark"
+				size="sm"
+				onClick={() => {
+					window.open(profileLink, "_blank");
+				}}
+			>
+				My Reddit Profile
+			</Button>
 
-          
-          <Form>
-        <Form.Group className="mb-3" controlId="redditProfile">
-          <Form.Label className='labelsStyle'>Reddit Profile</Form.Label>
-          <Form.Control className='inputStyle' onChange={handleOnChange} type="text" placeholder='Enter reddit profile url'/>
-        </Form.Group> 
-            <Button variant="dark" onClick={handleSubmit} size="lg">{loading? "Updating": "Update Your Reddit Profile"}</Button>
-        </Form>
-    </div>
-  )
+			<Form>
+				<Form.Group className="mb-3" controlId="redditProfile">
+					<Form.Label className="labelsStyle">Reddit Profile</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						onChange={handleOnChange}
+						type="text"
+						placeholder="Enter reddit profile url"
+					/>
+				</Form.Group>
+				<Button variant="dark" onClick={handleSubmit} size="lg">
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your Reddit Profile"
+					)}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default RedditProfile

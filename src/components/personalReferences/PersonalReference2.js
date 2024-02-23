@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { getprofiledetails } from '../../store/slice/profiledataSlice';
-
+import { Spinner } from "react-bootstrap";
 const PersonalReferences2 = (userData) => {
     const currentstate = useSelector((state) => state.profile[0]);
 		const dispatch = useDispatch();
@@ -69,28 +69,55 @@ const PersonalReferences2 = (userData) => {
     }
   };
   return (
-    <div>
-        <ToastContainer position="top-right"/>
-        <iframe
-          width="100%"
-          height="450"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src={profileLink}>
-        </iframe>
-        <Button className='mb-5' variant="dark" size="sm" onClick={() => {window.open(profileLink, '_blank');}}>Personal Reference 2</Button>    
-        
-        <h3>Your Personal reference 2 (Name, email, phone, relationship, address) (the person will become member while accepting)</h3>
-        <Form>
-        <Form.Group className="mb-3" controlId="personalRefernce2">
-          <Form.Label className='labelsStyle'>Personal Reference2 Profile</Form.Label>
-          <Form.Control className='inputStyle' type="text" placeholder='Enter Personal Reference2' onChange={handleOnChange}/>
-        </Form.Group> 
-            <Button variant="dark" onClick={handleSubmit} className='' size="lg">{loading ? "Updating" :"Update Your Personal Reference 2"}</Button>
-          </Form>
-    </div>
-  )
+		<div>
+			<ToastContainer position="top-right" />
+			<iframe
+				width="100%"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="no-referrer-when-downgrade"
+				src={profileLink}
+			></iframe>
+			<Button
+				className="mb-5"
+				variant="dark"
+				size="sm"
+				onClick={() => {
+					window.open(profileLink, "_blank");
+				}}
+			>
+				Personal Reference 2
+			</Button>
+
+			<h3>
+				Your Personal reference 2 (Name, email, phone, relationship, address)
+				(the person will become member while accepting)
+			</h3>
+			<Form>
+				<Form.Group className="mb-3" controlId="personalRefernce2">
+					<Form.Label className="labelsStyle">
+						Personal Reference2 Profile
+					</Form.Label>
+					<Form.Control
+						className="inputStyle"
+						type="text"
+						placeholder="Enter Personal Reference2"
+						onChange={handleOnChange}
+					/>
+				</Form.Group>
+				<Button variant="dark" onClick={handleSubmit} className="" size="lg">
+					{loading ? (
+						<Spinner animation="border" size="sm" variant="light" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					) : (
+						"Update Your Personal Reference 2"
+					)}
+				</Button>
+			</Form>
+		</div>
+	);
 }
 
 export default PersonalReferences2
