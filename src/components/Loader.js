@@ -3,11 +3,11 @@ import { Spinner, Button, Container, Col, Row } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
 
 const Loader = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate('components/Loader');
-  }, []);
+  // useEffect(() => {
+  //   navigate('components/Loader');
+  // }, []);
   return (
     <Container className='loaderContainer'>
     <Row className="justify-content-center">

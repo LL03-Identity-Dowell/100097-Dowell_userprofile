@@ -72,7 +72,7 @@ const App = () => {
 				navigate(
 					"https://100014.pythonanywhere.com/en/?redirect_url=http://127.0.0.1:3000"
 				);
-			} 
+			}
 			// else {
 			// 	navigate("src/components/Home.js");
 			// }
@@ -170,13 +170,11 @@ const App = () => {
 				const responseData = await response.json();
 
 				if (response.ok) {
-
 					if (responseData.data.section1 !== undefined) {
 						console.log(responseData);
 
 						dispatch(getsections(responseData.data));
-					}
-					else {
+					} else {
 						dispatch(
 							getsections({
 								section1: {
@@ -295,8 +293,7 @@ const App = () => {
 						console.log(responseData);
 
 						dispatch(getidverify(responseData.data));
-					} 
-					else {
+					} else {
 						dispatch(
 							getidverify({
 								phone_Verification: "Not_Started",

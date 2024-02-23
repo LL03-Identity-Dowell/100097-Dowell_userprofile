@@ -17,7 +17,7 @@ const MyOrganization = (userData) => {
 		latitude: myworkspace_info ? myworkspace_info.latitude : "",
 		longitude: myworkspace_info ? myworkspace_info.longitude : "",
 		organisation_address: myworkspace_info ? myworkspace_info.org_address : "",
-		organisation_logo: null,
+		organisation_logo:myworkspace_info ? myworkspace_info.org_logo : "",
 		workspace_Name: myworkspace_info ? myworkspace_info.workspace_name : "",
 	});
 

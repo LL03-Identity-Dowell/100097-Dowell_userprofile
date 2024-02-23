@@ -120,49 +120,57 @@ function NestedCard(props) {
 		}));
 	};
 
-	const handleUpdatePermissionClick = async () => {
-		setUpdating(true);
-		try {
-			const apiUrl = "https://100097.pythonanywhere.com/update_permissions";
-			const response = await fetch(apiUrl, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					userID: props.formdata.userID,
-					username: props.formdata.username,
-					section: {
-						Section_Name: props.section,
-						...permissions,
-					},
-				}),
-			});
+const handleUpdatePermissionClick = async () => {
+    // Check if at least one permission is selected
+    if (!Object.values(permissions).some(permission => permission === true)) {
+        toast.error("Please select at least one permission");
+        return; // Stop further execution
+    }
 
-			// Handle the response as needed
-			if (response.ok) {
-				toast.success("Success");
+    setUpdating(true);
+    try {
+        const apiUrl = "https://100097.pythonanywhere.com/update_permissions";
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userID: props.formdata.userID,
+                username: props.formdata.username,
+                section: {
+                    Section_Name: props.section,
+                    ...permissions,
+                },
+            }),
+        });
 
-				dispatch(
-					getsections({
-						...currentstate,
-						[props.section]: {
-							Section_Name: props.section,
-							...permissions,
-						},
-					})
-				);
-				setUpdating(false);
-			} else {
-				toast.error("Failed to update permission");
-				console.log(response);
-				setUpdating(false);
-			}
-		} catch (error) {
-			console.error("Error updating permissions:", error);
-			setUpdating(false);
-		}
-	};
+        // Handle the response as needed
+        if (response.ok) {
+            toast.success("Success");
+
+            dispatch(
+                getsections({
+                    ...currentstate,
+                    [props.section]: {
+                        Section_Name: props.section,
+                        ...permissions,
+                    },
+                })
+            );
+            setUpdating(false);
+        } else {
+            toast.error("Failed to update permission");
+            console.log(response);
+            setUpdating(false);
+        }
+    } catch (error) {
+        console.error("Error updating permissions:", error);
+        setUpdating(false);
+    }
+};
+
+
 
 	return (
 		<>

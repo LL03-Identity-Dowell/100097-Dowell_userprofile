@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { ListGroup, Row, Col  } from 'react-bootstrap';
+import { ListGroup, Row, Col, Image  } from 'react-bootstrap';
 
 const Workspace = (viewData) => {
   const [object, setObject] = useState(null);
@@ -56,7 +56,20 @@ const Workspace = (viewData) => {
         <div className="ms-2 me-auto">
             <Row>
                 <Col sm={3} className="fw-bold">Workspace Logo</Col>
-                <Col sm={9} className='password'>{object.org_logo}</Col>
+                <Col sm={9} className='password'>{}
+                  
+                  <Image
+									className="img-fluid mb-4"
+									src={
+										object.org_logo !== ""
+											? object.org_logo
+											: "/images/samanta.webp"
+									}
+									alt="Workspace Logo"
+									width={300}
+									height={200}
+								/>
+                </Col>
             </Row>
         </div>
       </ListGroup.Item>
