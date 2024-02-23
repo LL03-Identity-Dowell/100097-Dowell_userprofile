@@ -118,7 +118,6 @@ const IdCard1 = (props) => {
 	// Remove everything before "media"
 	const modifiedUrl = url.substring(index);
 
-	console.log(modifiedUrl);
 
 	return (
 		<div>
