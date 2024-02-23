@@ -149,7 +149,10 @@ console.log(formData)
     }
     return new File([u8arr], filename, { type: mime });
   };
-
+  function getModifiedUrl(url) {
+	const index = url.indexOf("/media");
+	return url.substring(index);
+}
   return (
 		<div>
 			<ToastContainer position="top-right" />
@@ -159,7 +162,7 @@ console.log(formData)
 					className="img-fluid mb-4"
 					src={
 						props.userInfo.formsData[0].personalids.faceID !== ""
-							? props.userInfo.formsData[0].personalids.faceID
+							? getModifiedUrl(props.userInfo.formsData[0].personalids.faceID)
 							: "/images/samanta.webp"
 					}
 					alt="faceid"
