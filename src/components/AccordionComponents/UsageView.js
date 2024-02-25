@@ -14,10 +14,10 @@ const UsageView = (viewData) => {
           <ListGroup.Item as="li" key={index}>
             <div className="ms-2 me-auto">
               <Row className="align-items-center">
-                <Col sm={4} className="fw-bold">
+                <Col xl={4} sm={12} className="fw-bold">
                   {iusage_profile_Key}
                 </Col>
-                <Col sm={8}>
+                <Col xl={8} sm={12}>
                   {usage_profile_Value}
                 </Col>
               </Row>

@@ -19,51 +19,51 @@ const Workspace = (viewData) => {
       <ListGroup.Item  as="li">
         <div className="ms-2 me-auto">
           <Row>
-            <Col  sm={3} className="fw-bold">Your Workspace Name</Col>
-            <Col  sm={9}>{object.workspace_name}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">Your Workspace Name</Col>
+            <Col  xl={9} sm={12}>{object.workspace_name}</Col>
           </Row>         
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col  sm={3} className="fw-bold">Organisation Address</Col>
-                <Col  sm={9}>{object.org_address}</Col>
+                <Col  xl={3} sm={12} className="fw-bold">Organisation Address</Col>
+                <Col  xl={9} sm={12}>{object.org_address}</Col>
             </Row>
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">PIN/ZIP code</Col>
-                <Col sm={9}>{object.PIN}</Col>
+                <Col xl={3} sm={12} className="fw-bold">PIN/ZIP code</Col>
+                <Col xl={9} sm={12}>{object.PIN}</Col>
             </Row>
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">City of your Workspace</Col>
-                <Col sm={9} className='password'>{object.city}</Col>
+                <Col xl={3} sm={12} className="fw-bold">City of your Workspace</Col>
+                <Col xl={9} sm={12} className='password'>{object.city}</Col>
             </Row>
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">Country of your Workspace</Col>
-                <Col sm={9} className='password'>{object.country}</Col>
+                <Col xl={3} sm={12} className="fw-bold">Country of your Workspace</Col>
+                <Col xl={9} sm={12} className='password'>{object.country}</Col>
             </Row>
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">Workspace Logo</Col>
-                <Col sm={9} className='password'>{}
+                <Col xl={3} sm={12} className="fw-bold">Workspace Logo</Col>
+                <Col xl={9} sm={12} className='password'>{}
                   
                   <Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										object.org_logo !== ""
 											? getModifiedUrl(object.org_logo)
@@ -80,16 +80,16 @@ const Workspace = (viewData) => {
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">Latitude of Workspace</Col>
-                <Col sm={9} className='password'>{object.latitude}</Col>
+                <Col xl={3} sm={12} className="fw-bold">Latitude of Workspace</Col>
+                <Col xl={9} sm={12} className='password'>{object.latitude}</Col>
             </Row>
         </div>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <div className="ms-2 me-auto">
             <Row>
-                <Col sm={3} className="fw-bold">Longitude of Workspace</Col>
-                <Col sm={9} className='password'>{object.longitude}</Col>
+                <Col xl={3} sm={12} className="fw-bold">Longitude of Workspace</Col>
+                <Col xl={9} sm={12} className='password'>{object.longitude}</Col>
             </Row>
         </div>
       </ListGroup.Item>

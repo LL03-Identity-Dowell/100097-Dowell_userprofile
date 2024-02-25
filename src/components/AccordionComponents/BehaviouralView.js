@@ -18,8 +18,8 @@ const BehaviouralView = (viewData) => {
       >
         <div className="ms-2 me-auto">
           <Row>
-            <Col  sm={3} className="fw-bold">Benefits</Col>
-            <Col  sm={9}>{object.benefits}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">Benefits</Col>
+            <Col  xl={9} sm={12}>{object.benefits}</Col>
           </Row>         
         </div>
       </ListGroup.Item>
@@ -29,8 +29,8 @@ const BehaviouralView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col  sm={3} className="fw-bold">Brand Loyalty</Col>
-            <Col  sm={9}>{object.brand_loyalty}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">Brand Loyalty</Col>
+            <Col  xl={9} sm={12}>{object.brand_loyalty}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -40,8 +40,8 @@ const BehaviouralView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Role</Col>
-            <Col sm={9}>{object.role}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Role</Col>
+            <Col xl={9} sm={12}>{object.role}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -51,8 +51,8 @@ const BehaviouralView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Others</Col>
-            <Col sm={9} className='password'>{object.others_behaviour}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Others</Col>
+            <Col xl={9} sm={12} className='password'>{object.others_behaviour}</Col>
         </Row>
         </div>
       </ListGroup.Item>

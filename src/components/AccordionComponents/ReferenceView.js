@@ -9,10 +9,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Facebook Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Facebook_profile !== "" ? (
 									<Link
 										to={props.data.Facebook_profile}
@@ -30,10 +30,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Discord Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Discord !== "" ? (
 									<Link to={props.data.Discord} className="text-black-50">
 										{props.data.Discord}
@@ -48,10 +48,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Instagram Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Instagram !== "" ? (
 									<Link to={props.data.Instagram} className="text-black-50">
 										{props.data.Instagram}
@@ -66,10 +66,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Linkedin Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Linkedin !== "" ? (
 									<Link to={props.data.Linkedin} className="text-black-50">
 										{props.data.Linkedin}
@@ -84,10 +84,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Pinterest Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Pinterest !== "" ? (
 									<Link to={props.data.Pinterest} className="text-black-50">
 										{props.data.Pinterest}
@@ -102,10 +102,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Reddit Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Reddit !== "" ? (
 									<Link to={props.data.Reddit} className="text-black-50">
 										{props.data.Reddit}
@@ -120,10 +120,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Snapchat Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Snapchat !== "" ? (
 									<Link to={props.data.Snapchat} className="text-black-50">
 										{props.data.Snapchat}
@@ -138,10 +138,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Tiktok Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Tiktok !== "" ? (
 									<Link to={props.data.Tiktok} className="text-black-50">
 										{props.data.Tiktok}
@@ -156,10 +156,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Tumbir Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Tumbir !== "" ? (
 									<Link to={props.data.Tumbir} className="text-black-50">
 										{props.data.Tumbir}
@@ -174,10 +174,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Twitter Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Twitter !== "" ? (
 									<Link to={props.data.Twitter} className="text-black-50">
 										{props.data.Twitter}
@@ -192,10 +192,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Whatsapp Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Whatsapp !== "" ? (
 									<Link to={props.data.Whatsapp} className="text-black-50">
 										{props.data.Whatsapp}
@@ -210,10 +210,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Youtube Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.Youtube !== "" ? (
 									<Link to={props.data.Youtube} className="text-black-50">
 										{props.data.Youtube}
@@ -228,10 +228,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Academia Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.academia_profile !== "" ? (
 									<Link
 										to={props.data.academia_profile}
@@ -249,10 +249,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Personal Reference 1
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.personal_reference_1 !== "" ? (
 									<Link
 										to={props.data.personal_reference_1}
@@ -271,10 +271,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Personal Reference 2
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.personal_reference_2 !== "" ? (
 									<Link
 										to={props.data.personal_reference_2}
@@ -292,10 +292,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Personal Reference 3
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.personal_reference_3 !== "" ? (
 									<Link
 										to={props.data.personal_reference_3}
@@ -313,10 +313,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Personal Reference 4
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.personal_reference_4 !== "" ? (
 									<Link
 										to={props.data.personal_reference_4}
@@ -335,10 +335,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Personal Reference 5
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.personal_reference_5 !== "" ? (
 									<Link
 										to={props.data.personal_reference_5}
@@ -357,10 +357,10 @@ const ReferenceView = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Xing Profile
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.xing_profile !== "" ? (
 									<Link to={props.data.xing_profile} className="text-black-50">
 										{props.data.xing_profile}

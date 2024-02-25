@@ -13,15 +13,15 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Voice ID
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.voiceID !== "" ? (
-									<audio src={getModifiedUrl(props.data.voiceID)} controls />
+									<audio className="audio-wrapper" src={getModifiedUrl(props.data.voiceID)} controls />
 								) : (
 									<Image
-										className="img-fluid mb-4"
+										className="img-fluid mb-4 view-wrapper"
 										src="/images/samanta.webp"
 										alt="faceid"
 										width={300}
@@ -35,12 +35,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Face ID
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.faceID !== ""
 											? getModifiedUrl(props.data.faceID)
@@ -57,12 +57,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Biometric ID
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.biometricID !== ""
 											? getModifiedUrl(props.data.biometricID)
@@ -79,23 +79,25 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								video ID
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								{props.data.videoID !== "" ? (
 									<video
 										src={getModifiedUrl(props.data.videoID)}
 										alt="faceid"
+										className="video-wrapper"
 										width={300}
 										height={200}
 										controls
 									/>
 								) : (
 									<Image
-										className="img-fluid mb-4"
+										className="img-fluid mb-4 view-wrapper"
 										src="/images/samanta.webp"
-										alt="bioid"
+											alt="bioid"
+											
 										width={300}
 										height={200}
 									/>
@@ -107,12 +109,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								ID Card 1
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.IDcard1 !== ""
 											? getModifiedUrl(props.data.IDcard1)
@@ -129,12 +131,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								ID Card 2
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.IDcard2 !== ""
 											? getModifiedUrl(props.data.IDcard2)
@@ -151,12 +153,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								ID Card 3
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.IDcard3 !== ""
 											? getModifiedUrl(props.data.IDcard3)
@@ -173,12 +175,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								ID Card 4
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.IDcard4 !== ""
 											? getModifiedUrl(props.data.IDcard4)
@@ -195,12 +197,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								ID Card 5
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.IDcard5 !== ""
 											? getModifiedUrl(props.data.IDcard5)
@@ -217,12 +219,12 @@ const Personalidinfo = (props) => {
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
-							<Col sm={3} className="fw-bold">
+							<Col xl={3} sm={12} className="fw-bold">
 								Signature
 							</Col>
-							<Col sm={9}>
+							<Col xl={9} sm={12}>
 								<Image
-									className="img-fluid mb-4"
+									className="img-fluid mb-4 view-wrapper"
 									src={
 										props.data.signature !== ""
 											? getModifiedUrl(props.data.signature)

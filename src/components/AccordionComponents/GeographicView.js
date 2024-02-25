@@ -18,8 +18,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
           <Row>
-            <Col  sm={3} className="fw-bold">City</Col>
-            <Col  sm={9}>{object.city}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">City</Col>
+            <Col  xl={9} sm={12}>{object.city}</Col>
           </Row>         
         </div>
       </ListGroup.Item>
@@ -29,8 +29,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col  sm={3} className="fw-bold">Country</Col>
-            <Col  sm={9}>{object.country}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">Country</Col>
+            <Col  xl={9} sm={12}>{object.country}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -40,8 +40,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Latitude</Col>
-            <Col sm={9}>{object.latitude}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Latitude</Col>
+            <Col xl={9} sm={12}>{object.latitude}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -51,8 +51,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Longitude</Col>
-            <Col sm={9} className='password'>{object.longitude}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Longitude</Col>
+            <Col xl={9} sm={12} className='password'>{object.longitude}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -62,8 +62,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Region</Col>
-            <Col sm={9} className='password'>{object.region}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Region</Col>
+            <Col xl={9} sm={12} className='password'>{object.region}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -73,8 +73,8 @@ const GeographicView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Others</Col>
-            <Col sm={9} className='password'>{object.others}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Others</Col>
+            <Col xl={9} sm={12} className='password'>{object.others}</Col>
         </Row>
         </div>
       </ListGroup.Item>

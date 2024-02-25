@@ -344,3 +344,9 @@
   border-collapse: collapse;
 }
 
+@media (min-width:300px) and (max-width:600px){
+.audio-wrapper ,.video-wrapper,.view-wrapper{
+  width: 208px;
+}
+
+}

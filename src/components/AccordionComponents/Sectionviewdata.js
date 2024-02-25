@@ -13,10 +13,10 @@ const Sectionview = () => {
 						<ListGroup.Item as="li" key={index}>
 							<div className="ms-2 me-auto">
 								<Row className="align-items-center">
-									<Col sm={3} className="fw-bold">
+									<Col xl={3} sm={12} className="fw-bold">
 										{sectionName}
 									</Col>
-									<Col sm={9}>
+									<Col xl={9} sm={12}>
 										{Object.entries(sectionData).map(
 											([key, value]) =>
 												value &&

@@ -18,8 +18,8 @@ const PsychographicProfileView = (viewData) => {
       >
         <div className="ms-2 me-auto">
           <Row>
-            <Col  sm={3} className="fw-bold">IQ Level</Col>
-            <Col  sm={9}>{object.IQ_Level}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">IQ Level</Col>
+            <Col  xl={9} sm={12}>{object.IQ_Level}</Col>
           </Row>         
         </div>
       </ListGroup.Item>
@@ -29,8 +29,8 @@ const PsychographicProfileView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col  sm={3} className="fw-bold">Life Style</Col>
-            <Col  sm={9}>{object.Life_Style}</Col>
+            <Col  xl={3} sm={12} className="fw-bold">Life Style</Col>
+            <Col  xl={9} sm={12}>{object.Life_Style}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -40,8 +40,8 @@ const PsychographicProfileView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Attitude</Col>
-            <Col sm={9}>{object.Your_Attitude}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Attitude</Col>
+            <Col xl={9} sm={12}>{object.Your_Attitude}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -51,8 +51,8 @@ const PsychographicProfileView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Personality</Col>
-            <Col sm={9} className='password'>{object.Your_Personality}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Personality</Col>
+            <Col xl={9} sm={12} className='password'>{object.Your_Personality}</Col>
         </Row>
         </div>
       </ListGroup.Item>
@@ -62,8 +62,8 @@ const PsychographicProfileView = (viewData) => {
       >
         <div className="ms-2 me-auto">
         <Row>
-            <Col sm={3} className="fw-bold">Others</Col>
-            <Col sm={9} className='password'>{object.Others_psychographic}</Col>
+            <Col xl={3} sm={12} className="fw-bold">Others</Col>
+            <Col xl={9} sm={12} className='password'>{object.Others_psychographic}</Col>
         </Row>
         </div>
       </ListGroup.Item>
