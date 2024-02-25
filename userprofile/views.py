@@ -491,7 +491,7 @@ def MyWorkspace(request):
         return Response({"message":"It allows only images"})
     file_ext = org_logo.name[-4:]
     ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
-    if not file_ext in ls:
+    if file_ext not in ls:
         return Response({"message":f"pl provide files required format {file_ext}"})
     else:
         pass
@@ -517,15 +517,15 @@ def MyWorkspace(request):
         return Response(respj)
     else:
          my_fileds={
-        "workspace_name":"",
-        "org_address":"",
-        "PIN":"",
-        "city":"",
-        "country":"",
-        "org_logo":"",
-        "latitude":"",
-        "longitude":"",
-    }
+            "workspace_name":"",
+            "org_address":"",
+            "PIN":"",
+            "city":"",
+            "country":"",
+            "org_logo":"",
+            "latitude":"",
+            "longitude":"",
+        }
         
 
 """
