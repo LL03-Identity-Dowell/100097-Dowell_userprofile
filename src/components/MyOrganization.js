@@ -8,6 +8,7 @@ const MyOrganization = (userData) => {
 	const myworkspace_info = userData._myworkspace;
 	const user_id = userData._userId;
 	const [myworkspace, setmyworkspace] = useState({});
+	const [uploadedlogo, setuploadedlogo] = useState(null);
 
 	const [loading, setLoading] = useState(false);
 	const [formInputs, setFormInputs] = useState({
@@ -30,6 +31,7 @@ const MyOrganization = (userData) => {
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		setFormInputs({ ...formInputs, organisation_logo: file });
+		setuploadedlogo(URL.createObjectURL(file))
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -173,17 +175,20 @@ const MyOrganization = (userData) => {
 				<Form.Group className="mb-3" controlId="orgLogo">
 					<Form.Label className="labelsStyle">Workspace Logo</Form.Label>
 					<br />
-					<Image
-						// src={formInputs.organisation_logo}
-						src={
-							formInputs.organisation_logo.includes("/media")
-								? getModifiedUrl(formInputs.organisation_logo) // If URL already contains "/media", use it as is
-								: formInputs.organisation_logo // Modify the URL by adding "/media" if necessary
-						}
+					
+					{
+						uploadedlogo==null?(<Image
+						src={formInputs.organisation_logo!==""?formInputs.organisation_logo:"/images/org-logo-3.png"}
 						width={200}
 						height={200}
 						fluid
-					/>
+					/>):(<Image
+						src={uploadedlogo}
+						width={200}
+						height={200}
+						fluid
+					/>)
+					}
 					{/* <Form.Control value={formInputs.organisation_logo} onChange={handleOnChange} className='inputStyle' as="textarea" rows={3}/> */}
 				</Form.Group>
 				<Form.Group controlId="organisation_logo" className="mb-3">
