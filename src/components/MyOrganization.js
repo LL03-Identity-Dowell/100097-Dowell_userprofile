@@ -99,6 +99,12 @@ const MyOrganization = (userData) => {
 			setLoading(false);
 		}
 	};
+	function getModifiedUrl(url) {
+		const index = url.indexOf("/media");
+		return url.substring(index);
+	}
+	console.log(typeof(formInputs.organisation_logo))
+	console.log((formInputs.organisation_logo))
 
 	return (
 		<div>
@@ -168,7 +174,12 @@ const MyOrganization = (userData) => {
 					<Form.Label className="labelsStyle">Workspace Logo</Form.Label>
 					<br />
 					<Image
-						src={formInputs.organisation_logo}
+						// src={formInputs.organisation_logo}
+						src={
+							formInputs.organisation_logo.includes("/media")
+								? getModifiedUrl(formInputs.organisation_logo) // If URL already contains "/media", use it as is
+								: formInputs.organisation_logo // Modify the URL by adding "/media" if necessary
+						}
 						width={200}
 						height={200}
 						fluid

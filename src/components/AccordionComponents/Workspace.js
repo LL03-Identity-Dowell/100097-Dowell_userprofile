@@ -8,6 +8,10 @@ const Workspace = (viewData) => {
  
     setObject(data);
   }, [viewData]);
+  function getModifiedUrl(url) {
+		const index = url.indexOf("/media");
+		return url.substring(index);
+	}
   return (
     <div>
       {object?
@@ -62,7 +66,7 @@ const Workspace = (viewData) => {
 									className="img-fluid mb-4"
 									src={
 										object.org_logo !== ""
-											? object.org_logo
+											? getModifiedUrl(object.org_logo)
 											: "/images/samanta.webp"
 									}
 									alt="Workspace Logo"
