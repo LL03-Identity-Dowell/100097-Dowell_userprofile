@@ -343,7 +343,7 @@ def GetProfile(request):
         "behavioural":{},
         "geographic":{},
         "usage":{},
-        "myworkspace":{}
+        "myworkspace":{},
     }
     
     try: 
@@ -490,8 +490,8 @@ def MyWorkspace(request):
     except:
         return Response({"message":"It allows only images"})
     file_ext = org_logo.name[-4:]
-    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG"]
-    if file_ext not in ls:
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".MP3",".mp3",".MP4",".mp4"]
+    if not file_ext in ls:
         return Response({"message":f"pl provide files required format {file_ext}"})
     else:
         pass
@@ -517,15 +517,15 @@ def MyWorkspace(request):
         return Response(respj)
     else:
          my_fileds={
-            "workspace_name":"",
-            "org_address":"",
-            "PIN":"",
-            "city":"",
-            "country":"",
-            "org_logo":"",
-            "latitude":"",
-            "longitude":"",
-        }
+        "workspace_name":"",
+        "org_address":"",
+        "PIN":"",
+        "city":"",
+        "country":"",
+        "org_logo":"",
+        "latitude":"",
+        "longitude":"",
+    }
         
 
 """
