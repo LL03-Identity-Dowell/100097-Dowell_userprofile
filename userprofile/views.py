@@ -341,7 +341,7 @@ def GetProfile(request):
         "deviceIDs":{},
         "behavioural":{},
         "geographic":{},
-        "usage":{},    
+        "usage":{}
     }
     
     try: 
