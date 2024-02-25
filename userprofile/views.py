@@ -341,8 +341,7 @@ def GetProfile(request):
         "deviceIDs":{},
         "behavioural":{},
         "geographic":{},
-        "usage":{},  
-        "myworkspace" "{},
+        "usage":{}
     }
     
     try: 
