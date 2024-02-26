@@ -376,11 +376,12 @@ def GetProfile(request):
             "signature":""
         }
         fieldid=ids
-        resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"nil")
+        resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
         iddate = {"userID":userId}
-        respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"nil")
+        respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
         respjid=json.loads(respid1)
-        respj["data"][0]["personalids"]=respjid["data"][0]
+        if respjid["data"]:
+            respj["data"][0]["personalids"]=respjid["data"][0]
     if len(respj['data'])>0:
         return Response(respj["data"])
     else:
