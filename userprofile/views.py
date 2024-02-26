@@ -359,7 +359,7 @@ def GetProfile(request):
     except:
         pass
     # if len(idrespj['data'])>0:
-    if respjid["data"]: 
+    if idrespj["data"]: 
         respj["data"][0]["personalids"]=idrespj["data"][0]
     else:
         ids={
