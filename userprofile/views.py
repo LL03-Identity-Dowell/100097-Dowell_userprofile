@@ -26,8 +26,7 @@ def Profile_create(request):
         "deviceIDs":{},
         "behavioural":{},
         "geographic":{},
-        "usage":{},
-        "myworkspace" : {},    
+        "usage":{},   
     }
     
     try:
@@ -343,7 +342,6 @@ def GetProfile(request):
         "behavioural":{},
         "geographic":{},
         "usage":{},
-        "myworkspace":{},
     }
     
     try: 
