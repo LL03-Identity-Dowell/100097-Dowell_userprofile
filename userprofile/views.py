@@ -421,7 +421,7 @@ def GetProfile(request):
         pass
     try:
         idfield={'username': user}
-        idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"update")
+        idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"nil")
         idrespj=json.loads(idresp)
 
     except:
