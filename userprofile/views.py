@@ -460,10 +460,9 @@ def GetProfile(request):
             iddate = {"userID":userId}
             respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
             respjid=json.loads(respid1)  
-        # here end 
+            # here end 
             respj["data"][0]["personalids"]=respjid["data"][0]
-
-        return Response(respj["data"])
+            return Response(respj["data"])
 
 
 
