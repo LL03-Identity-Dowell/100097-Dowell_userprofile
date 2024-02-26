@@ -328,6 +328,73 @@ def Usage_form(request):
     
     return Response(respj)
 
+# @api_view(["POST"])
+# def GetProfile(request):
+#     user=request.data["Username"]
+#     userId=request.data["userID"]
+#     profile={
+#         "username":"",
+#         "userID":"",
+#         "reference":{},
+#         "demographic":{},
+#         "psychographic":{},
+#         "deviceIDs":{},
+#         "behavioural":{},
+#         "geographic":{},
+#         "usage":{},
+#     }
+    
+#     try: 
+#         pdate = {"userID":userId}
+#         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+#         respj=json.loads(resp)
+        
+#     except:
+#         pass
+#     try:
+#         idfield={'username': user}
+#         idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"update")
+#         idrespj=json.loads(idresp)
+
+#     except:
+#         pass
+#     if len(idrespj['data'])>0:
+#         respj["data"][0]["personalids"]=idrespj["data"][0]
+#     else:
+#         ids={
+#             "username":user,
+#             "userID":userId,
+#             "voiceID":"",
+#             "faceID":"",
+#             "biometricID":"",
+#             "videoID":"",
+#             "IDcard1":"",
+#             "IDcard2":"",
+#             "IDcard3":"",
+#             "IDcard4":"",
+#             "IDcard5":"",
+#             "signature":""
+#         }
+#         fieldid=ids
+#         resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
+#         iddate = {"userID":userId}
+#         respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
+#         respjid=json.loads(respid1)
+#     if len(respj['data'])>0:
+#         return Response(respj["data"])
+#     else:
+#         profile["username"]=user
+#         profile["userID"]=userId
+#         field1=profile
+#         res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
+#         pdate = {"userID":userId}
+#         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+#         respj=json.loads(resp)
+#         respj["data"][0]["personalids"]=respjid["data"][0]
+
+#         return Response(respj["data"])
+
+
 @api_view(["POST"])
 def GetProfile(request):
     user=request.data["Username"]
@@ -358,28 +425,7 @@ def GetProfile(request):
 
     except:
         pass
-    if len(idrespj['data'][0])>0:
-        respj["data"][0]["personalids"]=idrespj["data"][0]
-    else:
-        ids={
-            "username":user,
-            "userID":userId,
-            "voiceID":"",
-            "faceID":"",
-            "biometricID":"",
-            "videoID":"",
-            "IDcard1":"",
-            "IDcard2":"",
-            "IDcard3":"",
-            "IDcard4":"",
-            "IDcard5":"",
-            "signature":""
-        }
-        fieldid=ids
-        resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
-        iddate = {"userID":userId}
-        respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
-        respjid=json.loads(respid1)
+    
     if len(respj['data'])>0:
         return Response(respj["data"])
     else:
@@ -390,7 +436,31 @@ def GetProfile(request):
         pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
-        respj["data"][0]["personalids"]=respjid["data"][0]
+        # here start 
+        if len(idrespj['data'])>0:
+            respj["data"][0]["personalids"]=idrespj["data"][0]
+        else:
+            ids={
+                "username":user,
+                "userID":userId,
+                "voiceID":"",
+                "faceID":"",
+                "biometricID":"",
+                "videoID":"",
+                "IDcard1":"",
+                "IDcard2":"",
+                "IDcard3":"",
+                "IDcard4":"",
+                "IDcard5":"",
+                "signature":""
+            }
+            fieldid=ids
+            resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
+            iddate = {"userID":userId}
+            respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
+            respjid=json.loads(respid1)  
+        # here end 
+            respj["data"][0]["personalids"]=respjid["data"][0]
 
         return Response(respj["data"])
 
