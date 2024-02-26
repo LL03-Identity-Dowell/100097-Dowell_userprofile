@@ -409,6 +409,7 @@ def GetProfile(request):
         "behavioural":{},
         "geographic":{},
         "usage":{},
+        "personalids":{},
     }
     
     try: 
