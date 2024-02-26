@@ -456,64 +456,15 @@ def GetProfile(request):
                 "signature":""
             }
             fieldid=ids
-            resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"update")
+            resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"nil")
             iddate = {"userID":userId}
-            respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"update")
+            respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"nil")
             respjid=json.loads(respid1)  
             # here end 
             respj["data"][0]["personalids"]=respjid["data"][0]
             return Response(respj["data"])
 
 
-
-
-# @api_view(["POST"])
-# def GetProfile(request):
-#     user = request.data.get("Username")
-#     userId = request.data.get("userID")
-#     profile = {
-#         "username": "",
-#         "userID": "",
-#         "reference": {},
-#         "demographic": {},
-#         "psychographic": {},
-#         "deviceIDs": {},
-#         "behavioural": {},
-#         "geographic": {},
-#         "usage": {},
-#     }
-
-#     try:
-#         pdate = {"userID": userId}
-#         resp = dowellconnection("login", "bangalore", "login", "user_profile", "user_profile", "1168", "ABCDE", "fetch", pdate, "nil")
-#         respj = json.loads(resp)
-
-#         if respj.get("data"):
-#             return Response(respj["data"])
-#         else:
-#             # If user profile not found, create a new one
-#             field1 = {
-#                 "username": user,
-#                 "userID": userId,
-#                 "reference": {},
-#                 "demographic": {},
-#                 "psychographic": {},
-#                 "deviceIDs": {},
-#                 "behavioural": {},
-#                 "geographic": {},
-#                 "usage": {},
-#                 "myworkspace" : {}
-#             }
-
-#             res = dowellconnection("login", "bangalore", "login", "user_profile", "user_profile", "1168", "ABCDE", "insert", field1, "nil")
-#             resp = dowellconnection("login", "bangalore", "login", "user_profile", "user_profile", "1168", "ABCDE", "fetch", pdate, "nil")
-#             respj = json.loads(resp)
-#             return Response(respj["data"])
-
-       
-    
-#     except Exception as e:
-#         return Response({"error": str(e)})
 
 @api_view(["POST","GET"])
 def personalIds(request):
