@@ -3,11 +3,14 @@ import { ListGroup, Row, Col  } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 
 
+
 const UsageView = (viewData) => {
 	const usage_profile = useSelector((state) => state.profile[0].usage);
 
   return (
     <>
+      {
+        Object.keys(usage_profile).length !== 0?(    <>
     <ListGroup as="ul">
       {Object.entries(usage_profile).map(
         ([iusage_profile_Key, usage_profile_Value], index) => (
@@ -26,7 +29,11 @@ const UsageView = (viewData) => {
         )
       )}
     </ListGroup>
-  </>
+  </>):(<div>
+           Your Usage Profile information is not available, update this to view
+    </div>)
+      }
+    </>
   )
 }
 

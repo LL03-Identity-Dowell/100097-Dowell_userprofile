@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { ListGroup, Row, Col  } from 'react-bootstrap';
 
+
 const GeographicView = (viewData) => {
   const [object, setObject] = useState(null);
   const data = viewData.data;
@@ -9,7 +10,9 @@ const GeographicView = (viewData) => {
     setObject(data);
   }, [viewData]);
   return (
-    <div>
+    <>
+      {
+        Object.keys(viewData.data).length !== 0?(<div>
       {object?
       <ListGroup as="ul">
       <ListGroup.Item
@@ -81,7 +84,11 @@ const GeographicView = (viewData) => {
     </ListGroup>
 
 :"Loading"}
-    </div>
+    </div>):(<div>
+           Your Geographic Profile information is not available, update this to view
+    </div>)
+      }
+    </>
   )
 }
 

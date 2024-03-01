@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 const ReferenceView = (props) => {
 	return (
 		<>
+			{
+				Object.keys(props?.data).length !== 0?(<>
 			<ListGroup as="ul">
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
@@ -373,6 +375,10 @@ const ReferenceView = (props) => {
 					</div>
 				</ListGroup.Item>
 			</ListGroup>
+		</>):(<div>
+           Your Reference information is not available, update this to view
+    </div>)
+			}
 		</>
 	);
 };

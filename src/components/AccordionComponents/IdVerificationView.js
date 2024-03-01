@@ -2,11 +2,14 @@ import React from "react";
 import { Col, ListGroup, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
+
 const IDVerification = () => {
 	const allidverifications = useSelector((state) => state.idverify);
 
 	return (
 		<>
+			{
+				Object.keys(allidverifications).length !== 0?(<>
 			<ListGroup as="ul">
 				{Object.entries(allidverifications).map(
 					([idVerifyKey, idverifyValue], index) => (
@@ -25,6 +28,10 @@ const IDVerification = () => {
 					)
 				)}
 			</ListGroup>
+		</>):(<div>
+           Your Id Verification information is not available, update this to view
+    </div>)
+			}
 		</>
 	);
 };

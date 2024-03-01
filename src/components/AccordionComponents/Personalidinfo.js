@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Image, ListGroup, Row } from "react-bootstrap";
 
+
 const Personalidinfo = (props) => {
 	function getModifiedUrl(url) {
 		const index = url.indexOf("/media");
@@ -9,6 +10,8 @@ const Personalidinfo = (props) => {
 	
 	return (
 		<>
+			{
+				Object.keys(props?.data).length !== 0?(<>
 			<ListGroup as="ul">
 				<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
@@ -239,6 +242,10 @@ const Personalidinfo = (props) => {
 					</div>
 				</ListGroup.Item>
 			</ListGroup>
+		</>):(<div>
+           Your Personal Ids information is not available, update this to view
+    </div>)
+		}
 		</>
 	);
 };
