@@ -21,7 +21,7 @@ const AccordionList = (profileData) => {
 		setIsOpen(!isOpen);
 	};
 	const all_forms = profileData.formsData[0];
-
+console.log(all_forms)
 	const _id = all_forms._id;
 	var _username = all_forms.username;
 	var _userID = all_forms.userID;

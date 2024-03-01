@@ -178,7 +178,7 @@ const MyOrganization = (userData) => {
 					
 					{
 						uploadedlogo==null?(<Image
-						src={formInputs.organisation_logo!==""?formInputs.organisation_logo:"/images/org-logo-3.png"}
+						src={formInputs.organisation_logo!==""?getModifiedUrl(formInputs.organisation_logo):"/images/org-logo-3.png"}
 						width={200}
 						height={200}
 						fluid
@@ -198,6 +198,7 @@ const MyOrganization = (userData) => {
 						onChange={handleFileChange}
 						className="inputStyle"
 						type="file"
+						accept="image/*"
 					/>
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="latitude">

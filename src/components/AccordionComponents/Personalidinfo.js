@@ -6,6 +6,7 @@ const Personalidinfo = (props) => {
 		const index = url.indexOf("/media");
 		return url.substring(index);
 	}		
+	console.log(props)
 	
 	return (
 		<>
