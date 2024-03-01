@@ -9,7 +9,9 @@ const BehaviouralView = (viewData) => {
     setObject(data);
   }, [viewData]);
   return (
-    <div>
+    <>
+      {
+        Object.keys(viewData.data).length !== 0?(<div>
       {object?
       <ListGroup as="ul">
       <ListGroup.Item
@@ -60,7 +62,11 @@ const BehaviouralView = (viewData) => {
     </ListGroup>
 
 :"Loading"}
-    </div>
+    </div>):(<div>
+           Your Behavioural Profile information is not available, update this to view
+    </div>)
+      }
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { ListGroup, Row, Col, Image  } from 'react-bootstrap';
 
+
 const Workspace = (viewData) => {
   const [object, setObject] = useState(null);
   const data = viewData.data;
@@ -96,7 +97,9 @@ const Workspace = (viewData) => {
     
     </ListGroup>
 
-:"Loading"}
+:<div>
+           Your Workspace information is not available, update this to view
+    </div>}
     </div>
   )
 }

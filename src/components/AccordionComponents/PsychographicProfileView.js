@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { ListGroup, Row, Col  } from 'react-bootstrap';
 
+
 const PsychographicProfileView = (viewData) => {
   const [object, setObject] = useState(null);
   const data = viewData.data;
@@ -9,7 +10,9 @@ const PsychographicProfileView = (viewData) => {
     setObject(data);
   }, [viewData]);
   return (
-    <div>
+    <>
+      {
+        Object.keys(viewData.data).length !== 0?(  <div>
       {object?
       <ListGroup as="ul">
       <ListGroup.Item
@@ -71,7 +74,11 @@ const PsychographicProfileView = (viewData) => {
     </ListGroup>
 
 :"Loading"}
-    </div>
+    </div>):(<div>
+           Your Psychographic Profile information is not available, update this to view
+    </div>)
+      }
+    </>
   )
 }
 

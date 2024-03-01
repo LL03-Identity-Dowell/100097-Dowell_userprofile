@@ -9,7 +9,9 @@ const DeviceIDView = (viewData) => {
     setObject(data);
   }, [viewData]);
   return (
-    <div>
+    <>
+      {
+        object?.hasOwnProperty("brand_model")?( <div>
       {object?
       <ListGroup as="ul">
       <ListGroup.Item
@@ -60,7 +62,11 @@ const DeviceIDView = (viewData) => {
     </ListGroup>
 
 :"Loading"}
-    </div>
+        </div>) : (<div>
+           Your DeviceID information is not available, update this to view
+    </div>)
+      }
+    </>
   )
 }
 
