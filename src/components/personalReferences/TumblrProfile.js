@@ -14,7 +14,7 @@ const TumblrProfile = (userData) => {
   const profileLink= userData.tumblrLink
  
   const [formInputs, setFormInputs] = useState({
-    tumblrProfile: "",
+    tumblrProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -101,7 +101,9 @@ const TumblrProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter tumblr profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='tumblrProfile'
+					  value={formInputs.tumblrProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

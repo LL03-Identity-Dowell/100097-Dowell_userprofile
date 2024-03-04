@@ -13,7 +13,7 @@ const TwitterProfile = (userData) => {
   const profileLink= userData.twitterLink
  
   const [formInputs, setFormInputs] = useState({
-    twitterProfile: "",
+    twitterProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -98,7 +98,9 @@ const TwitterProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter twitter profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.twitterProfile}
+					  id='twitterProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

@@ -11,7 +11,7 @@ const PersonalReferences2 = (userData) => {
   const profileLink= userData.perRefLink2
  
   const [formInputs, setFormInputs] = useState({
-    personalRefernce2: "",
+    personalRefernce2: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -103,7 +103,9 @@ const PersonalReferences2 = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter Personal Reference2"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='personalRefernce2'
+					  value={formInputs.personalRefernce2}
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} className="" size="lg">

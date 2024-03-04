@@ -12,7 +12,7 @@ const TikTokProfile = (userData) => {
   const profileLink= userData.tiktokLink
  
   const [formInputs, setFormInputs] = useState({
-    tiktokProfile: "",
+    tiktokProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -100,7 +100,9 @@ const TikTokProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter tiktok profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='tiktokProfile'
+					  value={formInputs.tiktokProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

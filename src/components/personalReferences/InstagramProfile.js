@@ -11,7 +11,7 @@ const InstagramProfile = (userData) => {
   const profileLink= userData.instagramLink
  
   const [formInputs, setFormInputs] = useState({
-    instagramProfile: "",
+    instagramProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -99,7 +99,9 @@ const InstagramProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter instagram profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.instagramProfile}
+					  id='instagramProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

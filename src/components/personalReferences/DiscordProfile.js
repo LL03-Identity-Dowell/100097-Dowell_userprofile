@@ -11,7 +11,7 @@ const DiscordProfile = (userData) => {
 	const profileLink = userData.discordLink;
 
 	const [formInputs, setFormInputs] = useState({
-		discordProfile: "",
+		discordProfile: profileLink,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -101,6 +101,8 @@ const DiscordProfile = (userData) => {
 						type="text"
 						placeholder="Enter discord profile url"
 						onChange={handleOnChange}
+						value={formInputs.discordProfile}
+						id="discordProfile"
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

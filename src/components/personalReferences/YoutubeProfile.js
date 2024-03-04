@@ -12,7 +12,7 @@ const YoutubeProfile = (userData) => {
   const profileLink= userData.youtubeLink
  
   const [formInputs, setFormInputs] = useState({
-    youtubeProfile: "",
+    youtubeProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -99,7 +99,9 @@ const YoutubeProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter youtube profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.youtubeProfile}
+					  id='youtubeProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

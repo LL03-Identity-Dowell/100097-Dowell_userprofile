@@ -14,7 +14,7 @@ const LinkedInProfile = (userData) => {
 	const userName = userData.userData.userData.userData.userinfo.username;
 
 	const [formInputs, setFormInputs] = useState({
-		linkedInProfile: "",
+		linkedInProfile: linkedinLink_value,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -108,6 +108,8 @@ const LinkedInProfile = (userData) => {
 						type="text"
 						placeholder="Enter linked in profile url"
 						onChange={handleOnChange}
+						id="linkedInProfile"
+						value={formInputs.linkedInProfile}
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="" size="lg">

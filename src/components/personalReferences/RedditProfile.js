@@ -12,7 +12,7 @@ const RedditProfile = (userData) => {
   const profileLink= userData.redditLink
  
   const [formInputs, setFormInputs] = useState({
-    redditProfile: "",
+    redditProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -98,7 +98,9 @@ const RedditProfile = (userData) => {
 						className="inputStyle"
 						onChange={handleOnChange}
 						type="text"
-						placeholder="Enter reddit profile url"
+					  placeholder="Enter reddit profile url"
+					  id='redditProfile'
+					  value={formInputs.redditProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} size="lg">

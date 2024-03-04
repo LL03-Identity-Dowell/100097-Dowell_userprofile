@@ -14,7 +14,7 @@ const WhatsappProfile = (userData) => {
   const profileLink= userData.whatsappLink
  
   const [formInputs, setFormInputs] = useState({
-    whatsappProfile: "",
+    whatsappProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -100,7 +100,9 @@ const WhatsappProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter Whatsapp profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.whatsappProfile}
+					  id='whatsappProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

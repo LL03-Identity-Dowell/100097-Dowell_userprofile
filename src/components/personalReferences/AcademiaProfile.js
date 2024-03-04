@@ -10,7 +10,7 @@ const AcademiaProfile = (userData) => {
 	const userName = userData.userData.userData.userData.userinfo.username;
 	const profileLink = userData.academiaLink;
 	const [formInputs, setFormInputs] = useState({
-		academiaProfile: "",
+		academiaProfile: profileLink,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -99,6 +99,8 @@ const AcademiaProfile = (userData) => {
 						className="inputStyle"
 						onChange={handleOnChange}
 						type="text"
+						id="academiaProfile"
+						value={formInputs.academiaProfile}
 						placeholder="Enter Academia profile url"
 					/>
 				</Form.Group>

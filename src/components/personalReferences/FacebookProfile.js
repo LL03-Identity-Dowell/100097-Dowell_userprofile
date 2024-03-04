@@ -12,7 +12,7 @@ const FacebookProfile = (userData) => {
   const profileLink= userData.facebookLink
  
   const [formInputs, setFormInputs] = useState({
-    FacebookProfile: "",
+    FacebookProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -101,7 +101,9 @@ const FacebookProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter facebook profile url"
-						onClick={handleOnChange}
+					  onClick={handleOnChange}
+					  value={formInputs.FacebookProfile}
+					  id="FacebookProfile"
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} className="" size="lg">

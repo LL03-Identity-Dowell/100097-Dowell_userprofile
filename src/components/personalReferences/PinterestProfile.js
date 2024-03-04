@@ -11,7 +11,7 @@ const PinterestProfile = (userData) => {
   const profileLink= userData.pinterestLink
  
   const [formInputs, setFormInputs] = useState({
-    pinterestProfile: "",
+    pinterestProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -98,7 +98,9 @@ const PinterestProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter pinterest profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.pinterestProfile}
+					  id='pinterestProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

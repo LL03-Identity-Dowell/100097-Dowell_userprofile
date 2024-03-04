@@ -13,7 +13,7 @@ const SnapchatProfile = (userData) => {
   const profileLink= userData.snapchatLink
  
   const [formInputs, setFormInputs] = useState({
-    snapchatProfile: "",
+    snapchatProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -100,7 +100,9 @@ const SnapchatProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter snapchat profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.snapchatProfile}
+					  id='snapchatProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">
