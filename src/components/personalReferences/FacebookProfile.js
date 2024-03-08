@@ -17,7 +17,7 @@ const FacebookProfile = (userData) => {
   const [loading, setLoading] = useState(false);
 
   const handleOnChange = (e) => {
-    setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
+    setFormInputs({ ...formInputs, FacebookProfile: e.target.value });
     console.log(formInputs.FacebookProfile)
   };
 
@@ -99,11 +99,11 @@ const FacebookProfile = (userData) => {
 					<Form.Label className="labelsStyle">Facebook Profile</Form.Label>
 					<Form.Control
 						className="inputStyle"
-						type="text"
-						placeholder="Enter facebook profile url"
-					  onClick={handleOnChange}
-					  value={formInputs.FacebookProfile}
-					  id="FacebookProfile"
+  type="text"
+  placeholder="Enter Facebook profile URL"
+  onChange={handleOnChange}
+  value={formInputs.FacebookProfile}
+					 
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} className="" size="lg">

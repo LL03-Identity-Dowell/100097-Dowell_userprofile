@@ -20,7 +20,7 @@ const LinkedInProfile = (userData) => {
 
 	const handleOnChange = (e) => {
 		setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
-		console.log(formInputs.link);
+		
 	};
 
 	const handleSubmit = async (e) => {
