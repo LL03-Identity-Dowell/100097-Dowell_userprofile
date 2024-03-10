@@ -73,7 +73,8 @@ const YoutubeProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<>	<iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -90,7 +91,8 @@ const YoutubeProfile = (userData) => {
 				}}
 			>
 				My Youtube Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+		}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="youtubeProfile">

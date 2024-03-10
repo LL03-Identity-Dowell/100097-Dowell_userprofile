@@ -71,7 +71,8 @@ const PersonalReferences1 = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -89,7 +90,8 @@ const PersonalReferences1 = (userData) => {
 			>
 				Personal Reference 1
 			</Button>
-
+</>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 			<h3>
 				Your Personal reference 1 (Name, email, phone, relationship, address)
 				(the person will become member while accepting)

@@ -80,7 +80,8 @@ const LinkedInProfile = (userData) => {
 	return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+			{
+				linkedinLink_value!=="" && linkedinLink_value!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -89,7 +90,7 @@ const LinkedInProfile = (userData) => {
 				src={linkedinLink_value}
 				sandbox="allow-scripts allow-same-origin"
 			></iframe>
-			<Iframe src={linkedinLink_value} width="100%" height="100%" />
+			
 			<Button
 				className="mb-5"
 				variant="dark"
@@ -99,7 +100,8 @@ const LinkedInProfile = (userData) => {
 				}}
 			>
 				My LinkedIn Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 			<Form>
 				<Form.Group className="mb-3" controlId="linkedInProfile">
 					<Form.Label className="labelsStyle">Linked In Profile</Form.Label>
