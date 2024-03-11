@@ -89,7 +89,7 @@ const LinkedInProfile = (userData) => {
 				src={linkedinLink_value}
 				sandbox="allow-scripts allow-same-origin"
 			></iframe>
-			<Iframe src={linkedinLink_value} width="100%" height="100%" />
+			
 			<Button
 				className="mb-5"
 				variant="dark"
