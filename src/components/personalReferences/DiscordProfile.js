@@ -11,7 +11,7 @@ const DiscordProfile = (userData) => {
 	const profileLink = userData.discordLink;
 
 	const [formInputs, setFormInputs] = useState({
-		discordProfile: "",
+		discordProfile: profileLink,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -74,7 +74,8 @@ const DiscordProfile = (userData) => {
 	return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+			{
+				profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -91,7 +92,8 @@ const DiscordProfile = (userData) => {
 				}}
 			>
 				My Discord Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="discordProfile">
@@ -101,6 +103,8 @@ const DiscordProfile = (userData) => {
 						type="text"
 						placeholder="Enter discord profile url"
 						onChange={handleOnChange}
+						value={formInputs.discordProfile}
+						id="discordProfile"
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

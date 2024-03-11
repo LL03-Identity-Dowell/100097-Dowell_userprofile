@@ -16,7 +16,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Facebook_profile !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.Facebook_profile}
 										className="text-black-50"
 									>
@@ -37,7 +37,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Discord !== "" ? (
-									<Link to={props.data.Discord} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Discord} className="text-black-50">
 										{props.data.Discord}
 									</Link>
 								) : (
@@ -55,7 +55,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Instagram !== "" ? (
-									<Link to={props.data.Instagram} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Instagram} className="text-black-50">
 										{props.data.Instagram}
 									</Link>
 								) : (
@@ -73,7 +73,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Linkedin !== "" ? (
-									<Link to={props.data.Linkedin} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Linkedin} className="text-black-50">
 										{props.data.Linkedin}
 									</Link>
 								) : (
@@ -91,7 +91,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Pinterest !== "" ? (
-									<Link to={props.data.Pinterest} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Pinterest} className="text-black-50">
 										{props.data.Pinterest}
 									</Link>
 								) : (
@@ -109,7 +109,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Reddit !== "" ? (
-									<Link to={props.data.Reddit} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Reddit} className="text-black-50">
 										{props.data.Reddit}
 									</Link>
 								) : (
@@ -127,7 +127,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Snapchat !== "" ? (
-									<Link to={props.data.Snapchat} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Snapchat} className="text-black-50">
 										{props.data.Snapchat}
 									</Link>
 								) : (
@@ -145,7 +145,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Tiktok !== "" ? (
-									<Link to={props.data.Tiktok} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Tiktok} className="text-black-50">
 										{props.data.Tiktok}
 									</Link>
 								) : (
@@ -163,7 +163,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Tumbir !== "" ? (
-									<Link to={props.data.Tumbir} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Tumbir} className="text-black-50">
 										{props.data.Tumbir}
 									</Link>
 								) : (
@@ -181,7 +181,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Twitter !== "" ? (
-									<Link to={props.data.Twitter} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Twitter} className="text-black-50">
 										{props.data.Twitter}
 									</Link>
 								) : (
@@ -199,7 +199,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Whatsapp !== "" ? (
-									<Link to={props.data.Whatsapp} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Whatsapp} className="text-black-50">
 										{props.data.Whatsapp}
 									</Link>
 								) : (
@@ -217,7 +217,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.Youtube !== "" ? (
-									<Link to={props.data.Youtube} className="text-black-50">
+									<Link  target="_blank"  to={props.data.Youtube} className="text-black-50">
 										{props.data.Youtube}
 									</Link>
 								) : (
@@ -235,7 +235,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.academia_profile !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.academia_profile}
 										className="text-black-50"
 									>
@@ -256,7 +256,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.personal_reference_1 !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.personal_reference_1}
 										className="text-black-50"
 									>
@@ -278,7 +278,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.personal_reference_2 !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.personal_reference_2}
 										className="text-black-50"
 									>
@@ -299,7 +299,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.personal_reference_3 !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.personal_reference_3}
 										className="text-black-50"
 									>
@@ -320,7 +320,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.personal_reference_4 !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.personal_reference_4}
 										className="text-black-50"
 									>
@@ -342,7 +342,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.personal_reference_5 !== "" ? (
-									<Link
+									<Link  target="_blank" 
 										to={props.data.personal_reference_5}
 										className="text-black-50"
 									>
@@ -364,7 +364,7 @@ const ReferenceView = (props) => {
 							</Col>
 							<Col xl={9} sm={12}>
 								{props.data.xing_profile !== "" ? (
-									<Link to={props.data.xing_profile} className="text-black-50">
+									<Link  target="_blank"  to={props.data.xing_profile} className="text-black-50">
 										{props.data.xing_profile}
 									</Link>
 								) : (

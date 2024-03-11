@@ -14,13 +14,13 @@ const LinkedInProfile = (userData) => {
 	const userName = userData.userData.userData.userData.userinfo.username;
 
 	const [formInputs, setFormInputs] = useState({
-		linkedInProfile: "",
+		linkedInProfile: linkedinLink_value,
 	});
 	const [loading, setLoading] = useState(false);
 
 	const handleOnChange = (e) => {
 		setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
-		console.log(formInputs.link);
+		
 	};
 
 	const handleSubmit = async (e) => {
@@ -80,7 +80,8 @@ const LinkedInProfile = (userData) => {
 	return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+			{
+				linkedinLink_value!=="" && linkedinLink_value!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -99,7 +100,8 @@ const LinkedInProfile = (userData) => {
 				}}
 			>
 				My LinkedIn Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 			<Form>
 				<Form.Group className="mb-3" controlId="linkedInProfile">
 					<Form.Label className="labelsStyle">Linked In Profile</Form.Label>
@@ -108,6 +110,8 @@ const LinkedInProfile = (userData) => {
 						type="text"
 						placeholder="Enter linked in profile url"
 						onChange={handleOnChange}
+						id="linkedInProfile"
+						value={formInputs.linkedInProfile}
 					/>
 				</Form.Group>
 				<Button onClick={handleSubmit} variant="dark" className="" size="lg">

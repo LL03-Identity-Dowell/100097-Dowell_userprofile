@@ -13,7 +13,7 @@ const TwitterProfile = (userData) => {
   const profileLink= userData.twitterLink
  
   const [formInputs, setFormInputs] = useState({
-    twitterProfile: "",
+    twitterProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +72,8 @@ const TwitterProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -89,7 +90,8 @@ const TwitterProfile = (userData) => {
 				}}
 			>
 				My Twitter Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="twitterProfile">
@@ -98,7 +100,9 @@ const TwitterProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter twitter profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.twitterProfile}
+					  id='twitterProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

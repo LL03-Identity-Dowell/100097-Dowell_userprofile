@@ -12,7 +12,7 @@ const YoutubeProfile = (userData) => {
   const profileLink= userData.youtubeLink
  
   const [formInputs, setFormInputs] = useState({
-    youtubeProfile: "",
+    youtubeProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -73,7 +73,8 @@ const YoutubeProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<>	<iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -90,7 +91,8 @@ const YoutubeProfile = (userData) => {
 				}}
 			>
 				My Youtube Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+		}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="youtubeProfile">
@@ -99,7 +101,9 @@ const YoutubeProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter youtube profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.youtubeProfile}
+					  id='youtubeProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

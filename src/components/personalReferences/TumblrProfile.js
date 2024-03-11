@@ -14,7 +14,7 @@ const TumblrProfile = (userData) => {
   const profileLink= userData.tumblrLink
  
   const [formInputs, setFormInputs] = useState({
-    tumblrProfile: "",
+    tumblrProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +75,8 @@ const TumblrProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -92,7 +93,8 @@ const TumblrProfile = (userData) => {
 				}}
 			>
 				My Tumblr Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="tumblrProfile">
@@ -101,7 +103,9 @@ const TumblrProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter tumblr profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='tumblrProfile'
+					  value={formInputs.tumblrProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

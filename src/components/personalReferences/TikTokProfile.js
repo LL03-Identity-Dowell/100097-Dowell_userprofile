@@ -12,7 +12,7 @@ const TikTokProfile = (userData) => {
   const profileLink= userData.tiktokLink
  
   const [formInputs, setFormInputs] = useState({
-    tiktokProfile: "",
+    tiktokProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -74,7 +74,8 @@ const TikTokProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<>	<iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -91,7 +92,8 @@ const TikTokProfile = (userData) => {
 				}}
 			>
 				My Tiktok Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+		}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="tiktokProfile">
@@ -100,7 +102,9 @@ const TikTokProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter tiktok profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='tiktokProfile'
+					  value={formInputs.tiktokProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

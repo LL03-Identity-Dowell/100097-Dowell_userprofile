@@ -12,7 +12,7 @@ const RedditProfile = (userData) => {
   const profileLink= userData.redditLink
  
   const [formInputs, setFormInputs] = useState({
-    redditProfile: "",
+    redditProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +72,8 @@ const RedditProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -89,7 +90,8 @@ const RedditProfile = (userData) => {
 				}}
 			>
 				My Reddit Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="redditProfile">
@@ -98,7 +100,9 @@ const RedditProfile = (userData) => {
 						className="inputStyle"
 						onChange={handleOnChange}
 						type="text"
-						placeholder="Enter reddit profile url"
+					  placeholder="Enter reddit profile url"
+					  id='redditProfile'
+					  value={formInputs.redditProfile}
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} size="lg">

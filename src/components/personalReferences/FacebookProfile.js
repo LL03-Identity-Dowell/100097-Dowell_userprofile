@@ -12,12 +12,12 @@ const FacebookProfile = (userData) => {
   const profileLink= userData.facebookLink
  
   const [formInputs, setFormInputs] = useState({
-    FacebookProfile: "",
+    FacebookProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
   const handleOnChange = (e) => {
-    setFormInputs({ ...formInputs, [e.target.id]: e.target.value });
+    setFormInputs({ ...formInputs, FacebookProfile: e.target.value });
     console.log(formInputs.FacebookProfile)
   };
 
@@ -75,7 +75,8 @@ const FacebookProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+      {
+        profileLink!=="" && profileLink!==undefined?(<>	<iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -92,16 +93,19 @@ const FacebookProfile = (userData) => {
 				}}
 			>
 				My Facebook Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+    }
 
 			<Form>
 				<Form.Group className="mb-3" controlId="FacebookProfile">
 					<Form.Label className="labelsStyle">Facebook Profile</Form.Label>
 					<Form.Control
 						className="inputStyle"
-						type="text"
-						placeholder="Enter facebook profile url"
-						onClick={handleOnChange}
+  type="text"
+  placeholder="Enter Facebook profile URL"
+  onChange={handleOnChange}
+  value={formInputs.FacebookProfile}
+					 
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} className="" size="lg">

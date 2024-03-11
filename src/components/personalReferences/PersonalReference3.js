@@ -11,7 +11,7 @@ const PersonalReferences3 = (userData) => {
   const profileLink= userData.perRefLink3
  
   const [formInputs, setFormInputs] = useState({
-    personalRefernce3: "",
+    personalRefernce3: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -71,7 +71,8 @@ const PersonalReferences3 = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<>	<iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -88,7 +89,8 @@ const PersonalReferences3 = (userData) => {
 				}}
 			>
 				Personal Reference 3
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+		}
 
 			<h3>
 				Your Personal reference 3 (Name, email, phone, relationship, address)
@@ -103,7 +105,9 @@ const PersonalReferences3 = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter Personal Reference3"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  id='personalRefernce3'
+					  value={formInputs.personalRefernce3}
 					/>
 				</Form.Group>
 				<Button variant="dark" onClick={handleSubmit} className="" size="lg">

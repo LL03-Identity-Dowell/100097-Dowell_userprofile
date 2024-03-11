@@ -11,7 +11,7 @@ const InstagramProfile = (userData) => {
   const profileLink= userData.instagramLink
  
   const [formInputs, setFormInputs] = useState({
-    instagramProfile: "",
+    instagramProfile: profileLink,
   });
   const [loading, setLoading] = useState(false);
 
@@ -74,7 +74,8 @@ const InstagramProfile = (userData) => {
   return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+		  {
+			  profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -91,7 +92,8 @@ const InstagramProfile = (userData) => {
 				}}
 			>
 				My Instagram Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 			<Form>
 				<Form.Group className="mb-3" controlId="instagramProfile">
 					<Form.Label className="labelsStyle">Instagram Profile</Form.Label>
@@ -99,7 +101,9 @@ const InstagramProfile = (userData) => {
 						className="inputStyle"
 						type="text"
 						placeholder="Enter instagram profile url"
-						onChange={handleOnChange}
+					  onChange={handleOnChange}
+					  value={formInputs.instagramProfile}
+					  id='instagramProfile'
 					/>
 				</Form.Group>
 				<Button variant="dark" className="" onClick={handleSubmit} size="lg">

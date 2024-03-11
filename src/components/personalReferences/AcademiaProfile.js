@@ -10,7 +10,7 @@ const AcademiaProfile = (userData) => {
 	const userName = userData.userData.userData.userData.userinfo.username;
 	const profileLink = userData.academiaLink;
 	const [formInputs, setFormInputs] = useState({
-		academiaProfile: "",
+		academiaProfile: profileLink,
 	});
 	const [loading, setLoading] = useState(false);
 
@@ -73,7 +73,8 @@ const AcademiaProfile = (userData) => {
 	return (
 		<div>
 			<ToastContainer position="top-right" />
-			<iframe
+			{
+				profileLink!=="" && profileLink!==undefined?(<><iframe
 				width="100%"
 				height="450"
 				loading="lazy"
@@ -90,7 +91,8 @@ const AcademiaProfile = (userData) => {
 				}}
 			>
 				My Academia Profile
-			</Button>
+			</Button></>):(<div className='mb-3'>Your Profile information is not available, update this to view</div>)
+			}
 
 			<Form>
 				<Form.Group className="mb-3" controlId="academiaProfile">
@@ -99,6 +101,8 @@ const AcademiaProfile = (userData) => {
 						className="inputStyle"
 						onChange={handleOnChange}
 						type="text"
+						id="academiaProfile"
+						value={formInputs.academiaProfile}
 						placeholder="Enter Academia profile url"
 					/>
 				</Form.Group>
