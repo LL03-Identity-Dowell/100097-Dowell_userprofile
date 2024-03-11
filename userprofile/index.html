@@ -1,0 +1,100 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .loading-indicator {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+        }
+
+        .loading-indicator.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-indicator .spinner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 4px solid #333;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <form method="POST" action="{{user_profile}}" id="submit-form">
+        {% csrf_token %}
+
+        {{ user_form.as_p }}
+        {{ set_password_form.as_p }}
+        {{ device_id_form.as_p }}
+        {{ PersonalID_form_form.as_p }}
+        {{ references_profile_form.as_p }}
+        {{ verification_form_form.as_p }}
+        {{ Organization_form_form.as_p }}
+        {{ Geographical_form_form.as_p }}
+        {{ demographic_profile_form.as_p }}
+        {{ psychographic_profile_form.as_p }}
+        {{ Behaviour_form_form.as_p }}
+        {{ Usage_profile_form_form.as_p }}
+
+
+        <!--<button type="submit" name="button1">Submit</button>-->
+        <!--<button type="submit" name="button2">Submit</button>-->
+        <!--<button type="submit" name="button3">Submit</button>-->
+        <!--<button type="submit" name="button4">Submit</button>-->
+        <!--<button type="submit" name="button5">Submit</button>-->
+        <!--<button type="submit" name="button6">Submit</button>-->
+        <!--<button type="submit" name="button7">Submit</button>-->
+        <!--<button type="submit" name="button8">Submit</button>-->
+        <!--<button type="submit" name="button9">Submit</button>-->
+        <!--<button type="submit" name="button10">Submit</button>-->
+        <!--<button type="submit" name="button11">Submit</button>-->
+        <!--<button type="submit" name="button12">Submit</button>-->
+        <button type="submit" name="button_clicked" value="button1">Submit</button>
+        <button type="submit" name="button_clicked" value="button2">Submit</button>
+        <button type="submit" name="button_clicked" value="button3">Submit</button>
+        <button type="submit" name="button_clicked" value="button4">Submit</button>
+        <button type="submit" name="button_clicked" value="button5">Submit</button>
+        <button type="submit" name="button_clicked" value="button6">Submit</button>
+        <button type="submit" name="button_clicked" value="button7">Submit</button>
+        <button type="submit" name="button_clicked" value="button8">Submit</button>
+        <button type="submit" name="button_clicked" value="button9">Submit</button>
+        <button type="submit" name="button_clicked" value="button10">Submit</button>
+        <button type="submit" name="button_clicked" value="button11">Submit</button>
+        <button type="submit" name="button_clicked" value="button12">Submit</button>
+    </form>
+    </form>
+
+    <div id="loading-indicator" class="loading-indicator">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loadingIndicator = document.querySelector('.loading-indicator');
+        var submitForm = document.querySelector('#submit-form');
+
+        submitForm.addEventListener('submit', function() {
+            loadingIndicator.classList.add('show');
+        });
+    });
+</script>
+</body>
+</html>
+
+
