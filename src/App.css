@@ -307,6 +307,17 @@
   height: 300px;
 }
 
+@media (min-width:300px) and (max-width:600px){
+.audio-form-wrapper ,.view-form-wrapper{
+  width: 175px;
+}
+
+.view-form-wrapper{
+  width: 208px;
+}
+
+}
+
 @media (min-width:300px) and (max-width:400px){
   .videoid-wrapper{
   width: 230px;

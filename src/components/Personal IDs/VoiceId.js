@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Button, Image, Form, Tab, Tabs, Container } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import { Button, Image, Form, Tab, Tabs,  } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
@@ -17,9 +17,7 @@ const VoiceId = (props) => {
 	const apiaudioRef = useRef();
 	const mediaRecorderRef = useRef(null);
 
-	// useEffect(() => {
-	// 	console.log("audioUrl changed:", audioUrl);
-	// }, [audioUrl]);
+
 	const desiredFileName = "audiofile.mp3";
 	const startRecording = async () => {
 		try {
@@ -196,18 +194,19 @@ const VoiceId = (props) => {
 			<div className="mb-2">
 				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
 					<audio
+						className="audio-form-wrapper"
 						ref={apiaudioRef}
 						src={modifiedUrl}
 						controls
 						onPlay={() => {
-							if (audioRef.current != undefined) {
+							if (audioRef.current !== undefined) {
 								audioRef.current.pause();
 							}
 						}}
 					/>
 				) : (
 					<Image
-						className="img-fluid mb-4"
+						className="img-fluid mb-4 view-form-wrapper"
 						src="/images/samanta.webp"
 						alt="samanta"
 						width={300}
@@ -259,7 +258,7 @@ const VoiceId = (props) => {
 							variant="success"
 							onClick={startRecording}
 							disabled={recording}
-							className="me-2"
+							className="me-2 my-1"
 						>
 							{recording ? "Recording..." : "Start Recording"}
 						</Button>
@@ -267,6 +266,7 @@ const VoiceId = (props) => {
 							variant="success"
 							onClick={stopRecording}
 							disabled={!recording}
+							className="my-1"
 						>
 							Stop Recording
 						</Button>
@@ -277,6 +277,7 @@ const VoiceId = (props) => {
 							<audio
 								ref={audioRef}
 								src={audioUrl}
+								className="audio-form-wrapper"
 								controls
 								onPlay={() => {
 									if (apiaudioRef.current != undefined) {
