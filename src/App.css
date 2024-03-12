@@ -308,7 +308,7 @@
 }
 
 @media (min-width:300px) and (max-width:600px){
-.audio-form-wrapper ,.view-form-wrapper{
+.audio-form-wrapper {
   width: 175px;
 }
 
@@ -320,7 +320,7 @@
 
 @media (min-width:300px) and (max-width:400px){
   .videoid-wrapper{
-  width: 230px;
+  width: 180px;
   height: 160px;
 }
 }

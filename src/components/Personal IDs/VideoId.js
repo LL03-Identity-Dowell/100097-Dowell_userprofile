@@ -275,7 +275,7 @@ const id = props.userInfo.profileData._id;
 					<>
 						{props.userInfo.formsData[0].personalids.videoID != "" ? (
 							<>
-								<video controls className="videoid-wrapper mx-auto">
+								<video controls className="videoid-wrapper my-2 mx-auto">
 									<source src={modifiedUrl} type="video/webm" />
 									Your browser does not support the video tag.
 								</video>
@@ -346,6 +346,7 @@ const id = props.userInfo.profileData._id;
 									ref={webcamRef}
 									screenshotFormat="image/jpeg"
 									width={400}
+									className='videoid-wrapper'
 									videoConstraints={{ facingMode: "user" }}
 									mirrored={true}
 									onUserMedia={() => {
