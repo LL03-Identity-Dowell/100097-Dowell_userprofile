@@ -13,8 +13,10 @@ const Personalidinfo = (props) => {
 		<>
 			{
 				Object.keys(props?.data).length !== 0?(<>
-			<ListGroup as="ul">
-				<ListGroup.Item as="li">
+					<ListGroup as="ul">
+						
+						{
+							props.data.voiceID !== "" ?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -35,8 +37,13 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+
+
+						{
+							props.data.faceID !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -57,8 +64,13 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+	}					
+				
+						
+						{
+							props.data.biometricID !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -79,8 +91,12 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+}
+
+
+						{
+							props.data.videoID !== "" ?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -109,8 +125,11 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+				
+						{
+							props.data.IDcard1 !== ""?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -131,8 +150,14 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+				}
+				
+						
+
+						{
+							props.data.IDcard2 !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -153,8 +178,13 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+				
+						
+						{
+							props.data.IDcard3 !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -175,8 +205,14 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+				
+						
+
+						{
+							props.data.IDcard4 !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -197,8 +233,14 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+				
+						
+
+						{
+							props.data.IDcard5 !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -219,8 +261,13 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
-				<ListGroup.Item as="li">
+				</ListGroup.Item>):""
+						}
+				
+						
+						{
+							props.data.signature !== ""
+											?(<ListGroup.Item as="li">
 					<div className="ms-2 me-auto">
 						<Row className="align-items-center">
 							<Col xl={3} sm={12} className="fw-bold">
@@ -241,7 +288,9 @@ const Personalidinfo = (props) => {
 							</Col>
 						</Row>
 					</div>
-				</ListGroup.Item>
+				</ListGroup.Item>):""
+						}
+				
 			</ListGroup>
 		</>):(<div>
            Your Personal Ids information is not available, update this to view
