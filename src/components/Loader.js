@@ -9,14 +9,29 @@ const Loader = () => {
   //   navigate('components/Loader');
   // }, []);
   return (
-    <Container className='loaderContainer'>
-    <Row className="justify-content-center">
-      <Col xs={12} md={6} className="align-self-center">
-        <img src="/images/logo.webp" width={100} height={100}/>
-        <Spinner animation="grow" />
-      </Col>
-    </Row>
-  </Container>
+     <>
+      <div className="wrap-loader">
+        <div className="loader">
+          <div className="box"></div>
+          <div className="box"></div>
+          <div className="box"></div>
+          <div className="box"></div>
+          <div className="wrap-text">
+            <div className="text">
+              <span>L</span>
+              <span>O</span>
+              <span>A</span>
+              <span>D</span>
+              <span>I</span>
+              <span>N</span>
+              <span>G</span>
+              <span>...</span>
+            </div>
+          </div>
+        </div>
+        <div className="loader-text">Loading</div>
+      </div>
+    </>
 
    
   )
