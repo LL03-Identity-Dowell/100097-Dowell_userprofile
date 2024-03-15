@@ -1,6 +1,8 @@
 from django.urls import path,re_path
 from userprofile. views import *
 from userprofile import views
+from userprofile import test1
+from userprofile. test1 import *
 # from .views import user_profile
 # from .views import serverReport, insert_data
 app_name = "userprofile"
@@ -48,4 +50,8 @@ urlpatterns = [
       path("get_all_users_biometricId",views.get_all_users_biometricId),
       path("update_users_biometric",views.update_users_biometric),
       path("get_all_users_faceId",views.get_all_users_faceId),
+      path("insert_device_id", test1.insert_deviceid_form),
+      path("update_device_id", test1.update_deviceid),
+      path("get_device_id", test1.get_deviceid),
+      path("delete_device_id", test1.delete_device_id)
 ]
