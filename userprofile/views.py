@@ -152,12 +152,12 @@ def Deviceid_form(request):
     if response.status_code == 200:
         update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
         data = {
-        "api_key": api_key,  # Replace with your actual API key
+        "api_key": api_key, 
         "db_name": db_name,
         "coll_name": device_id_coll,
         "operation": "update",
-        "query": {"_id":"65f4a17e8c737c6e4c6df60b"},  # Access query from request data (optional)
-        "update_data": update_fileds,  # Access update_data from request data (optional)
+        "query": {"_id":"65f4a17e8c737c6e4c6df60b"},
+        "update_data": update_fileds,  
         }
         response = requests.put(update_url, json=data)
         if response.status_code == 200:
@@ -167,23 +167,33 @@ def Deviceid_form(request):
 
     	# return Response(response.text)  # Return parsed JSON response
     else:
-	    # return Response(response.text, status=response.status_code)  # Handle errors
-        insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
-        data = {
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
             "api_key": api_key,
             "db_name": db_name,
-            "coll_name": device_id_coll,
-            "operation": "insert",
-            "data": update_fileds
+            "coll_names": device_id_coll,
+            "num_collections": 1
         }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": device_id_coll,
+                "operation": "insert",
+                "data": update_fileds
+            }
 
 
-        response = requests.post(insert_url, json=data)  
-        if response.status_code == 200:
-            return Response(response.text ) 
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
         else:
-            return Response(response.text, status=response.status_code)  # Handle errors
-
+            return Response(response.text, status=response.status_code) 
 
 
 
@@ -1214,3 +1224,83 @@ def get_all_users_faceId(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
+# url = "https://datacube.uxlivinglab.online/db_api/crud/"
+# api_key = "b8426b42-89b8-46d9-b23d-23c3116a6ff8"
+# db_name = "India_user_profile_db_1"
+geographic_profile_coll = "geographic_profile"
+
+@api_view(["POST"])
+def geographic_profile(request):
+    # db_name= "India_user_profile_db_1"
+    # db_name = request.data["db_name"]
+    # user=request.data["Username"]
+    # id = request.data["id"]
+    residing=request.data["residing"]
+    city=request.data["city"]
+    latitude=request.data["latitude"]
+    longitude=request.data["longitude"]
+    region=request.data["region"]
+    others=request.data["others"]
+    update_fileds={
+        "country":residing,
+        "city":city,
+        "latitude":latitude,
+        "longitude":longitude,
+        "region":region,
+        "others":others,
+    }
+    get_api_url = "https://datacube.uxlivinglab.online/db_api/get_data/"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": geographic_profile_coll,
+		"operation": "fetch",
+		"filters": {"_id": "6756"},
+	}
+    response = requests.post(get_api_url, json=data)
+    print(response.text)
+    if response.status_code == 200:
+        update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        data = {
+        "api_key": api_key, 
+        "db_name": db_name,
+        "coll_name": geographic_profile_coll,
+        "operation": "update",
+        "query": {"_id":"65f5e162ede8ca2be7180e27"},
+        "update_data": update_fileds,  
+        }
+        response = requests.put(update_url, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  # Return parsed JSON response
+        else:
+            return Response(response.text, status=response.status_code)  # Handle errors
+
+    	# return Response(response.text)  # Return parsed JSON response
+    else:
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": geographic_profile_coll,
+            "num_collections": 1
+        }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": geographic_profile_coll,
+                "operation": "insert",
+                "data": update_fileds
+            }
+
+
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
+        else:
+            return Response(response.text, status=response.status_code) 

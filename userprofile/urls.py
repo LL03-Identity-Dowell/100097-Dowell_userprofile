@@ -53,5 +53,6 @@ urlpatterns = [
       path("insert_device_id", test1.insert_deviceid_form),
       path("update_device_id", test1.update_deviceid),
       path("get_device_id", test1.get_deviceid),
-      path("delete_device_id", test1.delete_device_id)
+      path("delete_device_id", test1.delete_device_id),
+      path("geographic_profile",views.geographic_profile)
 ]
