@@ -272,31 +272,9 @@ def Organization_form(request):
 
 
 @api_view(["POST"])
-def Geographic_form(request):
-    user=request.data["Username"]
-    residing=request.data["residing"]
-    city=request.data["city"]
-    latitude=request.data["latitude"]
-    longitude=request.data["longitude"]
-    region=request.data["region"]
-    others=request.data["others"]
-    update_fileds={
-        "country":residing,
-        "city":city,
-        "latitude":latitude,
-        "longitude":longitude,
-        "region":region,
-        "others":others,
-    }
-    field={'username': user}
-    update = {"geographic":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    return Response(respj)
-
-@api_view(["POST"])
 def Demographic_form(request):
-    user=request.data["Username"]
+    demography_collection_name="Demographic_profile"
+    # user=request.data["Username"]
     income=request.data["income"] #change the id from country to income
     dateOfBirth=request.data["dateOfBirth"]
     gender=request.data["gender"]
@@ -315,12 +293,63 @@ def Demographic_form(request):
         "family_size":familySize,
         "others_demographic":others,
     }
-    field={'username': user}
-    update = {"demographic":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    
-    return Response(respj)
+    # field={'username': user}
+    get_demography_url = "https://datacube.uxlivinglab.online/db_api/get_data/"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": demography_collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "6756"},
+	}
+    response = requests.post(get_demography_url, json=data)
+    if response.status_code == 200:
+        update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        data = {
+        "api_key": api_key, 
+        "db_name": db_name,
+        "coll_name": demography_collection_name,
+        "operation": "update",
+        "query": {"_id":"65f5e4bdb4079766df426e67"},
+        "update_data": update_fileds,  
+        }
+        response = requests.put(update_url, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  # Return parsed JSON response
+        else:
+            return Response(response.text, status=response.status_code)  # Handle errors
+
+    	# return Response(response.text)  # Return parsed JSON response
+    else:
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": demography_collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": demography_collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+
+
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
+        else:
+            return Response(response.text, status=response.status_code) 
+
+   
 
 @api_view(["POST"])
 def Psychographic_form(request):

@@ -32,7 +32,6 @@ urlpatterns = [
       path('Reference_form', views.Reference_form, name='Reference_form'),
       path('Idverification_form', views.Idverification_form, name='Idverification_form'),
       path('Organization_form', views.Organization_form, name='Organization_form'),
-      path('Geographic_form', views.Geographic_form, name='Geographic_form'),
       path('Demographic_form', views.Demographic_form, name='Demographic_form'),
       path('Psychographic_form', views.Psychographic_form, name='Psychographic_form'),
       path('Behaviour_form', views.Behaviour_form, name='Behaviour_form'),
