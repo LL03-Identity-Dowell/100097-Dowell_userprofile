@@ -12,6 +12,13 @@ from userprofile.serializers import *
 from django.contrib.staticfiles.storage import staticfiles_storage
 # import json
 
+datacube_get_api = "https://datacube.uxlivinglab.online/db_api/get_data/"
+datacube_insertapi = "https://datacube.uxlivinglab.online/db_api/crud/"
+datacube_update_api = "https://datacube.uxlivinglab.online/db_api/crud/"
+datacube_add_collection = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+url = "https://datacube.uxlivinglab.online/db_api/crud/"
+api_key = "b8426b42-89b8-46d9-b23d-23c3116a6ff8"
+db_name = "India_user_profile_db_1"
 
 
 @api_view(["POST"])
@@ -119,11 +126,8 @@ def Setpassword(request):
         return Response(data)
 
 
-url = "https://datacube.uxlivinglab.online/db_api/crud/"
-api_key = "b8426b42-89b8-46d9-b23d-23c3116a6ff8"
-db_name = "India_user_profile_db_1"
-device_id_coll = "Device_ids"
 
+device_id_coll = "Device_ids"
 @api_view(["POST"])
 def Deviceid_form(request):
     # db_name= "India_user_profile_db_1"
@@ -257,18 +261,19 @@ def Organization_form(request):
     logoFile=request.data["logoFile"]
     orgLatitude=request.data["orgLatitude"]
     orgLongitude=request.data["orgLongitude"]
-    update_fileds={
-                    'Your_Organization_Name': yourOrganization,
-                    'Organization_Address': yourOrgAddress,
-                    'PINCODE': pin_zipcode,
-                    'city_of_your_Organization': city,
-                    'country_of_your_organization': country,
-                    'orgLogo':orgLogo,
-                    'logoFile':logoFile,
-                    'Latitude_of_Organization': orgLatitude,
-                    'Longitude_of_Organization': orgLongitude,
+    
+    update_fields={
+        'Your_Organization_Name': yourOrganization,
+        'Organization_Address': yourOrgAddress,
+        'PINCODE': pin_zipcode,
+        'city_of_your_Organization': city,
+        'country_of_your_organization': country,
+        'orgLogo':orgLogo,
+        'logoFile':logoFile,
+        'Latitude_of_Organization': orgLatitude,
+        'Longitude_of_Organization': orgLongitude,
     }
-    return Response(update_fileds)
+    return Response(update_fields)
 
 
 @api_view(["POST"])
@@ -353,7 +358,7 @@ def Demographic_form(request):
 
 @api_view(["POST"])
 def Psychographic_form(request):
-    user=request.data["Username"]
+    # user=request.data["Username"]
     lifestyle=request.data["lifestyle"]
     iqlevel=request.data["iqlevel"]
     attitude=request.data["attitude"]
@@ -366,16 +371,60 @@ def Psychographic_form(request):
         "Your_Personality":personality,
         "Others_psychographic":others,
     }
-    field={'username': user}
-    update = {"psychographic":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    
-    return Response(respj)
+    # field={'username': user}
+    collection_name = "psychographic_profile"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "6756"},
+	}
+    response = requests.post(datacube_get_api, json=data)
+    print(response)
+    if response.status_code == 200:
+        print("first")
+        data = {
+            "api_key": api_key, 
+            "db_name": db_name,
+            "coll_name": collection_name,
+            "operation": "update",
+            "query": {"_id":"65f818a6b4079766df426e84"},
+            "update_data": update_fileds,  
+        }
+        response = requests.put(datacube_update_api, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  # Return parsed JSON response
+        else:
+            return Response(response.text, status=response.status_code)  # Handle errors
+    else:
+        print("second")
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(datacube_add_collection, json=data_to_add)
+        if coll_response.status_code == 200:    
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+            response = requests.post(datacube_insertapi, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
+        else:
+            return Response(response.text, status=response.status_code) 
 
 @api_view(["POST"])
 def Behaviour_form(request):
-    user=request.data["Username"]
+    # user=request.data["Username"]
     benefits=request.data["benefits"]
     buying=request.data["buying"]
     brand=request.data["brand"]
@@ -386,12 +435,54 @@ def Behaviour_form(request):
         "brand_loyalty":brand,
         "others_behaviour":others,
     }
-    field={'username': user}
-    update = {"behavioural":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    
-    return Response(respj)
+    # field={'username': user}
+    collection_name = "behavioural_profile"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "6756"},
+	}
+    response = requests.post(datacube_get_api, json=data)
+    print(response)
+    if response.status_code == 200:
+        data = {
+            "api_key": api_key, 
+            "db_name": db_name,
+            "coll_name": collection_name,
+            "operation": "update",
+            "query": {"_id":"65f818a6b4079766df426e84"},
+            "update_data": update_fileds,  
+        }
+        response = requests.put(datacube_update_api, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  # Return parsed JSON response
+        else:
+            return Response(response.text, status=response.status_code)  # Handle errors
+    else:
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(datacube_add_collection, json=data_to_add)
+        if coll_response.status_code == 200:    
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+            response = requests.post(datacube_insertapi, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
+        else:
+            return Response(response.text, status=response.status_code)
 
 @api_view(["POST"])
 def Usage_form(request):

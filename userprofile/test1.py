@@ -14,7 +14,7 @@ from userprofile.serializers import *
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 url = "https://datacube.uxlivinglab.online/db_api/crud/"
-api_key = "b8426b42-89b8-46d9-b23d-23c3116a6ff8"
+api_key = ""
 db_name = "India_user_profile_db_1"
 device_id_coll = "Device_ids"
 
