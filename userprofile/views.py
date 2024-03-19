@@ -441,7 +441,7 @@ def Behaviour_form(request):
 		"db_name": db_name,
 		"coll_name": collection_name,
 		"operation": "fetch",
-		"filters": {"_id": "65f818a6b4079766df426e84"},
+		"filters": {"_id": "65f95dcd8c737c6e4c6df640"},
 	}
     response = requests.post(datacube_get_api, json=data)
     print(response)
@@ -485,7 +485,7 @@ def Behaviour_form(request):
 
 @api_view(["POST"])
 def Usage_form(request):
-    user=request.data["Username"]
+    # user=request.data["Username"]
     favoriteProduct=request.data["favoriteProduct"]
     awareness=request.data["awareness"]
     purpose=request.data["purpose"]
@@ -496,12 +496,54 @@ def Usage_form(request):
         "purpose":purpose,
         "others":others,
     }
-    field={'username': user}
-    update = {"usage":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    
-    return Response(respj)
+    # field={'username': user}
+    collection_name = "usage_profile"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "65f95dcd8c737c6e4c6df640"},
+	}
+    response = requests.post(datacube_get_api, json=data)
+    print(response)
+    if response.status_code == 200:
+        data = {
+            "api_key": api_key, 
+            "db_name": db_name,
+            "coll_name": collection_name,
+            "operation": "update",
+            "query": {"_id":"65f95dcd8c737c6e4c6df640"},
+            "update_data": update_fileds,  
+        }
+        response = requests.put(datacube_update_api, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  
+        else:
+            return Response(response.text, status=response.status_code)
+    else:
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(datacube_add_collection, json=data_to_add)
+        if coll_response.status_code == 200:    
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+            response = requests.post(datacube_insertapi, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)
+        else:
+            return Response(response.text, status=response.status_code) 
 
 @api_view(["POST"])
 def GetProfile(request):
