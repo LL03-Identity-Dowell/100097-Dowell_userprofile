@@ -39,8 +39,8 @@ const IdCard1 = (props) => {
 	};
 
 	const dispatch = useDispatch();
-	const username = props.userInfo.profileData.Username;
-	const id = props.userInfo.profileData._id;
+	const username = props.personalids.username;
+	const id = props.personalids.userID;
 
 	console.log(selectedFile);
 	const handleSubmit = async () => {
@@ -111,7 +111,7 @@ const IdCard1 = (props) => {
 			toast.error("Please select ID card first");
 		}
 	};
-	const url = props.userInfo.formsData[0].personalids.IDcard1;
+	const url = props.personalids.IDcard1;
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 
@@ -127,7 +127,7 @@ const IdCard1 = (props) => {
 				<Image
 					className="img-fluid mb-4"
 					src={
-						props.userInfo.formsData[0].personalids.IDcard1 !== ""
+						props.personalids.IDcard1 !== ""
 							? modifiedUrl
 							: "/images/samanta.webp"
 					}

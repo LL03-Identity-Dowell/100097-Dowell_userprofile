@@ -16,8 +16,8 @@ const VideoId = (props) => {
 	const [capturedata, setcapturedata] = useState(null);
 	  const [updating, setUpdating] = useState(false);
 const dispatch = useDispatch();
-const username = props.userInfo.profileData.Username;
-const id = props.userInfo.profileData._id;
+const username = props.personalids.username;
+const id = props.personalids.userID;
 	const webcamRef = useRef(null);
 	const recordRTCRef = useRef(null);
 
@@ -262,7 +262,7 @@ const id = props.userInfo.profileData._id;
 				}
 			}
 		};
-		const url =props.userInfo.formsData[0].personalids.videoID
+		const url =props.personalids.videoID
 		// Find the index of "media"
 		const index = url.indexOf("/media");
 		// Remove everything before "media"
@@ -273,7 +273,7 @@ const id = props.userInfo.profileData._id;
 			<div className="videoid-file-wrapper">
 				{opencamera !== true ? (
 					<>
-						{props.userInfo.formsData[0].personalids.videoID != "" ? (
+						{props.personalids.videoID != "" ? (
 							<>
 								<video controls className="videoid-wrapper my-2 mx-auto">
 									<source src={modifiedUrl} type="video/webm" />

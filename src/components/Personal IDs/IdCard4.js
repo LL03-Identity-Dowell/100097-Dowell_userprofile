@@ -22,8 +22,8 @@ const IdCard4 = (props) => {
     }
   };
  const dispatch = useDispatch();
- const username = props.userInfo.profileData.Username;
- const id = props.userInfo.profileData._id;
+const username = props.personalids.username;
+const id = props.personalids.userID;
   const handleSubmit = async () => {
     setUpdating(true)
     // Use `selectedFile` for further processing (e.g., send it to the API)
@@ -92,7 +92,7 @@ const IdCard4 = (props) => {
     }
     
   };
-  const url =props.userInfo.formsData[0].personalids.IDcard4
+  const url =props.personalids.IDcard4
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 
@@ -108,7 +108,7 @@ const IdCard4 = (props) => {
 				<Image
 					className="img-fluid mb-4"
 					src={
-						props.userInfo.formsData[0].personalids.IDcard4 !== ""
+						props.personalids.IDcard4 !== ""
 							? modifiedUrl
 							: "/images/samanta.webp"
 					}

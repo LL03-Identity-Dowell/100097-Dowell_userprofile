@@ -20,34 +20,34 @@ const CardGrid = (props) => {
 			<div className="card-container mt-5">
 				<NestedCard
 					section="section1"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section1}
 				/>
 				<NestedCard
 					section="section2"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section2}
 				/>
 				<NestedCard
 					section="section3"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section3}
 				/>
 			</div>
 			<div className="card-container mt-5">
 				<NestedCard
 					section="section4"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section4}
 				/>
 				<NestedCard
 					section="section5"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section5}
 				/>
 				<NestedCard
 					section="section6"
-					formdata={props.data}
+					formdata={props.userData}
 					singlesection={allsections.section6}
 				/>
 			</div>
@@ -120,57 +120,55 @@ function NestedCard(props) {
 		}));
 	};
 
-const handleUpdatePermissionClick = async () => {
-    // Check if at least one permission is selected
-    if (!Object.values(permissions).some(permission => permission === true)) {
-        toast.error("Please select at least one permission");
-        return; // Stop further execution
-    }
+	const handleUpdatePermissionClick = async () => {
+		// Check if at least one permission is selected
+		if (!Object.values(permissions).some((permission) => permission === true)) {
+			toast.error("Please select at least one permission");
+			return; // Stop further execution
+		}
 
-    setUpdating(true);
-    try {
-        const apiUrl = "https://100097.pythonanywhere.com/update_permissions";
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userID: props.formdata.userID,
-                username: props.formdata.username,
-                section: {
-                    Section_Name: props.section,
-                    ...permissions,
-                },
-            }),
-        });
+		setUpdating(true);
+		try {
+			const apiUrl = "https://100097.pythonanywhere.com/update_permissions";
+			const response = await fetch(apiUrl, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userID: props.formdata.userinfo.userID,
+					username: props.formdata.userinfo.username,
+					section: {
+						Section_Name: props.section,
+						...permissions,
+					},
+				}),
+			});
 
-        // Handle the response as needed
-        if (response.ok) {
-            toast.success("Success");
+			// Handle the response as needed
+			if (response.ok) {
+				toast.success("Success");
 
-            dispatch(
-                getsections({
-                    ...currentstate,
-                    [props.section]: {
-                        Section_Name: props.section,
-                        ...permissions,
-                    },
-                })
-            );
-            setUpdating(false);
-        } else {
-            toast.error("Failed to update permission");
-            console.log(response);
-            setUpdating(false);
-        }
-    } catch (error) {
-        console.error("Error updating permissions:", error);
-        setUpdating(false);
-    }
-};
-
-
+				dispatch(
+					getsections({
+						...currentstate,
+						[props.section]: {
+							Section_Name: props.section,
+							...permissions,
+						},
+					})
+				);
+				setUpdating(false);
+			} else {
+				toast.error("Failed to update permission");
+				console.log(response);
+				setUpdating(false);
+			}
+		} catch (error) {
+			console.error("Error updating permissions:", error);
+			setUpdating(false);
+		}
+	};
 
 	return (
 		<>

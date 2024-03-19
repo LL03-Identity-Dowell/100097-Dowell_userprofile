@@ -22,8 +22,8 @@ const FaceId = (props) => {
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
-	const username = props.userInfo.profileData.Username;
-	const id = props.userInfo.profileData._id;
+	const username = props.personalids.username;
+	const id = props.personalids.userID;
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
@@ -161,8 +161,8 @@ console.log(formData)
 				<Image
 					className="img-fluid mb-4"
 					src={
-						props.userInfo.formsData[0].personalids.faceID !== ""
-							? getModifiedUrl(props.userInfo.formsData[0].personalids.faceID)
+						props.personalids.faceID !== ""
+							? getModifiedUrl(props.personalids.faceID)
 							: "/images/samanta.webp"
 					}
 					alt="faceid"
@@ -228,7 +228,7 @@ console.log(formData)
 				</Button>
 				<Button
 					variant="dark"
-					className="lg:w-50"
+					className="lg:w-50 ms-2"
 					onClick={() => handlecameraInput("camera")}
 					//  disabled={selectedOption === 'camera'}
 				>

@@ -17,7 +17,7 @@ const App = () => {
 	const searchParams = new URLSearchParams(window.location.search);
 	let [userData, setUserData] = useState(null);
 	let [profileView, setProfileView] = useState(null);
-	let [getResponse, setGetResponse] = useState();
+	
 	const [sectiondata, setsectiondata] = useState(null);
 	const [verifydata, setverifydata] = useState(null);
 	const navigate = useNavigate();
@@ -40,7 +40,8 @@ const App = () => {
 		} else {
 			console.log("not Found");
 			// const redirectUrl = "https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
-			const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
+			const redirectUrl =
+				"https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
 
 			if (typeof window !== "undefined") {
 				window.location.href = redirectUrl;
@@ -66,7 +67,7 @@ const App = () => {
 			const user_id = data.userinfo.userID;
 			console.log(user_name, user_id);
 			handleSubmitProfile(user_name);
-			handleGetProfile(user_name, user_id);
+			
 			if (data.message === "You are logged out, Please login and try again!!") {
 				navigate(
 					"https://100014.pythonanywhere.com/en/?redirect_url=http://127.0.0.1:3000"
@@ -80,39 +81,7 @@ const App = () => {
 			console.error("Error fetching user info:", error);
 		}
 	}
-	//get api request
-	const handleGetProfile = async (username, id) => {
-		const formData = {
-			Username: username,
-			userID: id,
-		};
-		console.log(formData);
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(formData),
-		};
-
-		try {
-			const response = await fetch(
-				"https://100097.pythonanywhere.com/getprofile",
-				requestOptions
-			);
-			const responseData = await response.json();
-
-			dispatch(getprofiledetails(responseData));
-			if (response.ok) {
-				console.log(responseData, "getprofile");
-				// alert('Form submitted successfully');
-			} else {
-				// alert('Form submission failed');
-			}
-		} catch (error) {
-			console.error("Error submitting form:", error);
-		}
-	};
+	
 	//user profile info api
 	const handleSubmitProfile = async (username) => {
 		const formData = {
@@ -266,91 +235,34 @@ const App = () => {
 			}
 		};
 
-		const idverify = async () => {
-			const formData = {
-				username: profileView.Username,
-				session_id: storedSessionId,
-			};
-			console.log(formData);
-			const Options = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(formData),
-			};
-
-			try {
-				const response = await fetch(
-					"https://100097.pythonanywhere.com/get_user_idverifications",
-					Options
-				);
-				const responseData = await response.json();
-
-				if (response.ok) {
-					if (responseData.data.phone_Verification !== undefined) {
-						console.log(responseData);
-
-						dispatch(getidverify(responseData.data));
-					} else {
-						dispatch(
-							getidverify({
-								phone_Verification: "Not_Started",
-								email_Verification: "Not_Started",
-								voiceID_Verification: "Not_Started",
-								faceID_Verification: "Not_Started",
-								biometricID_Verification: "Not_Started",
-								videoID_Verification: "Not_Started",
-								idCard1_Verification: "Not_Started",
-								idCard2_Verification: "Not_Started",
-								idCard3_Verification: "Not_Started",
-								idCard4_Verification: "Not_Started",
-								idCard5_Verification: "Not_Started",
-								signature_Verification: "Not_Started",
-								socialMedia_Verification: "Not_Started",
-								personalReference_Verification: "Not_Started",
-								personal_Verification_By_Witness: "Not_Started",
-								organisation_Verification: "Not_Started",
-							})
-						);
-					}
-				}
-			} catch (error) {
-				console.error("Error submitting :", error);
-			}
-		};
-
 		if (profileView && storedSessionId) {
 			getsectiondata();
-			idverify();
 		}
 	}, [profileView, storedSessionId]);
 
-	const getprofiledata = useSelector((state) => state.profile);
+	
 	const getviewdata = useSelector((state) => state.view);
 	const getuserdata = useSelector((state) => state.user);
 	const sections = useSelector((state) => state.sections);
-	const idverify = useSelector((state) => state.idverify);
+
 	useEffect(() => {
-		setGetResponse(getprofiledata);
+		
 
 		setProfileView(getviewdata);
 
 		setUserData(getuserdata);
 
 		setsectiondata(sections);
+	}, [ getviewdata, getuserdata, sections]);
 
-		setverifydata(idverify);
-	}, [getprofiledata, getviewdata, getuserdata, idverify, sections]);
-
-	return getResponse && profileView && userData && sectiondata && verifydata ? (
+	return  profileView && userData && sectiondata ? (
 		<div>
 			<ToastContainer position="top-right" />
 
 			<Home
 				userInfo={userData}
 				profileView={profileView}
-				getResponse={getResponse}
+				
 			/>
 		</div>
 	) : (

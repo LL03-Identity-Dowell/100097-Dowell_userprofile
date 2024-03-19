@@ -6,9 +6,9 @@ import AccordionList from "./AccordionList";
 
 const SideContent = (userData) => {
 	const profileData = userData.profileData;
-	const formsData = userData.formsData;
-	const [isOpen, setIsOpen] = useState(false);
 
+	console.log("grid card", userData.userData);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
@@ -33,7 +33,7 @@ const SideContent = (userData) => {
 			<p className="sideContentHead text-center p-4">
 				My Profile – Selected Version [1.0]
 			</p>
-			<AccordionList profileData={profileData} formsData={formsData} />
+			<AccordionList profileData={profileData} />
 
 			<hr className="hr" />
 			{/* profile tagline  */}
@@ -85,18 +85,14 @@ const SideContent = (userData) => {
 					/>
 				</div>
 			</Form>
-			<CardGrid data={formsData[0]}  />
+			<CardGrid userData={userData.userData} />
 
 			<hr className="hr" />
 			{/* Edit Current Verions tagline */}
 			<p className="myProfile text-white fw-bold text-center">
 				Edit Current Version [9999] of My Profile
 			</p>
-			<CurrentVersionsTab
-				userData={userData}
-				profileData={profileData}
-				formsData={formsData}
-			/>
+			<CurrentVersionsTab userData={userData} profileData={profileData} />
 		</div>
 	);
 };

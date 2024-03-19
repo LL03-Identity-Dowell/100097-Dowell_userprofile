@@ -14,6 +14,8 @@ import IdCard5 from "./Personal IDs/IdCard5";
 
 const PersonalIds = (props) => {
 	const userInfo = props.userData;
+	const personaldata = props.personalids;
+
 	const [activeTab, setActiveTab] = useState("tab1");
 
 	const handleTabClick = (tab) => {
@@ -26,7 +28,7 @@ const PersonalIds = (props) => {
 				<p className="myProfile text-white fw-bold text-center">
 					01. Personal References
 				</p>
-				<Row className="p-5">
+				<Row className="p-2">
 					<Col lg={3}>
 						<Row>
 							<Col>
@@ -99,52 +101,52 @@ const PersonalIds = (props) => {
 						<div>
 							{activeTab === "voiceid" && (
 								<div>
-									<VoiceId userInfo={userInfo} />
+									<VoiceId personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "faceid" && (
 								<div>
-									<FaceId userInfo={userInfo} />
+									<FaceId personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "biometricid" && (
 								<div>
-									<BiometricId userInfo={userInfo} />
+									<BiometricId personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "videoid" && (
 								<div>
-									<VideoId userInfo={userInfo} />
+									<VideoId personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "idCard1" && (
 								<div>
-									<IdCard1 userInfo={userInfo} />
+									<IdCard1 personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "idCard2" && (
 								<div>
-									<IdCard2 userInfo={userInfo} />
+									<IdCard2 personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "idCard3" && (
 								<div>
-									<IdCard3 userInfo={userInfo} />
+									<IdCard3 personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "idCard4" && (
 								<div>
-									<IdCard4 userInfo={userInfo} />
+									<IdCard4 personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "idCard5" && (
 								<div>
-									<IdCard5 userInfo={userInfo} />
+									<IdCard5 personalids={personaldata} />
 								</div>
 							)}
 							{activeTab === "signature" && (
 								<div>
-									<SignatureId userInfo={userInfo} />
+									<SignatureId personalids={personaldata} />
 								</div>
 							)}
 						</div>

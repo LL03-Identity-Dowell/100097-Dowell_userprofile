@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Button, Image, Form, Tab, Tabs,  } from "react-bootstrap";
+import { Button, Image, Form, Tab, Tabs } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
 import { getprofiledetails } from "../../store/slice/profiledataSlice";
@@ -16,7 +16,6 @@ const VoiceId = (props) => {
 	const audioRef = useRef();
 	const apiaudioRef = useRef();
 	const mediaRecorderRef = useRef(null);
-
 
 	const desiredFileName = "audiofile.mp3";
 	const startRecording = async () => {
@@ -108,8 +107,8 @@ const VoiceId = (props) => {
 		}
 	};
 	const dispatch = useDispatch();
-	const username = props.userInfo.profileData.Username;
-	const id = props.userInfo.profileData._id;
+	const username = props.personalids.username;
+	const id = props.personalids.userID;
 	const handleRemove = () => {
 		setAudioBlob(null);
 		setProgress(0);
@@ -181,7 +180,7 @@ const VoiceId = (props) => {
 			toast.error("Please select voice id first");
 		}
 	};
-	const url = props.userInfo.formsData[0].personalids.voiceID;
+	const url = props.personalids.voiceID;
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 	// Remove everything before "media"
@@ -192,7 +191,7 @@ const VoiceId = (props) => {
 			<ToastContainer position="top-right" />
 
 			<div className="mb-2">
-				{props.userInfo.formsData[0].personalids.voiceID !== "" ? (
+				{props.personalids.voiceID !== "" ? (
 					<audio
 						className="audio-form-wrapper"
 						ref={apiaudioRef}

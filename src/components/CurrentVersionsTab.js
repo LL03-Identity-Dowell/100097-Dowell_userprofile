@@ -14,34 +14,72 @@ import BehaviouralProfile from './BehaviouralProfile'
 import PersonalIds from './PersonalIds'
 import GeographicProfile from './GeographicProfile'
 import UsageProfile from './UsageProfile'
+import { useDispatch, useSelector } from 'react-redux';
+import { getprofiledetails } from '../store/slice/profiledataSlice';
+import Loader from './Loader';
 
 
 function CurrentVersionsTab(userData) {
   const [activeTab, setActiveTab] = useState('tab1');
 const profiledata = userData.profileData
-const forms_data = userData.formsData
 
-if(userData){
-    const all_forms = forms_data[0]; // Assuming there's only one object in the array
-
-    var _username = all_forms.username;
-    var _reference = all_forms.reference;
-    var _demographic = all_forms.demographic;
-    var _psychographic = all_forms.psychographic;
-    var _deviceIDs = all_forms.deviceIDs;
-    var _behavioural = all_forms.behavioural;
-    var _geographic = all_forms.geographic;
-    var _usage = all_forms.usage;
-    var _myworkspace = all_forms.myworkspace;
-    var _userId = all_forms.userID
-    var _username = all_forms.username
-    }
 // Now you can use these variables as needed in your code
 
+	
+	const dispatch = useDispatch();
+
+	const username = useSelector((state) => state.user.userinfo.username);
+	const Userid = useSelector((state) => state.user.userinfo.userID);
+const profileidata = useSelector((state) => state.profile);
+	
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+	  setActiveTab(tab);
+	  
+
+	  if (tab == 'tab3' || tab == 'tab4' || tab == 'tab5' || tab == 'tab7' || tab == 'tab8' || tab == 'tab9' || tab == 'tab10' || tab == 'tab11' || tab == 'tab12') {
+		  const getprofileids = async () => {
+				const formData = {
+					Username: username,
+					userID: Userid,
+				};
+				console.log(formData);
+				const requestOptions = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				};
+
+				try {
+					const response = await fetch(
+						"https://100097.pythonanywhere.com/getprofile",
+						requestOptions
+					);
+					const responseData = await response.json();
+
+					dispatch(getprofiledetails(responseData));
+					if (response.ok) {
+						console.log(responseData, "getprofile");
+						// alert('Form submitted successfully');
+					} else {
+						// alert('Form submission failed');
+					}
+				} catch (error) {
+					console.error("Error submitting form:", error);
+				}
+			};
+			if (profileidata == null) {
+				getprofileids();
+			}
+	  }
+
+
   };
 
+	
+	
+	
   return (
 		<div>
 			<Container>
@@ -110,71 +148,116 @@ if(userData){
 				)}
 				{activeTab === "tab3" && (
 					<div>
-						<DeviceID userData={userData.userData} _deviceIDs={_deviceIDs} />
+						{profileidata !== null ? (
+							<DeviceID
+								userData={userData.userData}
+								_deviceIDs={profileidata[0].deviceIDs}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab4" && (
 					<div>
-						<PersonalIds userData={userData.userData} />
+						{profileidata !== null ? (
+							<PersonalIds
+								userData={userData.userData}
+								personalids={profileidata[0].personalids}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab5" && (
 					<div>
-						<PersonalReferences
-							userData={userData.userData}
-							_reference={_reference}
-						/>
+						{profileidata !== null ? (
+							<PersonalReferences
+								userData={userData.userData}
+								_reference={profileidata[0].reference}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab6" && (
 					<div>
-						<IdVerification userData={userData.userData} />
+						<IdVerification />
 					</div>
 				)}
 				{activeTab === "tab7" && (
 					<div>
-						<MyOrganization
-							_myworkspace={_myworkspace}
-							_userId={_userId}
-							_username={_username}
-						/>
+						{profileidata !== null ? (
+							<MyOrganization
+								_myworkspace={profileidata[0].myworkspace}
+								_userId={profileidata[0].userID}
+								_username={profileidata[0].username}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab8" && (
 					<div>
-						<GeographicProfile
-							userData={userData.userData}
-							_geographic={_geographic}
-						/>
+						{profileidata !== null ? (
+							<GeographicProfile
+								userData={userData.userData}
+								_geographic={profileidata[0].geographic}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab9" && (
 					<div>
-						<DemographicProfile
-							userData={userData.userData}
-							_demographic={_demographic}
-						/>
+						{profileidata !== null ? (
+							<DemographicProfile
+								userData={userData.userData}
+								_demographic={profileidata[0].demographic}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab10" && (
 					<div>
-						<PsychographicProfile
-							userData={userData.userData}
-							_psychographic={_psychographic}
-						/>
+						{profileidata !== null ? (
+							<PsychographicProfile
+								userData={userData.userData}
+								_psychographic={profileidata[0].psychographic}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab11" && (
 					<div>
-						<BehaviouralProfile
-							userData={userData.userData}
-							_behavioural={_behavioural}
-						/>
+						{profileidata !== null ? (
+							<BehaviouralProfile
+								userData={userData.userData}
+								_behavioural={profileidata[0].behavioural}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab12" && (
 					<div>
-						<UsageProfile userData={userData.userData} _usage={_usage} />
+						{profileidata !== null ? (
+							<UsageProfile
+								userData={userData.userData}
+								_usage={profileidata[0].usage}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 			</div>

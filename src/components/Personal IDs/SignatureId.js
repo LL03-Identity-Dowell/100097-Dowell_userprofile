@@ -21,8 +21,8 @@ const SignatureId = (props) => {
     }
   };
 const dispatch = useDispatch();
-const username = props.userInfo.profileData.Username;
-const id = props.userInfo.profileData._id;
+const username = props.personalids.username;
+const id = props.personalids.userID;
   const handleSubmit = async () => {
     setUpdating(true)
     // Use `selectedFile` for further processing (e.g., send it to the API)
@@ -91,7 +91,7 @@ const id = props.userInfo.profileData._id;
     }
     
   };
-  const url =props.userInfo.formsData[0].personalids.signature
+  const url =props.personalids.signature
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 	// Remove everything before "media"
@@ -104,7 +104,7 @@ const id = props.userInfo.profileData._id;
 				<Image
 					className="img-fluid mb-4"
 					src={
-						props.userInfo.formsData[0].personalids.signature !== ""
+						props.personalids.signature !== ""
 							? modifiedUrl
 							: "/images/samanta.webp"
 					}

@@ -38,8 +38,8 @@ const BiometricId = (props) => {
 	};
 
 	const dispatch = useDispatch();
-	const username = props.userInfo.profileData.Username;
-	const id = props.userInfo.profileData._id;
+	const username = props.personalids.username;
+	const id = props.personalids.userID;
 
 	console.log(selectedFile);
 	const handleSubmit = async () => {
@@ -110,7 +110,7 @@ const BiometricId = (props) => {
 			toast.error("Please select ID card first");
 		}
 	};
-	const url = props.userInfo.formsData[0].personalids.biometricID;
+	const url = props.personalids.biometricID;
 	// Find the index of "media"
 	const index = url.indexOf("/media");
 
@@ -127,7 +127,7 @@ const BiometricId = (props) => {
 				<Image
 					className="img-fluid mb-4"
 					src={
-						props.userInfo.formsData[0].personalids.biometricID !== ""
+						props.personalids.biometricID !== ""
 							? modifiedUrl
 							: "/images/samanta.webp"
 					}
