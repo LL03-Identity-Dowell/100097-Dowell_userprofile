@@ -378,12 +378,11 @@ def Psychographic_form(request):
 		"db_name": db_name,
 		"coll_name": collection_name,
 		"operation": "fetch",
-		"filters": {"_id": "6756"},
+		"filters": {"_id": "65f818a6b4079766df426e84"},
 	}
     response = requests.post(datacube_get_api, json=data)
     print(response)
     if response.status_code == 200:
-        print("first")
         data = {
             "api_key": api_key, 
             "db_name": db_name,
@@ -394,11 +393,10 @@ def Psychographic_form(request):
         }
         response = requests.put(datacube_update_api, json=data)
         if response.status_code == 200:
-            return Response(response.text)  # Return parsed JSON response
+            return Response(response.text)  
         else:
-            return Response(response.text, status=response.status_code)  # Handle errors
+            return Response(response.text, status=response.status_code)
     else:
-        print("second")
         data_to_add = {
             "api_key": api_key,
             "db_name": db_name,
@@ -418,7 +416,7 @@ def Psychographic_form(request):
             if response.status_code == 200:
                 return Response(response.text ) 
             else:
-                return Response(response.text, status=response.status_code)  # Handle errors
+                return Response(response.text, status=response.status_code)
         else:
             return Response(response.text, status=response.status_code) 
 
@@ -436,13 +434,14 @@ def Behaviour_form(request):
         "others_behaviour":others,
     }
     # field={'username': user}
+    
     collection_name = "behavioural_profile"
     data = {
 		"api_key": api_key,
 		"db_name": db_name,
 		"coll_name": collection_name,
 		"operation": "fetch",
-		"filters": {"_id": "6756"},
+		"filters": {"_id": "65f818a6b4079766df426e84"},
 	}
     response = requests.post(datacube_get_api, json=data)
     print(response)
@@ -452,14 +451,14 @@ def Behaviour_form(request):
             "db_name": db_name,
             "coll_name": collection_name,
             "operation": "update",
-            "query": {"_id":"65f818a6b4079766df426e84"},
+            "query": {"_id":"65f95dcd8c737c6e4c6df640"},
             "update_data": update_fileds,  
         }
         response = requests.put(datacube_update_api, json=data)
         if response.status_code == 200:
-            return Response(response.text)  # Return parsed JSON response
+            return Response(response.text)  
         else:
-            return Response(response.text, status=response.status_code)  # Handle errors
+            return Response(response.text, status=response.status_code)
     else:
         data_to_add = {
             "api_key": api_key,
@@ -480,9 +479,9 @@ def Behaviour_form(request):
             if response.status_code == 200:
                 return Response(response.text ) 
             else:
-                return Response(response.text, status=response.status_code)  # Handle errors
+                return Response(response.text, status=response.status_code)
         else:
-            return Response(response.text, status=response.status_code)
+            return Response(response.text, status=response.status_code) 
 
 @api_view(["POST"])
 def Usage_form(request):
