@@ -762,8 +762,8 @@ def FaceID(request):
         return Response(respj["data"])
 @api_view(["POST"])    
 def MyWorkspace(request):
-    user=request.data["Username"]
-    userId=request.data["userID"]
+    # user=request.data["Username"]
+    # userId=request.data["userID"]
     workspace=request.data["workspace_name"] #change the id from country to income
     org_addr=request.data["org_address"]
     pin=request.data["PIN"]
@@ -772,6 +772,7 @@ def MyWorkspace(request):
     org_logo=request.data["org_logo"]
     latitude=request.data["latitude"]
     longitude=request.data["longitude"]
+    print(org_logo.name)
     try:
         if org_logo.name:
             pass
@@ -795,25 +796,54 @@ def MyWorkspace(request):
         "latitude":latitude,
         "longitude":longitude,
     }
-    field={'username': user}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",field,"update")
-    rresp=json.loads(resp)
-    if len(rresp['data'])>0:
-        update = {"myworkspace":update_fileds}
-        resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-        respj=json.loads(resp)
-        return Response(respj)
+    # field={'username': user}
+    collection_name = "my_workspace"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "65f9a2bbc77664dc3e8739ed"},
+	}
+    response = requests.post(datacube_get_api, json=data)
+    print(response)
+    if response.status_code == 200:
+        data = {
+            "api_key": api_key, 
+            "db_name": db_name,
+            "coll_name": collection_name,
+            "operation": "update",
+            "query": {"_id":"65f9a2bbc77664dc3e8739ed"},
+            "update_data": update_fileds,  
+        }
+        response = requests.put(datacube_update_api, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  
+        else:
+            return Response(response.text, status=response.status_code)
     else:
-         my_fileds={
-        "workspace_name":"",
-        "org_address":"",
-        "PIN":"",
-        "city":"",
-        "country":"",
-        "org_logo":"",
-        "latitude":"",
-        "longitude":"",
-    }
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(datacube_add_collection, json=data_to_add)
+        if coll_response.status_code == 200:    
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+            response = requests.post(datacube_insertapi, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)
+        else:
+            return Response(response.text, status=response.status_code) 
         
 
 """
