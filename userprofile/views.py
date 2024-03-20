@@ -228,52 +228,32 @@ def Reference_form(request):
 
 @api_view(["POST"])
 def Idverification_form(request):
-    user=request.data["Username"]
-    phone1=request.data["phone1"]
-    email1=request.data["email1"]
-    face1=request.data["face1"]
-    videoId1 = request.data["videoId1"]
-    idcard1_1 = request.data["idcard1-1"]
-    idcard1_1 = request.data["idcard1-1"]
-    idcard1_2 = request.data["idcard1-2"]
-    idcard1_3 = request.data["idcard1-3"]
-    idcard1_4 = request.data["idcard1-4"]
+    serializer = IdVerificationSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    update_fields = serializer.data
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # user=request.data["Username"]
+    # phone1=request.data["phone1"]
+    # email1=request.data["email1"]
+    # face1=request.data["face1"]
+    # videoId1 = request.data["videoId1"]
+    # idcard1_1 = request.data["idcard1-1"]
+    # idcard1_1 = request.data["idcard1-1"]
+    # idcard1_2 = request.data["idcard1-2"]
+    # idcard1_3 = request.data["idcard1-3"]
+    # idcard1_4 = request.data["idcard1-4"]
 
-    laptopBrand=request.data["laptopBrand"]
-    tabletBrand=request.data["tabletBrand"] #here id is laptopbrand needed to be changed to tabletbrand
-    update_fileds={
-        "phone_id":phoneId,
-        "brand_model":phoneBrand,
-        "laptop_model":laptopBrand,
-        "tablet_model":tabletBrand,
-    }
-    return Response(update_fileds)
+    # laptopBrand=request.data["laptopBrand"]
+    # tabletBrand=request.data["tabletBrand"] #here id is laptopbrand needed to be changed to tabletbrand
+    # update_fileds={
+    #     "phone_id":phoneId,
+    #     "brand_model":phoneBrand,
+    #     "laptop_model":laptopBrand,
+    #     "tablet_model":tabletBrand,
+    # }
+    # return Response(update_fileds)
 
-@api_view(["POST"])
-def Organization_form(request):
-    user=request.data["Username"]
-    yourOrganization=request.data["yourOrganization"]
-    yourOrgAddress=request.data["yourOrgAddress"]
-    pin_zipcode=request.data["pin/zipcode"]
-    city=request.data["city"]
-    country=request.data["country"]
-    orgLogo=request.data["orgLogo"]
-    logoFile=request.data["logoFile"]
-    orgLatitude=request.data["orgLatitude"]
-    orgLongitude=request.data["orgLongitude"]
-    
-    update_fields={
-        'Your_Organization_Name': yourOrganization,
-        'Organization_Address': yourOrgAddress,
-        'PINCODE': pin_zipcode,
-        'city_of_your_Organization': city,
-        'country_of_your_organization': country,
-        'orgLogo':orgLogo,
-        'logoFile':logoFile,
-        'Latitude_of_Organization': orgLatitude,
-        'Longitude_of_Organization': orgLongitude,
-    }
-    return Response(update_fields)
+
 
 
 @api_view(["POST"])
@@ -609,77 +589,6 @@ def GetProfile(request):
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
         return Response(respj["data"])
-
-
-# @api_view(["POST"])
-# def GetProfile(request):
-#     user=request.data["Username"]
-#     userId=request.data["userID"]
-#     profile={
-#         "username":"",
-#         "userID":"",
-#         "reference":{},
-#         "demographic":{},
-#         "psychographic":{},
-#         "deviceIDs":{},
-#         "behavioural":{},
-#         "geographic":{},
-#         "usage":{},
-#         "personalids":{},
-#     }
-    
-#     try: 
-#         pdate = {"userID":userId}
-#         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
-#         respj=json.loads(resp)
-        
-#     except:
-#         pass
-#     try:
-#         idfield={'username': user}
-#         idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"nil")
-#         idrespj=json.loads(idresp)
-
-#     except:
-#         pass
-    
-#     if len(respj['data'])>0:
-#         return Response(respj["data"])
-#     else:
-#         profile["username"]=user
-#         profile["userID"]=userId
-#         field1=profile
-#         res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
-#         pdate = {"userID":userId}
-#         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
-#         respj=json.loads(resp)
-#         # here start 
-#         if len(idrespj['data'])>0:
-#             respj["data"][0]["personalids"]=idrespj["data"][0]
-#         else:
-#             ids={
-#                 "username":user,
-#                 "userID":userId,
-#                 "voiceID":"",
-#                 "faceID":"",
-#                 "biometricID":"",
-#                 "videoID":"",
-#                 "IDcard1":"",
-#                 "IDcard2":"",
-#                 "IDcard3":"",
-#                 "IDcard4":"",
-#                 "IDcard5":"",
-#                 "signature":""
-#             }
-#             fieldid=ids
-#             resid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","insert",fieldid,"nil")
-#             iddate = {"userID":userId}
-#             respid1=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",iddate,"nil")
-#             respjid=json.loads(respid1)  
-#             # here end 
-#             respj["data"][0]["personalids"]=respjid["data"][0]
-#             return Response(respj["data"])
-
 
 
 @api_view(["POST","GET"])
