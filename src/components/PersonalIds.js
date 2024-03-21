@@ -26,7 +26,7 @@ const PersonalIds = (props) => {
 				<p className="myProfile text-white fw-bold text-center">
 					01. Personal References
 				</p>
-				<Row className="p-5">
+				<Row className="p-2">
 					<Col lg={3}>
 						<Row>
 							<Col>

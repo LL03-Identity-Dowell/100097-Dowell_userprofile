@@ -6,96 +6,92 @@ import { getprofiledetails } from "../../store/slice/profiledataSlice";
 import { useDispatch } from "react-redux";
 import { Spinner } from "react-bootstrap";
 const FaceId = (props) => {
-
-
-
-  
-  const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: "user",
-  };
-  const [capturedImageSrc, setCapturedImageSrc] = useState(null); // Add state for captured image
-  const [updating, setUpdating] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("file"); // 'file' or 'camera'
-  const [uploadedFileName, setUploadedFileName] = useState(""); // Define setUploadedFileName
-  const webcamRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const dispatch = useDispatch();
+	const videoConstraints = {
+		width: 1280,
+		height: 720,
+		facingMode: "user",
+	};
+	const [capturedImageSrc, setCapturedImageSrc] = useState(null); // Add state for captured image
+	const [updating, setUpdating] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("file"); // 'file' or 'camera'
+	const [uploadedFileName, setUploadedFileName] = useState(""); // Define setUploadedFileName
+	const webcamRef = useRef(null);
+	const fileInputRef = useRef(null);
+	const dispatch = useDispatch();
 	const username = props.userInfo.profileData.Username;
 	const id = props.userInfo.profileData._id;
 
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    setUploadedFileName(""); // Reset the uploaded file name when changing options
-  };
+	const handleOptionChange = (option) => {
+		setSelectedOption(option);
+		setUploadedFileName(""); // Reset the uploaded file name when changing options
+	};
 
-  const handleFileChange = () => {
-    const fileInput = fileInputRef.current;
-    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      setUploadedFileName(fileInput.files[0]);
-    }
-  };
-  const handlecameraInput = async () => {
-    if (selectedOption === "camera") {
-      const imageSrc = webcamRef.current.getScreenshot();
-      if (imageSrc) {
-        setCapturedImageSrc(imageSrc); // Set the captured image source
-        console.log("Captured image", imageSrc);
-      }
-    } else {
-      toast.info("First open the camera and then capture image");
-    }
-  };
-  const capturePhoto = async () => {
-    if (fileInputRef.current.files.length > 0 || capturedImageSrc) {
-      setUpdating(true);
-      if (selectedOption === "camera") {
-        const imageSrc = capturedImageSrc;
-        console.log("submit image", imageSrc);
-        if (imageSrc) {
-          await uploadImage(imageSrc);
-        }
-      } 
-      else {
-        const fileInput = fileInputRef.current;
-        if (fileInput && fileInput.files && fileInput.files.length > 0) {
-          const imageFile = fileInput.files[0];
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const imageSrc = reader.result;
-            uploadImage(imageSrc);
-          };
-          reader.readAsDataURL(imageFile);
-        }
-      }
-    } 
-    else {
-      toast.error("Please select an image from your device or capture from camera");
-    }
-  };
+	const handleFileChange = () => {
+		const fileInput = fileInputRef.current;
+		if (fileInput && fileInput.files && fileInput.files.length > 0) {
+			setUploadedFileName(fileInput.files[0]);
+		}
+	};
+	const handlecameraInput = async () => {
+		if (selectedOption === "camera") {
+			const imageSrc = webcamRef.current.getScreenshot();
+			if (imageSrc) {
+				setCapturedImageSrc(imageSrc); // Set the captured image source
+				console.log("Captured image", imageSrc);
+			}
+		} else {
+			toast.info("First open the camera and then capture image");
+		}
+	};
+	const capturePhoto = async () => {
+		if (fileInputRef.current.files.length > 0 || capturedImageSrc) {
+			setUpdating(true);
+			if (selectedOption === "camera") {
+				const imageSrc = capturedImageSrc;
+				console.log("submit image", imageSrc);
+				if (imageSrc) {
+					await uploadImage(imageSrc);
+				}
+			} else {
+				const fileInput = fileInputRef.current;
+				if (fileInput && fileInput.files && fileInput.files.length > 0) {
+					const imageFile = fileInput.files[0];
+					const reader = new FileReader();
+					reader.onloadend = () => {
+						const imageSrc = reader.result;
+						uploadImage(imageSrc);
+					};
+					reader.readAsDataURL(imageFile);
+				}
+			}
+		} else {
+			toast.error(
+				"Please select an image from your device or capture from camera"
+			);
+		}
+	};
 
-  const uploadImage = async (imageSrc) => {
-    // Create a FormData object to send the image file
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("image", dataURLtoFile(imageSrc, "screenshot.jpg"));
-  
-    // console.log(formData.get("faceID"));
-console.log(formData)
-    try {
-      // Make a POST request to the API endpoint
-      const response = await fetch(
-        "https://100014.pythonanywhere.com/api/face_id/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-     
-      // Handle the response as needed
-      if (response.ok) {
-       const formData = {
+	const uploadImage = async (imageSrc) => {
+		// Create a FormData object to send the image file
+		const formData = new FormData();
+		formData.append("username", username);
+		formData.append("image", dataURLtoFile(imageSrc, "screenshot.jpg"));
+
+		// console.log(formData.get("faceID"));
+		console.log(formData);
+		try {
+			// Make a POST request to the API endpoint
+			const response = await fetch(
+				"https://100014.pythonanywhere.com/api/face_id/",
+				{
+					method: "POST",
+					body: formData,
+				}
+			);
+
+			// Handle the response as needed
+			if (response.ok) {
+				const formData = {
 					Username: username,
 					userID: id,
 				};
@@ -119,41 +115,40 @@ console.log(formData)
 						dispatch(getprofiledetails(responseData));
 						setUpdating(false);
 						toast.success("Faceid uploaded successfully!");
-						
 					} else {
 						// alert('Form submission failed');
 					}
 				} catch (error) {
 					console.error("Error submitting form:", error);
 				}
-      } else {
-        setUpdating(false);
-        const errorData = await response.json(); // Parse the error response
-        toast.info(errorData.info, response.status);
-      }
-    } catch (error) {
-      toast.error("An unknown error occurred");
-      setUpdating(false);
-    }
-  };
+			} else {
+				setUpdating(false);
+				const errorData = await response.json(); // Parse the error response
+				toast.info(errorData.info, response.status);
+			}
+		} catch (error) {
+			toast.error("An unknown error occurred");
+			setUpdating(false);
+		}
+	};
 
-  // Function to convert data URL to a File object
-  const dataURLtoFile = (dataURL, filename) => {
-    const arr = dataURL.split(",");
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  };
-  function getModifiedUrl(url) {
-	const index = url.indexOf("/media");
-	return url.substring(index);
-}
-  return (
+	// Function to convert data URL to a File object
+	const dataURLtoFile = (dataURL, filename) => {
+		const arr = dataURL.split(",");
+		const mime = arr[0].match(/:(.*?);/)[1];
+		const bstr = atob(arr[1]);
+		let n = bstr.length;
+		const u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, { type: mime });
+	};
+	function getModifiedUrl(url) {
+		const index = url.indexOf("/media");
+		return url.substring(index);
+	}
+	return (
 		<div>
 			<ToastContainer position="top-right" />
 
@@ -228,7 +223,7 @@ console.log(formData)
 				</Button>
 				<Button
 					variant="dark"
-					className="lg:w-50"
+					className="lg:w-50 ms-2"
 					onClick={() => handlecameraInput("camera")}
 					//  disabled={selectedOption === 'camera'}
 				>
