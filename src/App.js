@@ -16,7 +16,7 @@ import { getuserdetails } from "./store/slice/userdataslice";
 const App = () => {
 	const searchParams = new URLSearchParams(window.location.search);
 	let [userData, setUserData] = useState(null);
-	let [profileView, setProfileView] = useState(null);
+	
 	
 	const [sectiondata, setsectiondata] = useState(null);
 	const [verifydata, setverifydata] = useState(null);
@@ -66,7 +66,7 @@ const App = () => {
 			let user_name = data.userinfo.username;
 			const user_id = data.userinfo.userID;
 			console.log(user_name, user_id);
-			handleSubmitProfile(user_name);
+			getsectiondata(user_name,id);
 			
 			if (data.message === "You are logged out, Please login and try again!!") {
 				navigate(
@@ -82,12 +82,17 @@ const App = () => {
 		}
 	}
 	
-	//user profile info api
-	const handleSubmitProfile = async (username) => {
+	
+
+	
+
+	const getsectiondata = async (user_name, id) => {
 		const formData = {
-			username: username,
+			username: user_name,
+			session_id: id,
 		};
-		const requestOptions = {
+		console.log(formData);
+		const Options = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -97,171 +102,131 @@ const App = () => {
 
 		try {
 			const response = await fetch(
-				"https://100014.pythonanywhere.com/api/profile_view/",
-				requestOptions
+				"https://100097.pythonanywhere.com/get_user_sections",
+				Options
 			);
 			const responseData = await response.json();
-			dispatch(getprofileview(responseData));
 
 			if (response.ok) {
-				// alert('Form submitted successfully');
-			} else {
-				// alert('Form submission failed');
+				if (responseData.data.section1 !== undefined) {
+					console.log(responseData);
+
+					dispatch(getsections(responseData.data));
+				} else {
+					dispatch(
+						getsections({
+							section1: {
+								Section_Name: "section1",
+								MyProfile: false,
+								VerifyUsername_Password_Strength: false,
+								DeviceDetails: false,
+								PersonalIDs: false,
+								PersonalReferences: false,
+								IDVerification_Status: false,
+								OrganisationDetails: false,
+								GeographicProfile: false,
+								DemographicProfile: false,
+								PsychographicProfile: false,
+								BehaviouralProfile: false,
+								UsageProfile: false,
+							},
+							section2: {
+								Section_Name: "section2",
+								MyProfile: false,
+								VerifyUsername_Password_Strength: false,
+								DeviceDetails: false,
+								PersonalIDs: false,
+								PersonalReferences: false,
+								IDVerification_Status: false,
+								OrganisationDetails: false,
+								GeographicProfile: false,
+								DemographicProfile: false,
+								PsychographicProfile: false,
+								BehaviouralProfile: false,
+								UsageProfile: false,
+							},
+							section3: {
+								Section_Name: "section3",
+								DeviceDetails: false,
+								PersonalReferences: false,
+								OrganisationDetails: false,
+							},
+							section4: {
+								Section_Name: "section4",
+								MyProfile: false,
+								VerifyUsername_Password_Strength: false,
+								DeviceDetails: false,
+								PersonalIDs: false,
+								PersonalReferences: false,
+								IDVerification_Status: false,
+								OrganisationDetails: false,
+								GeographicProfile: false,
+								DemographicProfile: false,
+								PsychographicProfile: false,
+								BehaviouralProfile: false,
+								UsageProfile: false,
+							},
+							section5: {
+								Section_Name: "section5",
+								MyProfile: false,
+								VerifyUsername_Password_Strength: false,
+								DeviceDetails: false,
+								PersonalIDs: false,
+								PersonalReferences: false,
+								IDVerification_Status: false,
+								OrganisationDetails: false,
+								GeographicProfile: false,
+								DemographicProfile: false,
+								PsychographicProfile: false,
+								BehaviouralProfile: false,
+								UsageProfile: false,
+							},
+							section6: {
+								Section_Name: "section6",
+								MyProfile: false,
+								VerifyUsername_Password_Strength: false,
+								DeviceDetails: false,
+								PersonalIDs: false,
+								PersonalReferences: false,
+								IDVerification_Status: false,
+								OrganisationDetails: false,
+								GeographicProfile: false,
+								DemographicProfile: false,
+								PsychographicProfile: false,
+								BehaviouralProfile: false,
+								UsageProfile: false,
+							},
+						})
+					);
+				}
 			}
 		} catch (error) {
-			console.error("Error submitting form:", error);
+			console.error("Error submitting ", error);
 		}
 	};
 
-	const storedSessionId = sessionStorage.getItem("session_id");
-
-	useEffect(() => {
-		const getsectiondata = async () => {
-			const formData = {
-				username: profileView.Username,
-				session_id: storedSessionId,
-			};
-			console.log(formData);
-			const Options = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(formData),
-			};
-
-			try {
-				const response = await fetch(
-					"https://100097.pythonanywhere.com/get_user_sections",
-					Options
-				);
-				const responseData = await response.json();
-
-				if (response.ok) {
-					if (responseData.data.section1 !== undefined) {
-						console.log(responseData);
-
-						dispatch(getsections(responseData.data));
-					} else {
-						dispatch(
-							getsections({
-								section1: {
-									Section_Name: "section1",
-									MyProfile: false,
-									VerifyUsername_Password_Strength: false,
-									DeviceDetails: false,
-									PersonalIDs: false,
-									PersonalReferences: false,
-									IDVerification_Status: false,
-									OrganisationDetails: false,
-									GeographicProfile: false,
-									DemographicProfile: false,
-									PsychographicProfile: false,
-									BehaviouralProfile: false,
-									UsageProfile: false,
-								},
-								section2: {
-									Section_Name: "section2",
-									MyProfile: false,
-									VerifyUsername_Password_Strength: false,
-									DeviceDetails: false,
-									PersonalIDs: false,
-									PersonalReferences: false,
-									IDVerification_Status: false,
-									OrganisationDetails: false,
-									GeographicProfile: false,
-									DemographicProfile: false,
-									PsychographicProfile: false,
-									BehaviouralProfile: false,
-									UsageProfile: false,
-								},
-								section3: {
-									Section_Name: "section3",
-									DeviceDetails: false,
-									PersonalReferences: false,
-									OrganisationDetails: false,
-								},
-								section4: {
-									Section_Name: "section4",
-									MyProfile: false,
-									VerifyUsername_Password_Strength: false,
-									DeviceDetails: false,
-									PersonalIDs: false,
-									PersonalReferences: false,
-									IDVerification_Status: false,
-									OrganisationDetails: false,
-									GeographicProfile: false,
-									DemographicProfile: false,
-									PsychographicProfile: false,
-									BehaviouralProfile: false,
-									UsageProfile: false,
-								},
-								section5: {
-									Section_Name: "section5",
-									MyProfile: false,
-									VerifyUsername_Password_Strength: false,
-									DeviceDetails: false,
-									PersonalIDs: false,
-									PersonalReferences: false,
-									IDVerification_Status: false,
-									OrganisationDetails: false,
-									GeographicProfile: false,
-									DemographicProfile: false,
-									PsychographicProfile: false,
-									BehaviouralProfile: false,
-									UsageProfile: false,
-								},
-								section6: {
-									Section_Name: "section6",
-									MyProfile: false,
-									VerifyUsername_Password_Strength: false,
-									DeviceDetails: false,
-									PersonalIDs: false,
-									PersonalReferences: false,
-									IDVerification_Status: false,
-									OrganisationDetails: false,
-									GeographicProfile: false,
-									DemographicProfile: false,
-									PsychographicProfile: false,
-									BehaviouralProfile: false,
-									UsageProfile: false,
-								},
-							})
-						);
-					}
-				}
-			} catch (error) {
-				console.error("Error submitting ", error);
-			}
-		};
-
-		if (profileView && storedSessionId) {
-			getsectiondata();
-		}
-	}, [profileView, storedSessionId]);
-
 	
-	const getviewdata = useSelector((state) => state.view);
+	
 	const getuserdata = useSelector((state) => state.user);
 	const sections = useSelector((state) => state.sections);
 
 	useEffect(() => {
 		
 
-		setProfileView(getviewdata);
+		
 
 		setUserData(getuserdata);
 
 		setsectiondata(sections);
-	}, [ getviewdata, getuserdata, sections]);
+	}, [  getuserdata, sections]);
 
-	return  profileView && userData && sectiondata ? (
+	return   userData && sectiondata ? (
 		<div>
 			<ToastContainer position="top-right" />
 
 			<Home
 				userInfo={userData}
-				profileView={profileView}
+				
 				
 			/>
 		</div>

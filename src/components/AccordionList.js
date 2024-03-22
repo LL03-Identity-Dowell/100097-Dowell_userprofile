@@ -17,9 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getidverify } from "../store/slice/idverify";
 import Loader from "./Loader";
 import { getprofiledetails } from "../store/slice/profiledataSlice";
+import { getprofileview } from "../store/slice/profileviewSlice";
 const AccordionList = (profileData) => {
-	const profiledata = profileData.profileData;
-
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
@@ -33,6 +32,7 @@ const AccordionList = (profileData) => {
 	const storedSessionId = sessionStorage.getItem("session_id");
 	const idverify = useSelector((state) => state.idverify);
 	const profileidata = useSelector((state) => state.profile);
+	const profileview = useSelector((state) => state.view);
 
 	const handleIdVerificationSelection = () => {
 		const idverifyhandle = async () => {
@@ -132,13 +132,55 @@ const AccordionList = (profileData) => {
 		}
 	};
 
+	const handleprofileview = () => {
+		//user profile info api
+		const handleSubmitProfile = async () => {
+			const formData = {
+				username: username,
+			};
+			const requestOptions = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+			};
+
+			try {
+				const response = await fetch(
+					"https://100014.pythonanywhere.com/api/profile_view/",
+					requestOptions
+				);
+				const responseData = await response.json();
+				dispatch(getprofileview(responseData));
+
+				if (response.ok) {
+					// alert('Form submitted successfully');
+				} else {
+					// alert('Form submission failed');
+				}
+			} catch (error) {
+				console.error("Error submitting form:", error);
+			}
+		};
+		if (profileview == null) {
+			handleSubmitProfile();
+		}
+	};
+
 	return (
 		<div>
 			<Accordion>
 				<Accordion.Item eventKey="0">
-					<Accordion.Header>My Profile</Accordion.Header>
+					<Accordion.Header onClick={handleprofileview}>
+						My Profile
+					</Accordion.Header>
 					<Accordion.Body>
-						<MyProfileView data={profiledata} />
+						{profileview !== null ? (
+							<MyProfileView data={profileview} />
+						) : (
+							<Loader />
+						)}
 					</Accordion.Body>
 				</Accordion.Item>
 				<Accordion.Item eventKey="1">

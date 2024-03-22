@@ -5,7 +5,7 @@ import CurrentVersionsTab from "./CurrentVersionsTab";
 import AccordionList from "./AccordionList";
 
 const SideContent = (userData) => {
-	const profileData = userData.profileData;
+	
 
 	console.log("grid card", userData.userData);
 	const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +33,7 @@ const SideContent = (userData) => {
 			<p className="sideContentHead text-center p-4">
 				My Profile – Selected Version [1.0]
 			</p>
-			<AccordionList profileData={profileData} />
+			<AccordionList  />
 
 			<hr className="hr" />
 			{/* profile tagline  */}
@@ -92,7 +92,7 @@ const SideContent = (userData) => {
 			<p className="myProfile text-white fw-bold text-center">
 				Edit Current Version [9999] of My Profile
 			</p>
-			<CurrentVersionsTab userData={userData} profileData={profileData} />
+			<CurrentVersionsTab userData={userData}  />
 		</div>
 	);
 };

@@ -17,7 +17,8 @@ import { Spinner } from "react-bootstrap";
 const MyProfileForm = (userData) => {
 	const currentstate = useSelector((state) => state.view);
 
-	const formdata = userData.userData.profileData;
+	const formdata = userData.formData;
+	console.log("profile tab", formdata);
 	const [updating, setUpdating] = useState(false);
 	const [apiResponse, setApiResponse] = useState({});
 	const [responseMsg, setResponseMsg] = useState("");

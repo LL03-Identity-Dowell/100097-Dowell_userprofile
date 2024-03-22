@@ -1,43 +1,51 @@
-import React, { useState } from 'react';
-import { Button , Container, Row , Col} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../App.css'
-import MyProfileForm from './MyProfileForm';
-import PersonalReferences from './PersonalReferences'
-import DemographicProfile from './DemographicProfile'
-import PsychographicProfile from './PsychographicProfile'
-import SetPassword from './SetPassword'
-import IdVerification from './IdVerification'
-import DeviceID from './DeviceID'
-import MyOrganization from './MyOrganization'
-import BehaviouralProfile from './BehaviouralProfile'
-import PersonalIds from './PersonalIds'
-import GeographicProfile from './GeographicProfile'
-import UsageProfile from './UsageProfile'
-import { useDispatch, useSelector } from 'react-redux';
-import { getprofiledetails } from '../store/slice/profiledataSlice';
-import Loader from './Loader';
-
+import React, { useState } from "react";
+import { Button, Container, Row, Col } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../App.css";
+import MyProfileForm from "./MyProfileForm";
+import PersonalReferences from "./PersonalReferences";
+import DemographicProfile from "./DemographicProfile";
+import PsychographicProfile from "./PsychographicProfile";
+import SetPassword from "./SetPassword";
+import IdVerification from "./IdVerification";
+import DeviceID from "./DeviceID";
+import MyOrganization from "./MyOrganization";
+import BehaviouralProfile from "./BehaviouralProfile";
+import PersonalIds from "./PersonalIds";
+import GeographicProfile from "./GeographicProfile";
+import UsageProfile from "./UsageProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { getprofiledetails } from "../store/slice/profiledataSlice";
+import Loader from "./Loader";
+import { getprofileview } from "../store/slice/profileviewSlice";
 
 function CurrentVersionsTab(userData) {
-  const [activeTab, setActiveTab] = useState('tab1');
-const profiledata = userData.profileData
+	const [activeTab, setActiveTab] = useState();
 
-// Now you can use these variables as needed in your code
+	// Now you can use these variables as needed in your code
 
-	
 	const dispatch = useDispatch();
 
 	const username = useSelector((state) => state.user.userinfo.username);
 	const Userid = useSelector((state) => state.user.userinfo.userID);
-const profileidata = useSelector((state) => state.profile);
-	
-  const handleTabClick = (tab) => {
-	  setActiveTab(tab);
-	  
+	const profileidata = useSelector((state) => state.profile);
+	const profileview = useSelector((state) => state.view);
 
-	  if (tab == 'tab3' || tab == 'tab4' || tab == 'tab5' || tab == 'tab7' || tab == 'tab8' || tab == 'tab9' || tab == 'tab10' || tab == 'tab11' || tab == 'tab12') {
-		  const getprofileids = async () => {
+	const handleTabClick = (tab) => {
+		setActiveTab(tab);
+
+		if (
+			tab == "tab3" ||
+			tab == "tab4" ||
+			tab == "tab5" ||
+			tab == "tab7" ||
+			tab == "tab8" ||
+			tab == "tab9" ||
+			tab == "tab10" ||
+			tab == "tab11" ||
+			tab == "tab12"
+		) {
+			const getprofileids = async () => {
 				const formData = {
 					Username: username,
 					userID: Userid,
@@ -72,15 +80,46 @@ const profileidata = useSelector((state) => state.profile);
 			if (profileidata == null) {
 				getprofileids();
 			}
-	  }
+		}
 
+		if (tab == "tab1") {
+			//user profile info api
+			const handleSubmitProfile = async () => {
+				const formData = {
+					username: username,
+				};
+				const requestOptions = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(formData),
+				};
 
-  };
+				try {
+					const response = await fetch(
+						"https://100014.pythonanywhere.com/api/profile_view/",
+						requestOptions
+					);
+					const responseData = await response.json();
+					dispatch(getprofileview(responseData));
 
-	
-	
-	
-  return (
+					if (response.ok) {
+						// alert('Form submitted successfully');
+					} else {
+						// alert('Form submission failed');
+					}
+				} catch (error) {
+					console.error("Error submitting form:", error);
+				}
+			};
+			if (profileview == null) {
+				handleSubmitProfile();
+			}
+		}
+	};
+
+	return (
 		<div>
 			<Container>
 				<Row>
@@ -135,10 +174,14 @@ const profileidata = useSelector((state) => state.profile);
 			<div className="mt-3">
 				{activeTab === "tab1" && (
 					<div>
-						<MyProfileForm
-							userData={userData.userData}
-							formData={profiledata}
-						/>
+						{profileview !== null ? (
+							<MyProfileForm
+								userData={userData.userData}
+								formData={profileview}
+							/>
+						) : (
+							<Loader />
+						)}
 					</div>
 				)}
 				{activeTab === "tab2" && (
