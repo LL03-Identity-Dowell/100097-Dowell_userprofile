@@ -203,55 +203,149 @@ def Deviceid_form(request):
 
 @api_view(["POST"])
 def Reference_form(request):
-    user=request.data["Username"]
-    data=request.data
-    field={'username': user}
-    #update = {"reference":update_fileds}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",field,"update")
-    respj=json.loads(resp)
-    #return Response(respj)
-    res=respj["data"][0]["reference"]
-    for key in data:
-        if key in res:
-            res[key]=data[key]
-        else:
-            if key=="Username":
-                pass
+    profileName=request.data["profile_name"]
+    referenceUrl=request.data["reference_url"]
+    update_fileds={
+        profileName:{"link":referenceUrl}
+    }
+    get_api_url = "https://datacube.uxlivinglab.online/db_api/get_data/"
+    collection_name = "personal_references"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "65fbc7356b0d53da301bf741"},
+	}
+    response = requests.post(get_api_url, json=data)
+    res = json.loads(response.text)
+    print(res["data"])
+    if response.status_code == 200:
+        print("dataexist")
+        get_res = res["data"]
+        print(get_res)
+        for item in get_res:
+            if profileName in item:
+                # return True
+                update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+                data = {
+                "api_key": api_key, 
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "update",
+                "query": {"_id":"65fbc7356b0d53da301bf741"},
+                "update_data": update_fileds,  
+                }
+                response = requests.put(update_url, json=data)
+                if response.status_code == 200:
+                    return Response(response.text)  # Return parsed JSON response
+                else:
+                    return Response(response.text, status=response.status_code)  # Handle errors
             else:
-                res[key]=data[key]
+                # return False
+                insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+                data = {
+                    "api_key": api_key,
+                    "db_name": db_name,
+                    "coll_name": collection_name,
+                    "operation": "insert",
+                    "data": update_fileds
+                }
 
-    field={'username': user}
-    update = {"reference":res}
-    resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","update",field,update)
-    respj=json.loads(resp)
-    return Response(respj)
+
+                response = requests.post(insert_url, json=data)  
+                if response.status_code == 200:
+                    return Response(response.text ) 
+                else:
+                    return Response(response.text, status=response.status_code)
+    else:
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+
+
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code) 
+        else:
+            return Response(response.text, status=response.status_code) 
 
 @api_view(["POST"])
 def Idverification_form(request):
     serializer = IdVerificationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     update_fields = serializer.data
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-    # user=request.data["Username"]
-    # phone1=request.data["phone1"]
-    # email1=request.data["email1"]
-    # face1=request.data["face1"]
-    # videoId1 = request.data["videoId1"]
-    # idcard1_1 = request.data["idcard1-1"]
-    # idcard1_1 = request.data["idcard1-1"]
-    # idcard1_2 = request.data["idcard1-2"]
-    # idcard1_3 = request.data["idcard1-3"]
-    # idcard1_4 = request.data["idcard1-4"]
+    # return Response(serializer.data, status=status.HTTP_201_CREATED)
+    collection_name = "idverification"
+    get_demography_url = "https://datacube.uxlivinglab.online/db_api/get_data/"
+    data = {
+        "api_key": api_key,
+        "db_name": db_name,
+        "coll_name": collection_name,
+        "operation": "fetch",
+        "filters": {"_id": "65faf0cfe6af2035fe4ff07d"},
+    }
+    response = requests.post(get_demography_url, json=data)
+    if response.status_code == 200:
+        update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        data = {
+        "api_key": api_key, 
+        "db_name": db_name,
+        "coll_name": collection_name,
+        "operation": "update",
+        "query": {"_id":"65faf0cfe6af2035fe4ff07d"},
+        "update_data": update_fields,  
+        }
+        response = requests.put(update_url, json=data)
+        if response.status_code == 200:
+            return Response(response.text)  # Return parsed JSON response
+        else:
+            return Response(response.text, status=response.status_code)  # Handle errors
 
-    # laptopBrand=request.data["laptopBrand"]
-    # tabletBrand=request.data["tabletBrand"] #here id is laptopbrand needed to be changed to tabletbrand
-    # update_fileds={
-    #     "phone_id":phoneId,
-    #     "brand_model":phoneBrand,
-    #     "laptop_model":laptopBrand,
-    #     "tablet_model":tabletBrand,
-    # }
-    # return Response(update_fileds)
+        # return Response(response.text)  # Return parsed JSON response
+    else:
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fields
+            }
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code)  # Handle errors
+        else:
+            return Response(response.text, status=response.status_code) 
 
 
 
@@ -593,53 +687,120 @@ def GetProfile(request):
 
 @api_view(["POST","GET"])
 def personalIds(request):
-    user=request.data["Username"]
-    data=request.data
-    ids={
-        "username":user,
-        "voiceID":"", #mp3
-        "faceID":"", #image
-        "biometricID":"", 
-        "videoID":"", #mp4
-        "IDcard1":"", #img
-        "IDcard2":"",
-        "IDcard3":"",
-        "IDcard4":"",
-        "IDcard5":"",
-        "signature":"" #img
-    }
-    value="test"
-    for key, value1 in data.items():
-        if key in ids.keys():
-            #ids[key]=data[key]
-            fieldname=key
-            value=value1
-            print(value1)
-        else:
-            pass
-    if value=="test":
-        return Response({"message":"pl use valid key gy"})
-    else:
-        pass
-    file=request.FILES.get(fieldname)
+    # user=request.data["Username"]
+    id_category=request.data["id_category"]
+    personal_id=request.data["personal_id"]
     try:
-        if file.name:
+        if personal_id.name:
             pass
     except:
-        return Response({"message":"Accept only images"})
-    file_ext = file.name[-4:]
-    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".mp3",".MP3",".mp4",".MP4",".avc1",".vp8",".vp9"]
+        return Response({"message":"It allows only images"})
+    file_ext = personal_id.name[-4:]
+    ls=[".jpg",".JPG","jpeg","JPEG",".png",".PNG",".MP3",".mp3",".MP4",".mp4"]
     if not file_ext in ls:
-        return Response({"message":f"pl provide file in required format {file_ext}"},status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message":f"pl provide files required format {file_ext}"})
     else:
         pass
-    file_name = default_storage.save(file.name, file)
+    file_name = default_storage.save(personal_id.name, personal_id)
     path=f"https:100097.pythonanywhere.com/media/{file_name}"
-    field={'username': user}
-    update = {fieldname:path}
-    respid=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","update",field,update)
-    respjid=json.loads(respid)
-    return Response(respjid)
+
+    update_fileds={
+        id_category:{"link":path}
+    }
+    get_api_url = "https://datacube.uxlivinglab.online/db_api/get_data/"
+    collection_name = "Personal_Ids"
+    data = {
+		"api_key": api_key,
+		"db_name": db_name,
+		"coll_name": collection_name,
+		"operation": "fetch",
+		"filters": {"_id": "65fbc7356b0d53da301bf741"},
+	}
+    response = requests.post(get_api_url, json=data)
+    # res = json.loads(response.text)
+    # print(res["data"])
+    if response.status_code == 200:
+        insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        data = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_name": collection_name,
+            "operation": "insert",
+            "data": update_fileds
+        }
+
+
+        response = requests.post(insert_url, json=data)  
+        if response.status_code == 200:
+            return Response(response.text ) 
+        else:
+            return Response(response.text, status=response.status_code) 
+        # print("dataexist")
+        # get_res = res["data"]
+        # print(get_res)
+        # for item in get_res:
+        #     if id_category in item:
+        #         # return True
+        #         update_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        #         data = {
+        #         "api_key": api_key, 
+        #         "db_name": db_name,
+        #         "coll_name": collection_name,
+        #         "operation": "update",
+        #         "query": {"_id":"65fbc7356b0d53da301bf741"},
+        #         "update_data": update_fileds,  
+        #         }
+        #         response = requests.put(update_url, json=data)
+        #         if response.status_code == 200:
+        #             return Response(response.text)  # Return parsed JSON response
+        #         else:
+        #             return Response(response.text, status=response.status_code)  # Handle errors
+        #     else:
+        #         # return False
+        #         insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+        #         data = {
+        #             "api_key": api_key,
+        #             "db_name": db_name,
+        #             "coll_name": collection_name,
+        #             "operation": "insert",
+        #             "data": update_fileds
+        #         }
+
+
+        #         response = requests.post(insert_url, json=data)  
+        #         if response.status_code == 200:
+        #             return Response(response.text ) 
+        #         else:
+        #             return Response(response.text, status=response.status_code)
+    else:
+        collection_url = "https://datacube.uxlivinglab.online/db_api/add_collection/"
+        data_to_add = {
+            "api_key": api_key,
+            "db_name": db_name,
+            "coll_names": collection_name,
+            "num_collections": 1
+        }
+        coll_response = requests.post(collection_url, json=data_to_add)
+        # print(response.text)
+        if coll_response.status_code == 200:    
+            insert_url = "https://datacube.uxlivinglab.online/db_api/crud/"
+            data = {
+                "api_key": api_key,
+                "db_name": db_name,
+                "coll_name": collection_name,
+                "operation": "insert",
+                "data": update_fileds
+            }
+
+
+            response = requests.post(insert_url, json=data)  
+            if response.status_code == 200:
+                return Response(response.text ) 
+            else:
+                return Response(response.text, status=response.status_code) 
+        else:
+            return Response(response.text, status=response.status_code) 
+
 
 def PersonalRef(request):
     user=request.data["Username"]
