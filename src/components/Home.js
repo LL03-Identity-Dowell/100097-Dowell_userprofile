@@ -8,8 +8,8 @@ const Home = (data) => {
 
 	return (
 		<div>
-			<NavigationMenu />
-			<Main data={userData}   />
+			<NavigationMenu data={userData} />
+			<Main data={userData} />
 		</div>
 	);
 };
