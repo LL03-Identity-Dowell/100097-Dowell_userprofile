@@ -17,7 +17,7 @@ datacube_insertapi = "https://datacube.uxlivinglab.online/db_api/crud/"
 datacube_update_api = "https://datacube.uxlivinglab.online/db_api/crud/"
 datacube_add_collection = "https://datacube.uxlivinglab.online/db_api/add_collection/"
 url = "https://datacube.uxlivinglab.online/db_api/crud/"
-api_key = ""
+api_key = "b8426b42-89b8-46d9-b23d-23c3116a6ff8"
 db_name = "India_user_profile_db_1"
 
 
