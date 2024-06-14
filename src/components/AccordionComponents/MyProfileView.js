@@ -263,30 +263,6 @@ function showError(error) {
 									Qr Code Id
 								</Col>
 								<Col xl={9} sm={12}>{object.qrid ? 
-								// 	<div>
-								// <Col xl={9} sm={12}>{object.qrid}</Col>
-								// 		<Col xl={9} sm={12}>
-								// 			<Image
-								// 				className="img-fluid mb-4 view-wrapper"
-								// 				src={object.qrurl}
-								// 				alt="qr logo"
-								// 				width={300}
-								// 				height={200}
-								// 			/>
-								// 		</Col>	
-								// 		<Col xl={9} sm={12}>
-								// 		<Button
-								// 			variant="dark"
-								// 			className="w-50 btn mb-5"
-								// 			onClick={() => download(object.qrurl)}
-								// 		>Download Qr Code</Button>
-								// 		</Col>
-								// 	</div>
-									<p><Alert variant="primary">Your QR Code hasn't been created yet. Please click<a href="#" onClick={handleCreateQrCode}>here</a> to generate one.</Alert></p>
-									
-									: 
-
-									// <p><Alert variant="primary">Your QR Code hasn't been created yet. Please click<a href="#" onClick={handleCreateQrCode}>here</a> to generate one.</Alert></p>
 									<div>
 								<Col xl={9} sm={12}>{object.qrid}</Col>
 										<Col xl={9} sm={12}>
@@ -306,6 +282,11 @@ function showError(error) {
 										>Download Qr Code</Button>
 										</Col>
 									</div>
+									
+									: 
+
+									<p><Alert variant="primary">Your QR Code hasn't been created yet. Please click<a href="#" onClick={handleCreateQrCode}>here</a> to generate one.</Alert></p>
+									
 									}
 								</Col>
 								
