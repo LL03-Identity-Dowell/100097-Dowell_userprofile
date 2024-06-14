@@ -6,10 +6,46 @@ import { ToastContainer, toast } from "react-toastify";
 const MyProfileView = (viewData) => {
 	console.log("userviewData", viewData);
 	const [object, setObject] = useState(null);
+	const [latitude, setLatitude] = useState();
+	const [longitude, setLongitude] = useState()
 	const data = viewData.data;
 	console.log(data)
 	useEffect(() => {
 		setObject(data);
+		// geo location 
+function showPosition(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log("Latitude: " + latitude + " Longitude: " + longitude);
+	setLatitude(latitude)
+	setLongitude(longitude)
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            console.log("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log("An unknown error occurred.");
+            break;
+    }
+}
+
+	  function getLocation(){
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError);
+		} else {
+			console.log("Geolocation is not supported by this browser.");
+		}
+	  }
+	  getLocation()
 	}, [viewData]);
 	const handleCreateQrCode = async () => {
 		const qr_code_payload=	{        
@@ -17,9 +53,9 @@ const MyProfileView = (viewData) => {
 			email: data.Email,
 			admin_id:data.client_admin_id,
 			username:data.Username,
-			lattitude:"34",
-			country:"pakistan",
-			longtitude:"67",        
+			lattitude: latitude,
+			country:data.user_country,
+			longtitude:longitude,        
 		}
 		try {
 			const response = await fetch(
@@ -52,6 +88,8 @@ const MyProfileView = (viewData) => {
 		element.download = "qr-code-image.jpg";
 		element.click();
 	  };
+	  
+
 	return (
 		<div>
 			<ToastContainer position="top-right" />
