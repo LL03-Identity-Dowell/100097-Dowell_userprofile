@@ -9,7 +9,6 @@ const MyProfileView = (viewData) => {
 	const [latitude, setLatitude] = useState();
 	const [longitude, setLongitude] = useState()
 	const data = viewData.data;
-	console.log(data)
 	useEffect(() => {
 		setObject(data);
 		// geo location 
@@ -84,10 +83,15 @@ function showError(error) {
 		  ],
 		  { type: "image/*" }
 		);
-		element.href = URL.createObjectURL(file);
+		// element.href = URL.createObjectURL(file);
+		element.href = url;
+		element.target = "_blank"; // Open the link in a new tab
+
 		element.download = "qr-code-image.jpg";
 		element.click();
 	  };
+	
+	  
 	  
 
 	return (
@@ -280,6 +284,11 @@ function showError(error) {
 											className="w-50 btn mb-5"
 											onClick={() => download(object.qrurl)}
 										>Download Qr Code</Button>
+										<br/>
+										<Button
+											variant="dark"
+											className="w-50 btn mb-5"
+										>Create Qr Code</Button>
 										</Col>
 									</div>
 									

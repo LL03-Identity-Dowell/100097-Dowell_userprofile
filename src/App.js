@@ -39,8 +39,8 @@ const App = () => {
 			sessionStorage.setItem("session_id", sessionID); // Store session ID
 		} else {
 			console.log("not Found");
-			// const redirectUrl = "https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
-			const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
+			const redirectUrl = "https://100014.pythonanywhere.com/?redirect_url=http://127.0.0.1:3000";
+			// const redirectUrl="https://100014.pythonanywhere.com/?redirect_url=https://100097.pythonanywhere.com/";
 
 			if (typeof window !== "undefined") {
 				window.location.href = redirectUrl;
