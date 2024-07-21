@@ -8,6 +8,7 @@ const MyProfileView = (viewData) => {
 	const [object, setObject] = useState(null);
 	const [latitude, setLatitude] = useState();
 	const [longitude, setLongitude] = useState()
+	const [loading, setLoading] = useState()
 	const data = viewData.data;
 	useEffect(() => {
 		setObject(data);
@@ -47,6 +48,7 @@ function showError(error) {
 	  getLocation()
 	}, [viewData]);
 	const handleCreateQrCode = async () => {
+		setLoading(true)
 		const qr_code_payload=	{        
 			user_id:data.user_id,
 			email: data.Email,
@@ -67,10 +69,12 @@ function showError(error) {
 					body: JSON.stringify(qr_code_payload),
 				}
 			);
-		  toast.success("QR code created successfully")
+			toast.success("QR code created successfully")
+			setLoading(false)
   		  sessionStorage.removeItem('session_id');
   		  window.location.href = ('https://100014.pythonanywhere.com/sign-out');
 		} catch (error) {
+			setLoading(false)
 		  console.error('Error creating QR Code:', error);
 		  toast.error("Error Creating QR code")
 		}
@@ -92,7 +96,7 @@ function showError(error) {
 	  };
 	
 	  
-	  
+
 
 	return (
 		<div>
@@ -266,7 +270,8 @@ function showError(error) {
 								<Col xl={3} sm={12} className="fw-bold">
 									Qr Code Id
 								</Col>
-								<Col xl={9} sm={12}>{object.qrid ? 
+								<Col xl={9} sm={12}>
+								{object.qrid ? 
 									<div>
 								<Col xl={9} sm={12}>{object.qrid}</Col>
 										<Col xl={9} sm={12}>
@@ -288,7 +293,8 @@ function showError(error) {
 										<Button
 											variant="dark"
 											className="w-50 btn mb-5"
-										>Create Qr Code</Button>
+											onClick={handleCreateQrCode}
+										>{loading ? "Creating QR Code":"Create Qr Code"}</Button>
 										</Col>
 									</div>
 									
