@@ -348,14 +348,14 @@ def GetProfile(request):
         pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
-        
+        print(respj)
     except:
         pass
     try:
         idfield={'username': user}
         idresp=dowellconnection("login","bangalore","login","personnel_ids","personnel_ids","1252001","ABCDE","fetch",idfield,"update")
         idrespj=json.loads(idresp)
-
+        print(idrespj)
     except:
         pass
     # if len(idrespj['data'])>0:
