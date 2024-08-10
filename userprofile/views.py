@@ -348,7 +348,16 @@ def GetProfile(request):
         pdate = {"userID":userId}
         resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
         respj=json.loads(resp)
-        print(f"Nitesh userprofile {respj}")
+        if len(respj['data'])>0:
+            pass
+        else:
+            profile["username"]=user
+            profile["userID"]=userId
+            field1=profile
+            res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
+            pdate = {"userID":userId}
+            resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
+            respj=json.loads(resp)
     except:
         pass
     try:
@@ -384,13 +393,6 @@ def GetProfile(request):
     if len(respj['data'])>0:
         return Response(respj["data"])
     else:
-        profile["username"]=user
-        profile["userID"]=userId
-        field1=profile
-        res=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","insert",field1,"nil")
-        pdate = {"userID":userId}
-        resp=dowellconnection("login","bangalore","login","user_profile","user_profile","1168","ABCDE","fetch",pdate,"nil")
-        respj=json.loads(resp)
         return Response(respj["data"])
 
 
