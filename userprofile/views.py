@@ -332,6 +332,7 @@ def Usage_form(request):
 def GetProfile(request):
     user=request.data["Username"]
     userId=request.data["userID"]
+    return Response({"msg":user})
     print(f"Nitesh {userId}")
     profile={
         "username":"",
